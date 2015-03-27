@@ -1,2 +1,3 @@
 .netrwhist
+!bundle/neobundle.vim
 bundle/*
