@@ -28,7 +28,6 @@ NeoBundle 'godlygeek/tabular.git'
 NeoBundle 'mattn/emmet-vim.git'
 NeoBundle 'rking/ag.vim'
 NeoBundle 'scrooloose/nerdtree'
-NeoBundle 'severin-lemaignan/vim-minimap.git'
 NeoBundle 'sickill/vim-pasta'
 NeoBundle 'terryma/vim-multiple-cursors'
 NeoBundle 'thoughtbot/vim-rspec.git'
@@ -36,10 +35,14 @@ NeoBundle 'tpope/vim-commentary.git'
 NeoBundle 'tpope/vim-dispatch.git'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'tpope/vim-rails.git'
-NeoBundle 'tpope/vim-sensible.git'
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'tpope/vim-unimpaired.git'
 NeoBundle 'vim-ruby/vim-ruby'
+NeoBundle 'rizzatti/dash.vim'
+NeoBundle 'chriskempson/base16-vim'
+NeoBundle 'tpope/vim-sensible'
+NeoBundle 'kana/vim-textobj-user'
+NeoBundle 'rhysd/vim-textobj-ruby'
 
 " You can specify revision/branch/tag.
 NeoBundle 'Shougo/vimshell', { 'rev' : '3787e5' }
@@ -62,9 +65,14 @@ set ts=2 sts=2 sw=2 expandtab
 set clipboard=unnamed " Use system clipboard by default
 set mouse=a
 set directory=~/tmp
+set cursorline
 syntax enable
-set background=light
-colorscheme solarized
+set background=dark
+if !empty($LIGHT_THEME)
+  set background=light
+endif
+let base16colorspace=256
+colorscheme base16-atelierforest
 highlight clear SignColumn
 set ignorecase
 set smartcase
@@ -73,14 +81,13 @@ imap jj <Esc>
 noremap L $
 noremap H ^
 noremap Y y$
-inoremap <S-CR> O<Esc>
 " Use browser style tab navigation
 map <D-S-]> gt
 map <D-S-[> gT
 
 " Might help with NERDTree?"
 let NERDTreeIgnore = ['\.sock$','\.zeus\.sock$']
-let g:NERDTreeMouseMode=3
+let g:NERDTreeMouseMode=2
 
 " RSpec.vim mappings
 map <Leader>t :call RunCurrentSpecFile()<CR>
@@ -95,7 +102,10 @@ let g:tmuxline_powerline_separators = 0
 let g:airline_powerline_fonts = 1
 
 " CtrP
-nnoremap <leader>r :CtrlPTag<cr>
+let g:ctrlp_max_files=0
+let g:ctrlp_max_depth = 10
+nnoremap <leader>R :CtrlPTag<cr>
+nnoremap <leader>r :CtrlPBufTag %<cr>
 
 " NERDTree
 map <Leader>b :NERDTreeToggle<cr>
@@ -108,8 +118,11 @@ set ttyfast
 " " Must be one of: xterm, xterm2, netterm, dec, jsbterm, pterm
 set ttymouse=xterm2
 
-" Tmux 
-let g:tmuxline_preset = 'nightly_fox'
+" Tmux
+let g:tmuxline_preset = 'full'
+
+" Dash
+nmap <silent> <leader>d <Plug>DashSearch
 
 " Spell checking
 if has("autocmd")
