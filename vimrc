@@ -17,7 +17,7 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 
 " Add or remove your Bundles here:
 NeoBundle 'airblade/vim-gitgutter'
-NeoBundle 'altercation/vim-colors-solarized'
+NeoBundle 'chriskempson/base16-vim'
 NeoBundle 'bling/vim-airline.git'
 NeoBundle 'christoomey/vim-tmux-navigator.git'
 NeoBundle 'ctrlpvim/ctrlp.vim.git'
@@ -37,15 +37,19 @@ NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'tpope/vim-rails.git'
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'tpope/vim-unimpaired.git'
+" NeoBundle 'tpope/vim-sensible'
 NeoBundle 'vim-ruby/vim-ruby'
 NeoBundle 'rizzatti/dash.vim'
-NeoBundle 'chriskempson/base16-vim'
-NeoBundle 'tpope/vim-sensible'
 NeoBundle 'kana/vim-textobj-user'
 NeoBundle 'rhysd/vim-textobj-ruby'
-
-" You can specify revision/branch/tag.
-NeoBundle 'Shougo/vimshell', { 'rev' : '3787e5' }
+NeoBundle 'Chiel92/vim-autoformat'
+NeoBundle 'vitalk/vim-simple-todo'
+NeoBundle 'SirVer/ultisnips'
+NeoBundle 'farseer90718/vim-taskwarrior'
+NeoBundle 'zimbatm/direnv.vim'
+NeoBundle 'nelstrom/vim-qargs'
+NeoBundle 'pangloss/vim-javascript'
+NeoBundle 'fatih/vim-go'
 
 " Required:
 call neobundle#end()
@@ -59,37 +63,69 @@ NeoBundleCheck
 "End NeoBundle Scripts-------------------------
 set nu
 set rnu
+set nowrap
 set hidden
-set formatoptions-=cro " Disable autocomments
 set ts=2 sts=2 sw=2 expandtab
 set clipboard=unnamed " Use system clipboard by default
+set backspace=indent,eol,start
 set mouse=a
 set directory=~/tmp
 set cursorline
-syntax enable
-set background=dark
-if !empty($LIGHT_THEME)
-  set background=light
-endif
-let base16colorspace=256
-colorscheme base16-atelierforest
-highlight clear SignColumn
+" set smartindent
+set autoindent
+set splitbelow
+set splitright
+set guifont=Meslo\ LG\ S\ Regular\ for\ Powerline:h14
+" " set cursorcolumn
 set ignorecase
 set smartcase
-imap jk <Esc>
-imap jj <Esc>
+set incsearch
+set wildmenu
+inoremap jk <Esc>
+inoremap jj <Esc>
 noremap L $
 noremap H ^
 noremap Y y$
-" Use browser style tab navigation
-map <D-S-]> gt
-map <D-S-[> gT
+nnoremap gp `[v`]
+nmap <silent> K <Plug>DashSearch
+nnoremap <leader>w :setl wrap!<CR>
+nnoremap <leader>W :set wrap!<CR>
+nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+nnoremap <leader>sv :source $MYVIMRC<cr>
+nnoremap <Space> za
 
-" Might help with NERDTree?"
+let $FISH="~/.config/fish/config.fish"
+set laststatus=2
+let ruby_fold=1
+set foldmethod=syntax
+set foldlevel=3
+set nofoldenable
+" Remove whitespace on save
+autocmd BufWritePre * :%s/\s\+$//e
+
+" Required by Gutter
+if &shell =~# 'fish$'
+  set shell=/bin/bash
+endif
+
+" Colors
+" let base16colorspace=256
+syntax enable
+set background=dark
+" colorscheme solarized
+" colorscheme base16-atelierforest
+" colorscheme base16-ocean
+colorscheme base16-solarized
+if !empty($LIGHT_THEME)
+  set background=light
+endif
+highlight clear SignColumn
+
+" " Might help with NERDTree?"
 let NERDTreeIgnore = ['\.sock$','\.zeus\.sock$']
-let g:NERDTreeMouseMode=2
+let g:NERDTreeMouseMode=1
 
-" RSpec.vim mappings
+" " RSpec.vim mappings
 map <Leader>t :call RunCurrentSpecFile()<CR>
 map <Leader>s :call RunNearestSpec()<CR>
 map <Leader>l :call RunLastSpec()<CR>
@@ -97,34 +133,45 @@ map <Leader>a :call RunAllSpecs()<CR>
 let g:rspec_command = "Dispatch rspec {spec}"
 let g:rspec_runner = "os_x_iterm"
 
-" Airline
+" " Airline
 let g:tmuxline_powerline_separators = 0
 let g:airline_powerline_fonts = 1
 
-" CtrP
+" " CtrP
 let g:ctrlp_max_files=0
 let g:ctrlp_max_depth = 10
+let g:ctrlp_working_path_mode = 'w'
 nnoremap <leader>R :CtrlPTag<cr>
 nnoremap <leader>r :CtrlPBufTag %<cr>
 
-" NERDTree
+" " NERDTree
 map <Leader>b :NERDTreeToggle<cr>
 map <Leader>B :NERDTreeFind<cr>
 
-" Send more characters for redraws
+" " MultiCursor
+let g:multi_cursor_exit_from_insert_mode=0
+
+" direnv
+if exists("$EXTRA_VIM")
+  for path in split($EXTRA_VIM, ':')
+    exec "source ".path
+  endfor
+endif
+
+" " Send more characters for redraws
 set ttyfast
 
-" " Set this to the name of your terminal that supports mouse codes.
-" " Must be one of: xterm, xterm2, netterm, dec, jsbterm, pterm
+" " " Set this to the name of your terminal that supports mouse codes.
+" " " Must be one of: xterm, xterm2, netterm, dec, jsbterm, pterm
 set ttymouse=xterm2
 
-" Tmux
-let g:tmuxline_preset = 'full'
+" " Tmux
+let g:tmuxline_preset = 'crosshair'
 
 " Dash
 nmap <silent> <leader>d <Plug>DashSearch
 
-" Spell checking
+" " Spell checking
 if has("autocmd")
   " Enable filetype detection
   filetype plugin on
@@ -139,5 +186,13 @@ if has("autocmd")
     \ endif
 endif
 
+" " Ultisnips
+let g:UltiSnipsEditSplit="vertical"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
-
+" " TaskWarrior
+let g:task_rc_override = 'rc.defaultwidth=0'
+let g:task_default_prompt  = ['description', 'tag' ]
+let g:task_log_max         = '100'
+let g:task_info_size       = 30
