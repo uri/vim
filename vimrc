@@ -16,40 +16,44 @@ call neobundle#begin(expand('/Users/uri/.vim/bundle'))
 NeoBundleFetch 'Shougo/neobundle.vim'
 
 " Add or remove your Bundles here:
+
+NeoBundle "gabebw/vim-spec-runner"
+NeoBundle 'Chiel92/vim-autoformat'
 NeoBundle 'airblade/vim-gitgutter'
-NeoBundle 'chriskempson/base16-vim'
 NeoBundle 'bling/vim-airline.git'
+NeoBundle 'chriskempson/base16-vim'
 NeoBundle 'christoomey/vim-tmux-navigator.git'
 NeoBundle 'ctrlpvim/ctrlp.vim.git'
 NeoBundle 'edkolev/promptline.vim.git'
 NeoBundle 'edkolev/tmuxline.vim.git'
 NeoBundle 'ervandew/supertab'
+NeoBundle 'farseer90718/vim-taskwarrior'
+NeoBundle 'fatih/vim-go'
+NeoBundle 'garyburd/go-explorer'
 NeoBundle 'godlygeek/tabular.git'
+NeoBundle 'kana/vim-textobj-user'
 NeoBundle 'mattn/emmet-vim.git'
+NeoBundle 'nelstrom/vim-qargs'
+NeoBundle 'rhysd/vim-textobj-ruby'
+NeoBundle 'rizzatti/dash.vim'
 NeoBundle 'rking/ag.vim'
 NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'sickill/vim-pasta'
 NeoBundle 'terryma/vim-multiple-cursors'
-NeoBundle 'thoughtbot/vim-rspec.git'
+NeoBundle 'tpope/vim-bundler'
 NeoBundle 'tpope/vim-commentary.git'
 NeoBundle 'tpope/vim-dispatch.git'
 NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'tpope/vim-projectionist'
 NeoBundle 'tpope/vim-rails.git'
+NeoBundle 'tpope/vim-rake'
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'tpope/vim-unimpaired.git'
-" NeoBundle 'tpope/vim-sensible'
 NeoBundle 'vim-ruby/vim-ruby'
-NeoBundle 'rizzatti/dash.vim'
-NeoBundle 'kana/vim-textobj-user'
-NeoBundle 'rhysd/vim-textobj-ruby'
-NeoBundle 'Chiel92/vim-autoformat'
 NeoBundle 'vitalk/vim-simple-todo'
-NeoBundle 'SirVer/ultisnips'
-NeoBundle 'farseer90718/vim-taskwarrior'
-NeoBundle 'zimbatm/direnv.vim'
-NeoBundle 'nelstrom/vim-qargs'
-NeoBundle 'pangloss/vim-javascript'
-NeoBundle 'fatih/vim-go'
+NeoBundle 'jiangmiao/auto-pairs'
+" NeoBundle 'zimbatm/direnv.vim'
+" NeoBundleLazy 'jelera/vim-javascript-syntax', {'autoload':{'filetypes':['javascript']}}
 
 " Required:
 call neobundle#end()
@@ -61,6 +65,19 @@ filetype plugin indent on
 " this will conveniently prompt you to install them.
 NeoBundleCheck
 "End NeoBundle Scripts-------------------------
+" Speeds up ruby syntax apparently
+let g:ruby_path = system('echo $HOME/.rbenv/shims')
+let $FISH="~/.config/fish/config.fish"
+let ruby_fold=1
+let g:ackprg = 'ag --nogroup --nocolor --column'
+set laststatus=2
+set cryptmethod=blowfish2
+set foldmethod=syntax
+set foldlevel=3
+set nofoldenable
+
+" Remove whitespace on save
+autocmd BufWritePre * :%s/\s\+$//e
 set nu
 set rnu
 set nowrap
@@ -81,27 +98,30 @@ set ignorecase
 set smartcase
 set incsearch
 set wildmenu
+set hls
+set regexpengine=1
 inoremap jk <Esc>
 inoremap jj <Esc>
 noremap L $
 noremap H ^
 noremap Y y$
 nnoremap gp `[v`]
+" nnoremap <esc> :noh<return><esc>
 nmap <silent> K <Plug>DashSearch
+nnoremap <leader>p :noh<CR>
+nnoremap <leader>P :set hls!<CR>
 nnoremap <leader>w :setl wrap!<CR>
 nnoremap <leader>W :set wrap!<CR>
-nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+nnoremap <leader>ev :e $MYVIMRC<cr>
+nnoremap <leader>ef :e $FISH<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
-nnoremap <Space> za
+nnoremap <leader>cr :let @* = expand("%")<cr>
+nnoremap <leader>cf :let @* = expand("%:p")<cr>
 
-let $FISH="~/.config/fish/config.fish"
-set laststatus=2
-let ruby_fold=1
-set foldmethod=syntax
-set foldlevel=3
-set nofoldenable
-" Remove whitespace on save
-autocmd BufWritePre * :%s/\s\+$//e
+
+nnoremap <Space> za
+nnoremap <Backspace> /
+
 
 " Required by Gutter
 if &shell =~# 'fish$'
@@ -111,27 +131,27 @@ endif
 " Colors
 " let base16colorspace=256
 syntax enable
-set background=dark
+set background=light
+" colorscheme base16-ocean
 " colorscheme solarized
 " colorscheme base16-atelierforest
-" colorscheme base16-ocean
+" colorscheme base16-flat
 colorscheme base16-solarized
-if !empty($LIGHT_THEME)
-  set background=light
-endif
 highlight clear SignColumn
+highlight Search ctermbg=221
+" " RSpec.vim mappings THOTTBOT
+" map <Leader>t :call RunCurrentSpecFile()<CR>
+" map <Leader>s :call RunNearestSpec()<CR>
+" map <Leader>l :call RunLastSpec()<CR>
+" map <Leader>a :call RunAllSpecs()<CR>
+" let g:rspec_command = "Dispatch rspec {spec}"
+" let g:rspec_runner = "os_x_iterm"
 
-" " Might help with NERDTree?"
-let NERDTreeIgnore = ['\.sock$','\.zeus\.sock$']
-let g:NERDTreeMouseMode=1
-
-" " RSpec.vim mappings
-map <Leader>t :call RunCurrentSpecFile()<CR>
-map <Leader>s :call RunNearestSpec()<CR>
-map <Leader>l :call RunLastSpec()<CR>
-map <Leader>a :call RunAllSpecs()<CR>
-let g:rspec_command = "Dispatch rspec {spec}"
-let g:rspec_runner = "os_x_iterm"
+" Gabe
+map <Leader>t <Plug>RunCurrentSpecFile
+map <Leader>s <Plug>RunFocusedSpec
+map <Leader>l <Plug>RunMostRecentSpec
+let g:spec_runner_dispatcher = 'Dispatch {command}'
 
 " " Airline
 let g:tmuxline_powerline_separators = 0
@@ -145,18 +165,27 @@ nnoremap <leader>R :CtrlPTag<cr>
 nnoremap <leader>r :CtrlPBufTag %<cr>
 
 " " NERDTree
+" " Might help with NERDTree?"
+let NERDTreeIgnore = ['\.sock$','\.zeus\.sock$']
+let g:NERDTreeMouseMode=1
+let NERDTreeWinSize=31
+let NERDTreeWinPos="left"
+let NERDTreeMapHelp="<f1>"
 map <Leader>b :NERDTreeToggle<cr>
 map <Leader>B :NERDTreeFind<cr>
 
 " " MultiCursor
 let g:multi_cursor_exit_from_insert_mode=0
+let g:multi_cursor_exit_from_visual_mode=0
+let g:multi_cursor_quit_key='<C-c>'
+nnoremap <C-c> :call multiple_cursors#quit()<CR>
 
 " direnv
-if exists("$EXTRA_VIM")
-  for path in split($EXTRA_VIM, ':')
-    exec "source ".path
-  endfor
-endif
+" if exists("$EXTRA_VIM")
+"   for path in split($EXTRA_VIM, ':')
+"     exec "source ".path
+"   endfor
+" endif
 
 " " Send more characters for redraws
 set ttyfast
@@ -166,7 +195,7 @@ set ttyfast
 set ttymouse=xterm2
 
 " " Tmux
-let g:tmuxline_preset = 'crosshair'
+let g:tmuxline_preset = 'full'
 
 " Dash
 nmap <silent> <leader>d <Plug>DashSearch
@@ -186,13 +215,8 @@ if has("autocmd")
     \ endif
 endif
 
-" " Ultisnips
-let g:UltiSnipsEditSplit="vertical"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-
 " " TaskWarrior
-let g:task_rc_override = 'rc.defaultwidth=0'
-let g:task_default_prompt  = ['description', 'tag' ]
-let g:task_log_max         = '100'
-let g:task_info_size       = 30
+let g:task_rc_override    = 'rc.defaultwidth        = 0'
+let g:task_default_prompt = ['description', 'tag' ]
+let g:task_log_max        = '100'
+let g:task_info_size      = 30
