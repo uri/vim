@@ -49,9 +49,17 @@ NeoBundle 'tpope/vim-rails.git'
 NeoBundle 'tpope/vim-rake'
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'tpope/vim-unimpaired.git'
+NeoBundle 'tpope/vim-abolish'
+NeoBundle 'tpope/vim-markdown'
 NeoBundle 'vim-ruby/vim-ruby'
 NeoBundle 'vitalk/vim-simple-todo'
 NeoBundle 'jiangmiao/auto-pairs'
+NeoBundle 'lambdalisue/vim-gista', {
+      \ 'depends': [
+      \    'Shougo/unite.vim',
+      \    'tyru/open-browser.vim',
+      \]}
+NeoBundle 'kylef/apiblueprint.vim'
 " NeoBundle 'zimbatm/direnv.vim'
 " NeoBundleLazy 'jelera/vim-javascript-syntax', {'autoload':{'filetypes':['javascript']}}
 
@@ -73,7 +81,7 @@ let g:ackprg = 'ag --nogroup --nocolor --column'
 set laststatus=2
 set cryptmethod=blowfish2
 set foldmethod=syntax
-set foldlevel=3
+set foldlevel=6
 set nofoldenable
 
 " Remove whitespace on save
@@ -98,16 +106,18 @@ set ignorecase
 set smartcase
 set incsearch
 set wildmenu
-set hls
+set nohls
 set regexpengine=1
 inoremap jk <Esc>
 inoremap jj <Esc>
+inoremap <C-L> <Esc>[s1z=`]a
 noremap L $
 noremap H ^
 noremap Y y$
 nnoremap gp `[v`]
 " nnoremap <esc> :noh<return><esc>
 nmap <silent> K <Plug>DashSearch
+nnoremap <leader>a :%y<CR>
 nnoremap <leader>p :noh<CR>
 nnoremap <leader>P :set hls!<CR>
 nnoremap <leader>w :setl wrap!<CR>
@@ -117,6 +127,9 @@ nnoremap <leader>ef :e $FISH<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
 nnoremap <leader>cr :let @* = expand("%")<cr>
 nnoremap <leader>cf :let @* = expand("%:p")<cr>
+nnoremap <leader>cc :Dispatch ctags -R .<cr>
+nnoremap <leader>ftr :set ft=ruby<cr>
+nnoremap <leader>T :Tab <cr>
 
 
 nnoremap <Space> za
@@ -131,7 +144,7 @@ endif
 " Colors
 " let base16colorspace=256
 syntax enable
-set background=light
+set background=dark
 " colorscheme base16-ocean
 " colorscheme solarized
 " colorscheme base16-atelierforest
@@ -139,6 +152,7 @@ set background=light
 colorscheme base16-solarized
 highlight clear SignColumn
 highlight Search ctermbg=221
+" highlight Search guibg=NONE guifg=NONE gui=underline
 " " RSpec.vim mappings THOTTBOT
 " map <Leader>t :call RunCurrentSpecFile()<CR>
 " map <Leader>s :call RunNearestSpec()<CR>
@@ -161,6 +175,9 @@ let g:airline_powerline_fonts = 1
 let g:ctrlp_max_files=0
 let g:ctrlp_max_depth = 10
 let g:ctrlp_working_path_mode = 'w'
+let g:ctrlp_follow_symlinks=1
+let g:ctrlp_show_hidden=1
+let g:ctrlp_clear_cache_on_exit=0
 nnoremap <leader>R :CtrlPTag<cr>
 nnoremap <leader>r :CtrlPBufTag %<cr>
 
@@ -216,7 +233,17 @@ if has("autocmd")
 endif
 
 " " TaskWarrior
-let g:task_rc_override    = 'rc.defaultwidth        = 0'
 let g:task_default_prompt = ['description', 'tag' ]
 let g:task_log_max        = '100'
 let g:task_info_size      = 30
+let g:task_rc_override = 'rc.defaultheight=0'
+
+" Fold only in normal mode
+autocmd InsertEnter * let w:last_fdm=&foldmethod | setlocal foldmethod=manual
+autocmd InsertLeave * let &l:foldmethod=w:last_fdm
+
+" Gista
+let g:gista#post_private = 1
+
+" Autopairs
+let g:AutoPairsFlyMode = 1
