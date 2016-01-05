@@ -38,6 +38,7 @@ NeoBundle 'rhysd/vim-textobj-ruby'
 NeoBundle 'rizzatti/dash.vim'
 NeoBundle 'rking/ag.vim'
 NeoBundle 'scrooloose/nerdtree'
+NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'sickill/vim-pasta'
 NeoBundle 'terryma/vim-multiple-cursors'
 NeoBundle 'tpope/vim-bundler'
@@ -54,14 +55,16 @@ NeoBundle 'tpope/vim-markdown'
 NeoBundle 'vim-ruby/vim-ruby'
 NeoBundle 'vitalk/vim-simple-todo'
 NeoBundle 'jiangmiao/auto-pairs'
+NeoBundle 'elixir-lang/vim-elixir'
 NeoBundle 'lambdalisue/vim-gista', {
       \ 'depends': [
       \    'Shougo/unite.vim',
       \    'tyru/open-browser.vim',
       \]}
 NeoBundle 'kylef/apiblueprint.vim'
+NeoBundle 'joker1007/vim-ruby-heredoc-syntax'
 " NeoBundle 'zimbatm/direnv.vim'
-" NeoBundleLazy 'jelera/vim-javascript-syntax', {'autoload':{'filetypes':['javascript']}}
+NeoBundleLazy 'jelera/vim-javascript-syntax', {'autoload':{'filetypes':['javascript']}}
 
 " Required:
 call neobundle#end()
@@ -144,12 +147,19 @@ endif
 " Colors
 " let base16colorspace=256
 syntax enable
-set background=dark
+syntax sync minlines=200
+set background=light
+" If using solarized as your term theme aswell
+let g:solarized_termcolors=16
+" If NOT using solarized as your term theme aswell
+" let g:solarized_termcolors=256
+let g:solarized_visibility = "high"
+let g:solarized_contrast = "high"
+colorscheme solarized
 " colorscheme base16-ocean
-" colorscheme solarized
 " colorscheme base16-atelierforest
 " colorscheme base16-flat
-colorscheme base16-solarized
+" colorscheme base16-ocean
 highlight clear SignColumn
 highlight Search ctermbg=221
 " highlight Search guibg=NONE guifg=NONE gui=underline
@@ -178,6 +188,10 @@ let g:ctrlp_working_path_mode = 'w'
 let g:ctrlp_follow_symlinks=1
 let g:ctrlp_show_hidden=1
 let g:ctrlp_clear_cache_on_exit=0
+let g:ctrlp_custom_ignore = {
+\ 'dir':  '\.git$\|\.hg$\|\.svn$\|\.yardoc\|public\/images\|public\/system\|public\/assets\|data\|log\|tmp$',
+\ 'file': '\.exe$\|\.so$\|\.dat$'
+\ }
 nnoremap <leader>R :CtrlPTag<cr>
 nnoremap <leader>r :CtrlPBufTag %<cr>
 
@@ -241,9 +255,27 @@ let g:task_rc_override = 'rc.defaultheight=0'
 " Fold only in normal mode
 autocmd InsertEnter * let w:last_fdm=&foldmethod | setlocal foldmethod=manual
 autocmd InsertLeave * let &l:foldmethod=w:last_fdm
+" Enable folding for javascript plugin jelera/vim-javascript-syntax
+autocmd FileType javascript call JavaScriptFold()
 
 " Gista
 let g:gista#post_private = 1
 
 " Autopairs
-let g:AutoPairsFlyMode = 1
+let g:AutoPairsFlyMode = 0
+
+" Emmet
+let g:user_emmet_leader_key='<C-Z>'
+
+" Heredoc
+let g:ruby_heredoc_syntax_defaults = {
+        \ "javascript" : {
+        \   "start" : "JS",
+        \},
+        \ "sql" : {
+        \   "start" : "SQL",
+        \},
+        \ "html" : {
+        \   "start" : "HTML",
+        \},
+  \}
