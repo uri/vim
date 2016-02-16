@@ -49,8 +49,8 @@ NeoBundle 'tpope/vim-rails.git'
 NeoBundle 'tpope/vim-rake'
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'tpope/vim-unimpaired.git'
-" NeoBundle 'vim-airline/vim-airline'
-" NeoBundle 'vim-airline/vim-airline-themes'
+NeoBundle 'vim-airline/vim-airline'
+NeoBundle 'vim-airline/vim-airline-themes'
 NeoBundle 'vim-ruby/vim-ruby'
 NeoBundle 'lambdalisue/vim-gista', {
       \ 'depends': [
@@ -183,8 +183,8 @@ map <Leader>l <Plug>RunMostRecentSpec
 let g:spec_runner_dispatcher = 'Dispatch {command}'
 
 " " Airline
-" let g:tmuxline_powerline_separators = 0
-" let g:airline_powerline_fonts = 1
+let g:tmuxline_powerline_separators = 0
+let g:airline_powerline_fonts = 1
 
 " " CtrP
 let g:ctrlp_max_files=0
