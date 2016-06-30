@@ -1,12 +1,10 @@
 "NeoBundle Scripts-----------------------------
-if has('vim_starting')
-  if &compatible
-    set nocompatible               " Be iMproved
-  endif
-
-  " Required:
-  set runtimepath+=/Users/uri/.vim/bundle/neobundle.vim/
+if &compatible
+	set nocompatible               " Be iMproved
 endif
+
+" Required:
+set runtimepath^=/Users/uri/.vim/bundle/neobundle.vim/
 
 " Required:
 call neobundle#begin(expand('/Users/uri/.vim/bundle'))
@@ -20,7 +18,7 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 NeoBundle "gabebw/vim-spec-runner"
 NeoBundle 'airblade/vim-gitgutter'
 NeoBundle 'altercation/vim-colors-solarized'
-NeoBundle 'chriskempson/base16-vim'
+" NeoBundle 'chriskempson/base16-vim'
 NeoBundle 'christoomey/vim-tmux-navigator.git'
 NeoBundle 'ctrlpvim/ctrlp.vim.git'
 NeoBundle 'edkolev/tmuxline.vim.git'
@@ -45,24 +43,32 @@ NeoBundle 'tpope/vim-dispatch.git'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'tpope/vim-markdown'
 NeoBundle 'tpope/vim-projectionist'
+NeoBundle 'tpope/vim-repeat'
 NeoBundle 'tpope/vim-rails.git'
 NeoBundle 'tpope/vim-rake'
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'tpope/vim-unimpaired.git'
-" NeoBundle 'vim-airline/vim-airline'
-" NeoBundle 'vim-airline/vim-airline-themes'
+NeoBundle 'vim-airline/vim-airline'
+NeoBundle 'vim-airline/vim-airline-themes'
 NeoBundle 'vim-ruby/vim-ruby'
-NeoBundle 'lambdalisue/vim-gista', {
-      \ 'depends': [
-      \    'Shougo/unite.vim',
-      \    'tyru/open-browser.vim',
-      \]}
+" NeoBundle 'Shougo/unite.vim'
+" NeoBundle 'tyru/open-browser.vim'
+" NeoBundle 'lambdalisue/vim-gista', {
+"       \ 'depends': [
+"       \    'Shougo/unite.vim',
+"       \    'tyru/open-browser.vim',
+"       \]}
 NeoBundleLazy 'jelera/vim-javascript-syntax', {'autoload':{'filetypes':['javascript']}}
 
 " New Feb 11 2016
-NeoBundle 'vim-scripts/ZoomWin'
-NeoBundle 'vim-ctrlspace/vim-ctrlspace'
-NeoBundle 'roman/golden-ratio'
+" NeoBundle 'roman/golden-ratio'
+NeoBundle 'justincampbell/vim-eighties'
+NeoBundle 'ajh17/Spacegray.vim'
+NeoBundle 'Shougo/vimproc.vim'
+NeoBundle 'Shougo/vimshell.vim'
+NeoBundle 'slashmili/alchemist.vim'
+NeoBundle 'aklt/plantuml-syntax'
+
 
 " Required:
 call neobundle#end()
@@ -74,16 +80,16 @@ filetype plugin indent on
 " this will conveniently prompt you to install them.
 NeoBundleCheck
 "End NeoBundle Scripts-------------------------
-" Speeds up ruby syntax apparently
 
+" Speeds up ruby syntax apparently
 let g:ruby_path = system('echo $HOME/.rbenv/shims')
 let g:ruby_default_path = system('echo $HOME/.rbenv/shims')
 let $FISH="~/.config/fish/config.fish"
 let ruby_fold=1
-let g:ackprg = 'ag --nogroup --nocolor --column'
+let g:ackprg = 'ag -f --nogroup --nocolor --column'
 set laststatus=2
 set cryptmethod=blowfish2
-" set foldmethod=syntax
+set foldmethod=syntax
 set foldlevel=6
 set nofoldenable
 
@@ -106,6 +112,8 @@ set ignorecase
 set smartcase
 set incsearch
 set wildmenu
+" Should remove lag from esc
+set timeoutlen=1000 ttimeoutlen=0
 " highlight by default
 set hls
 set regexpengine=1
@@ -116,11 +124,16 @@ noremap L $
 noremap H ^
 noremap Y y$
 nnoremap gp `[v`]
-nnoremap K :noh<cr>
+" nnoremap K [s1z=<c-o>
+nnoremap Q :noh<cr>
 nnoremap <esc> :noh<return><esc>
-nnoremap <leader>a :%y<CR>
+nnoremap <leader>D :Dispatch<space>
+nnoremap <leader>dm :Dispatch<space>make<space>
+nnoremap <leader>a :Ag!<space>""<left>
+nnoremap <leader>* yiw:Ag!<space>"<C-r>*"<cr>
+nnoremap <leader>y :%y<CR>
 nnoremap <leader>g :GoldenRatioResize<cr>
-nnoremap <leader>G :GoldenRatioToggle<cr>
+" nnoremap <leader>G :GoldenRatioToggle<cr>
 nnoremap <leader>p :noh<CR>
 nnoremap <leader>P :set hls!<CR>
 nnoremap <leader>w :setl wrap!<CR>
@@ -132,7 +145,9 @@ nnoremap <leader>cr :let @* = expand("%")<cr>
 nnoremap <leader>cf :let @* = expand("%:p")<cr>
 nnoremap <leader>cc :Dispatch ctags -R .<cr>
 nnoremap <leader>ftr :set ft=ruby<cr>
+nnoremap <leader>ftm :set ft=markdown<cr>
 nnoremap <leader>T :Tab <cr>
+nnoremap <leader>lt :vsp #<cr>
 
 
 nnoremap <Space> za
@@ -145,28 +160,29 @@ if &shell =~# 'fish$'
 endif
 
 " Colors
-" let base16colorspace=256
 syntax enable
 syntax sync minlines=200
-set t_Co=256
-set background=dark
+" set t_Co=256
+set background=light
 
-" If using solarized as your term theme aswell
-" let g:solarized_termcolors=16
+" colorscheme base16-ocean
+" colorscheme base16-atelierforest
+" colorscheme base16-ocean
+" colorscheme base16-flat
+" colorscheme spacegray
+" colorscheme base16-flat
+
 " If NOT using solarized as your term theme aswell
 " let g:solarized_termcolors=256
 " let g:solarized_visibility = "high"
 " let g:solarized_contrast = "high"
-" colorscheme solarized
+colorscheme solarized
 
-" colorscheme base16-ocean
-" colorscheme base16-atelierforest
-colorscheme base16-flat
-" colorscheme base16-ocean
 
 highlight clear SignColumn
-highlight Search ctermfg=220
-highlight Search ctermbg=4
+" highlight Search ctermfg=220
+" highlight Search ctermbg=4
+highlight Search ctermbg=NONE ctermfg=218 cterm=underline,bold
 " highlight Search guibg=NONE guifg=NONE gui=underline
 " " RSpec.vim mappings THOTTBOT
 " map <Leader>t :call RunCurrentSpecFile()<CR>
@@ -183,8 +199,8 @@ map <Leader>l <Plug>RunMostRecentSpec
 let g:spec_runner_dispatcher = 'Dispatch {command}'
 
 " " Airline
-" let g:tmuxline_powerline_separators = 0
-" let g:airline_powerline_fonts = 1
+let g:tmuxline_powerline_separators = 0
+let g:airline_powerline_fonts = 1
 
 " " CtrP
 let g:ctrlp_max_files=0
@@ -206,7 +222,7 @@ let NERDTreeIgnore = ['\.sock$','\.zeus\.sock$']
 " let g:NERDTreeMouseMode=1
 let NERDTreeWinSize=31
 let NERDTreeWinPos="left"
-let NERDTreeMapHelp="<f1>"
+let NERDTreeMapHelp="Q"
 map <Leader>b :NERDTreeToggle<cr>
 map <Leader>B :NERDTreeFind<cr>
 
@@ -215,6 +231,16 @@ let g:multi_cursor_exit_from_insert_mode=0
 let g:multi_cursor_exit_from_visual_mode=0
 let g:multi_cursor_quit_key='<C-c>'
 nnoremap <C-c> :call multiple_cursors#quit()<CR>
+
+" Called once right before you start selecting multiple cursors
+function! Multiple_cursors_before()
+  set foldmethod=manual
+endfunction
+
+" Called once only when the multiple selection is cancel
+function! Multiple_cursors_after()
+  set foldmethod=syntax
+endfunction
 
 " direnv
 " if exists("$EXTRA_VIM")
@@ -239,6 +265,7 @@ if has("autocmd")
   filetype plugin on
   filetype plugin indent on
   autocmd BufRead,BufNewFile *.md setlocal spell
+  autocmd BufRead,BufNewFile *.ron setlocal ft=ruby
   autocmd FileType gitcommit setlocal spell
 
   " Remove whitespace on save
@@ -272,3 +299,21 @@ let g:AutoPairsFlyMode = 0
 
 " Emmet
 let g:user_emmet_leader_key='<C-Z>'
+
+let g:ctrlp_abbrev = {
+  \ 'gmode': 'i',
+  \ 'abbrevs': [
+    \ {
+      \ 'pattern': ' ',
+      \ 'expanded': '',
+      \ 'mode': 'pfrz',
+    \ },
+    \ ]
+  \ }
+
+
+" Override
+if filereadable("vimrc")
+  so vimrc
+endif
+
