@@ -15,10 +15,9 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 
 " Add or remove your Bundles here:
 
-NeoBundle "gabebw/vim-spec-runner"
 NeoBundle 'airblade/vim-gitgutter'
 NeoBundle 'altercation/vim-colors-solarized'
-" NeoBundle 'chriskempson/base16-vim'
+NeoBundle 'chriskempson/base16-vim'
 NeoBundle 'christoomey/vim-tmux-navigator.git'
 NeoBundle 'ctrlpvim/ctrlp.vim.git'
 NeoBundle 'edkolev/tmuxline.vim.git'
@@ -61,13 +60,15 @@ NeoBundle 'vim-ruby/vim-ruby'
 NeoBundleLazy 'jelera/vim-javascript-syntax', {'autoload':{'filetypes':['javascript']}}
 
 " New Feb 11 2016
-" NeoBundle 'roman/golden-ratio'
 NeoBundle 'justincampbell/vim-eighties'
 NeoBundle 'ajh17/Spacegray.vim'
 NeoBundle 'Shougo/vimproc.vim'
 NeoBundle 'Shougo/vimshell.vim'
 NeoBundle 'slashmili/alchemist.vim'
 NeoBundle 'aklt/plantuml-syntax'
+
+" New Aug 2016
+NeoBundle 'janko-m/vim-test'
 
 
 " Required:
@@ -120,7 +121,7 @@ set regexpengine=1
 inoremap jk <Esc>
 inoremap jj <Esc>
 inoremap <C-L> <Esc>[s1z=`]a
-noremap L $
+noremap L g_
 noremap H ^
 noremap Y y$
 nnoremap gp `[v`]
@@ -132,15 +133,13 @@ nnoremap <leader>dm :Dispatch<space>make<space>
 nnoremap <leader>a :Ag!<space>""<left>
 nnoremap <leader>* yiw:Ag!<space>"<C-r>*"<cr>
 nnoremap <leader>y :%y<CR>
-nnoremap <leader>g :GoldenRatioResize<cr>
-" nnoremap <leader>G :GoldenRatioToggle<cr>
 nnoremap <leader>p :noh<CR>
 nnoremap <leader>P :set hls!<CR>
 nnoremap <leader>w :setl wrap!<CR>
 nnoremap <leader>W :set wrap!<CR>
 nnoremap <leader>ev :e $MYVIMRC<cr>
 nnoremap <leader>ef :e $FISH<cr>
-nnoremap <leader>sv :source $MYVIMRC<cr>
+nnoremap <leader>cv :source $MYVIMRC<cr>
 nnoremap <leader>cr :let @* = expand("%")<cr>
 nnoremap <leader>cf :let @* = expand("%:p")<cr>
 nnoremap <leader>cc :Dispatch ctags -R .<cr>
@@ -163,20 +162,22 @@ endif
 syntax enable
 syntax sync minlines=200
 " set t_Co=256
-set background=light
+set background=dark
 
-" colorscheme base16-ocean
+let base16colorspace=256
+colorscheme base16-google-light
 " colorscheme base16-atelierforest
 " colorscheme base16-ocean
 " colorscheme base16-flat
 " colorscheme spacegray
 " colorscheme base16-flat
+" colorscheme base16-eighties
 
 " If NOT using solarized as your term theme aswell
 " let g:solarized_termcolors=256
 " let g:solarized_visibility = "high"
 " let g:solarized_contrast = "high"
-colorscheme solarized
+" colorscheme solarized
 
 
 highlight clear SignColumn
@@ -184,19 +185,22 @@ highlight clear SignColumn
 " highlight Search ctermbg=4
 highlight Search ctermbg=NONE ctermfg=218 cterm=underline,bold
 " highlight Search guibg=NONE guifg=NONE gui=underline
-" " RSpec.vim mappings THOTTBOT
-" map <Leader>t :call RunCurrentSpecFile()<CR>
-" map <Leader>s :call RunNearestSpec()<CR>
-" map <Leader>l :call RunLastSpec()<CR>
-" map <Leader>a :call RunAllSpecs()<CR>
-" let g:rspec_command = "Dispatch rspec {spec}"
-" let g:rspec_runner = "os_x_iterm"
 
+" Specs
 " Gabe
-map <Leader>t <Plug>RunCurrentSpecFile
-map <Leader>s <Plug>RunFocusedSpec
-map <Leader>l <Plug>RunMostRecentSpec
-let g:spec_runner_dispatcher = 'Dispatch {command}'
+" map <Leader>t <Plug>RunCurrentSpecFile
+" map <Leader>s <Plug>RunFocusedSpec
+" map <Leader>l <Plug>RunMostRecentSpec
+" let g:spec_runner_dispatcher = 'Dispatch {command}'
+
+
+let test#strategy = "dispatch"
+" Use zeus stub or rspec
+let test#ruby#rspec#executable = 'rspec'
+nmap <silent> <leader>s :w<cr>:TestNearest<CR>
+nmap <silent> <leader>t :w<cr>:TestFile<CR>
+nmap <silent> <leader>l :w<cr>:TestLast<CR>
+nmap <silent> <leader>g :TestVisit<CR>
 
 " " Airline
 let g:tmuxline_powerline_separators = 0
