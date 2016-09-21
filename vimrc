@@ -1,95 +1,87 @@
-"NeoBundle Scripts-----------------------------
+" dein Scripts-----------------------------
 if &compatible
-	set nocompatible               " Be iMproved
+  set nocompatible
 endif
 
 " Required:
-set runtimepath^=/Users/uri/.vim/bundle/neobundle.vim/
+set runtimepath^=~/.vim/repos/github.com/Shougo/dein.vim
 
 " Required:
-call neobundle#begin(expand('/Users/uri/.vim/bundle'))
+call dein#begin(expand('~/.vim/dein'))
 
-" Let NeoBundle manage NeoBundle
+" Let dein manage dein
 " Required:
-NeoBundleFetch 'Shougo/neobundle.vim'
+call dein#add('Shougo/dein.vim')
 
-" Add or remove your Bundles here:
+" Add or remove your plugins here:
+call dein#add('airblade/vim-gitgutter')
+call dein#add('ajh17/Spacegray.vim')
+call dein#add('aklt/plantuml-syntax')
+call dein#add('altercation/vim-colors-solarized')
+call dein#add('chriskempson/base16-vim')
+call dein#add('ctrlpvim/ctrlp.vim.git')
+call dein#add('edkolev/tmuxline.vim.git')
+call dein#add('elixir-lang/vim-elixir')
+call dein#add('ervandew/supertab')
+call dein#add('farseer90718/vim-taskwarrior')
+call dein#add('godlygeek/tabular.git')
+call dein#add('janko-m/vim-test')
+call dein#add('jiangmiao/auto-pairs')
+call dein#add('justincampbell/vim-eighties')
+call dein#add('kana/vim-textobj-user')
+call dein#add('mattn/emmet-vim.git')
+call dein#add('mbbill/undotree')
+call dein#add('nelstrom/vim-qargs')
+call dein#add('rhysd/vim-textobj-ruby')
+call dein#add('rking/ag.vim')
+call dein#add('scrooloose/nerdtree')
+call dein#add('Shougo/vimshell.vim')
+call dein#add('sickill/vim-pasta')
+call dein#add('slashmili/alchemist.vim')
+call dein#add('terryma/vim-multiple-cursors')
+call dein#add('tpope/vim-abolish')
+call dein#add('tpope/vim-bundler')
+call dein#add('tpope/vim-commentary.git')
+call dein#add('tpope/vim-dispatch.git')
+call dein#add('tpope/vim-fugitive')
+call dein#add('tpope/vim-markdown')
+call dein#add('tpope/vim-projectionist')
+call dein#add('tpope/vim-rails.git')
+call dein#add('tpope/vim-rake')
+call dein#add('tpope/vim-repeat')
+call dein#add('tpope/vim-surround')
+call dein#add('tpope/vim-unimpaired.git')
+call dein#add('vim-airline/vim-airline')
+call dein#add('christoomey/vim-tmux-navigator.git')
+call dein#add('vim-airline/vim-airline-themes')
+call dein#add('vim-ruby/vim-ruby')
+call dein#add('powerman/vim-plugin-AnsiEsc')
 
-NeoBundle 'airblade/vim-gitgutter'
-NeoBundle 'altercation/vim-colors-solarized'
-NeoBundle 'chriskempson/base16-vim'
-NeoBundle 'christoomey/vim-tmux-navigator.git'
-NeoBundle 'ctrlpvim/ctrlp.vim.git'
-NeoBundle 'edkolev/tmuxline.vim.git'
-NeoBundle 'elixir-lang/vim-elixir'
-NeoBundle 'ervandew/supertab'
-NeoBundle 'farseer90718/vim-taskwarrior'
-NeoBundle 'godlygeek/tabular.git'
-NeoBundle 'jiangmiao/auto-pairs'
-NeoBundle 'kana/vim-textobj-user'
-NeoBundle 'mattn/emmet-vim.git'
-NeoBundle 'mbbill/undotree'
-NeoBundle 'nelstrom/vim-qargs'
-NeoBundle 'rhysd/vim-textobj-ruby'
-NeoBundle 'rking/ag.vim'
-NeoBundle 'scrooloose/nerdtree'
-NeoBundle 'sickill/vim-pasta'
-NeoBundle 'terryma/vim-multiple-cursors'
-NeoBundle 'tpope/vim-abolish'
-NeoBundle 'tpope/vim-bundler'
-NeoBundle 'tpope/vim-commentary.git'
-NeoBundle 'tpope/vim-dispatch.git'
-NeoBundle 'tpope/vim-fugitive'
-NeoBundle 'tpope/vim-markdown'
-NeoBundle 'tpope/vim-projectionist'
-NeoBundle 'tpope/vim-repeat'
-NeoBundle 'tpope/vim-rails.git'
-NeoBundle 'tpope/vim-rake'
-NeoBundle 'tpope/vim-surround'
-NeoBundle 'tpope/vim-unimpaired.git'
-NeoBundle 'vim-airline/vim-airline'
-NeoBundle 'vim-airline/vim-airline-themes'
-NeoBundle 'vim-ruby/vim-ruby'
-" NeoBundle 'Shougo/unite.vim'
-" NeoBundle 'tyru/open-browser.vim'
-" NeoBundle 'lambdalisue/vim-gista', {
-"       \ 'depends': [
-"       \    'Shougo/unite.vim',
-"       \    'tyru/open-browser.vim',
-"       \]}
-NeoBundleLazy 'jelera/vim-javascript-syntax', {'autoload':{'filetypes':['javascript']}}
-
-" New Feb 11 2016
-NeoBundle 'justincampbell/vim-eighties'
-NeoBundle 'ajh17/Spacegray.vim'
-NeoBundle 'Shougo/vimproc.vim'
-NeoBundle 'Shougo/vimshell.vim'
-NeoBundle 'slashmili/alchemist.vim'
-NeoBundle 'aklt/plantuml-syntax'
-
-" New Aug 2016
-NeoBundle 'janko-m/vim-test'
-
+" You can specify revision/branch/tag.
+" call dein#add('Shougo/vimshell' |  { 'rev': '3787e5' })
 
 " Required:
-call neobundle#end()
+call dein#end()
 
 " Required:
 filetype plugin indent on
 
-" If there are uninstalled bundles found on startup,
-" this will conveniently prompt you to install them.
-NeoBundleCheck
-"End NeoBundle Scripts-------------------------
+" If you want to install not installed plugins on startup.
+if dein#check_install()
+  call dein#install()
+endif
+
+"End dein Scripts-------------------------
+
 
 " Speeds up ruby syntax apparently
-let g:ruby_path = system('echo $HOME/.rbenv/shims')
-let g:ruby_default_path = system('echo $HOME/.rbenv/shims')
+" let g:ruby_path = system('echo $HOME/.rbenv/shims')
+" let g:ruby_default_path = system('echo $HOME/.rbenv/shims')
 let $FISH="~/.config/fish/config.fish"
 let ruby_fold=1
 let g:ackprg = 'ag -f --nogroup --nocolor --column'
 set laststatus=2
-set cryptmethod=blowfish2
+" set cryptmethod=blowfish2
 set foldmethod=syntax
 set foldlevel=6
 set nofoldenable
@@ -118,6 +110,8 @@ set timeoutlen=1000 ttimeoutlen=0
 " highlight by default
 set hls
 set regexpengine=1
+" Search for visually selected text
+vnoremap // y/<C-R>"<CR>
 inoremap jk <Esc>
 inoremap jj <Esc>
 inoremap <C-L> <Esc>[s1z=`]a
@@ -125,6 +119,7 @@ noremap L g_
 noremap H ^
 noremap Y y$
 nnoremap gp `[v`]
+nnoremap <C-w>+ <C-w><bar><C-w>_
 " nnoremap K [s1z=<c-o>
 nnoremap Q :noh<cr>
 nnoremap <esc> :noh<return><esc>
@@ -143,11 +138,28 @@ nnoremap <leader>cv :source $MYVIMRC<cr>
 nnoremap <leader>cr :let @* = expand("%")<cr>
 nnoremap <leader>cf :let @* = expand("%:p")<cr>
 nnoremap <leader>cc :Dispatch ctags -R .<cr>
+nnoremap <leader>fte :set ft=elixir<cr>
 nnoremap <leader>ftr :set ft=ruby<cr>
 nnoremap <leader>ftm :set ft=markdown<cr>
 nnoremap <leader>T :Tab <cr>
 nnoremap <leader>lt :vsp #<cr>
+if has("nvim")
+  nnoremap <leader>ha te ssh apist<cr>
+  nnoremap <leader>hta :tabe <bar> te ssh apist<cr>
+  nnoremap <leader>hs te ssh st<cr>
+  nnoremap <leader>hts :tabe <bar> te ssh st<cr>
+  nnoremap <leader>hp te ssh hw<cr>
+  nnoremap <leader>htp :tabe <bar> te ssh hw<cr>
+endif
 
+" Maps Alt-[h,j,k,l] to resizing a window split
+nnoremap <Left> 5<C-w><
+nnoremap <Up> 3<C-W>+
+nnoremap <Right> 5<C-W>>
+nnoremap <Down> 3<C-w>-
+
+nnoremap + 3<C-W>+
+nnoremap - 5<C-W>>
 
 nnoremap <Space> za
 nnoremap <Backspace> /
@@ -165,13 +177,14 @@ syntax sync minlines=200
 set background=dark
 
 let base16colorspace=256
-colorscheme base16-google-light
+" colorscheme base16-google-light
 " colorscheme base16-atelierforest
 " colorscheme base16-ocean
 " colorscheme base16-flat
 " colorscheme spacegray
 " colorscheme base16-flat
 " colorscheme base16-eighties
+colorscheme base16-harmonic16-dark
 
 " If NOT using solarized as your term theme aswell
 " let g:solarized_termcolors=256
@@ -183,19 +196,19 @@ colorscheme base16-google-light
 highlight clear SignColumn
 " highlight Search ctermfg=220
 " highlight Search ctermbg=4
-highlight Search ctermbg=NONE ctermfg=218 cterm=underline,bold
+highlight Search ctermbg=NONE ctermfg=177 cterm=underline,bold
 " highlight Search guibg=NONE guifg=NONE gui=underline
-
-" Specs
-" Gabe
-" map <Leader>t <Plug>RunCurrentSpecFile
-" map <Leader>s <Plug>RunFocusedSpec
-" map <Leader>l <Plug>RunMostRecentSpec
-" let g:spec_runner_dispatcher = 'Dispatch {command}'
 
 
 let test#strategy = "dispatch"
+" let test#strategy = "tslime"
 " Use zeus stub or rspec
+" if filereadable(".zeus.sock")
+"   let test#ruby#rspec#executable = 'zeus rspec'
+" else
+"   let test#ruby#rspec#executable = 'bundle exec rspec'
+" endif
+
 let test#ruby#rspec#executable = 'rspec'
 nmap <silent> <leader>s :w<cr>:TestNearest<CR>
 nmap <silent> <leader>t :w<cr>:TestFile<CR>
@@ -279,13 +292,26 @@ if has("autocmd")
   autocmd InsertEnter * let w:last_fdm=&foldmethod | setlocal foldmethod=manual
   autocmd InsertLeave * let &l:foldmethod=w:last_fdm
   " Enable folding for javascript plugin jelera/vim-javascript-syntax
-  autocmd FileType javascript call JavaScriptFold()
+  " autocmd FileType javascript call JavaScriptFold()
 
   " Restore cursor position
+  let blacklist = ['gitcommit']
   autocmd BufReadPost *
-    \ if line("'\"") > 1 && line("'\"") <= line("$") |
+    \ if line("'\"") > 1 && line("'\"") <= line("$") && index(blacklist |  &ft) < 0|
     \   exe "normal! g`\"" |
     \ endif
+
+  " Change the quick fix to adjust it's height based on content up to a
+  " maximum
+  au FileType qf call AdjustWindowHeight(3, 16)
+  function! AdjustWindowHeight(minheight, maxheight)
+    exe max([min([line("$"), a:maxheight]), a:minheight]) . "wincmd _"
+  endfunction
+endif
+
+if has("nvim")
+  tnoremap <Esc><Esc> <C-\><C-n>G$?➜<enter>$
+  tnoremap jk <C-\><C-n>G$?➜<enter>$
 endif
 
 " " TaskWarrior
@@ -315,9 +341,12 @@ let g:ctrlp_abbrev = {
     \ ]
   \ }
 
+" Macros
 
-" Override
-if filereadable("vimrc")
-  so vimrc
-endif
 
+let @b='Obyebug:wj'
+let @l='Hyei:yss)iletA { create(:pl'
+let @k='Hilet(:wdehPf=xxv$hS{'
+
+" Abbreviations
+iabbr clog console.log()<left>
