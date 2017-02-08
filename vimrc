@@ -4,7 +4,7 @@ if &compatible
 endif
 
 " Required:
-set runtimepath^=~/.vim/repos/github.com/Shougo/dein.vim
+set runtimepath+=~/.vim/dein/repos/github.com/Shougo/dein.vim
 
 " Required:
 call dein#begin(expand('~/.vim/dein'))
@@ -15,19 +15,11 @@ call dein#add('Shougo/dein.vim')
 
 " Add or remove your plugins here:
 call dein#add('airblade/vim-gitgutter')
-call dein#add('ajh17/Spacegray.vim')
-call dein#add('aklt/plantuml-syntax')
-call dein#add('altercation/vim-colors-solarized')
-call dein#add('chriskempson/base16-vim')
-call dein#add('ctrlpvim/ctrlp.vim.git')
-call dein#add('edkolev/tmuxline.vim.git')
-call dein#add('elixir-lang/vim-elixir')
 call dein#add('ervandew/supertab')
-call dein#add('farseer90718/vim-taskwarrior')
+call dein#add('blindFS/vim-taskwarrior')
 call dein#add('godlygeek/tabular.git')
 call dein#add('janko-m/vim-test')
 call dein#add('jiangmiao/auto-pairs')
-call dein#add('justincampbell/vim-eighties')
 call dein#add('kana/vim-textobj-user')
 call dein#add('mattn/emmet-vim.git')
 call dein#add('mbbill/undotree')
@@ -35,33 +27,44 @@ call dein#add('nelstrom/vim-qargs')
 call dein#add('rhysd/vim-textobj-ruby')
 call dein#add('rking/ag.vim')
 call dein#add('scrooloose/nerdtree')
-call dein#add('Shougo/vimshell.vim')
-call dein#add('sickill/vim-pasta')
-call dein#add('slashmili/alchemist.vim')
 call dein#add('terryma/vim-multiple-cursors')
 call dein#add('tpope/vim-abolish')
-call dein#add('tpope/vim-bundler')
 call dein#add('tpope/vim-commentary.git')
 call dein#add('tpope/vim-dispatch.git')
 call dein#add('tpope/vim-fugitive')
-call dein#add('tpope/vim-markdown')
 call dein#add('tpope/vim-projectionist')
-call dein#add('tpope/vim-rails.git')
-call dein#add('tpope/vim-rake')
 call dein#add('tpope/vim-repeat')
 call dein#add('tpope/vim-surround')
 call dein#add('tpope/vim-unimpaired.git')
-call dein#add('vim-airline/vim-airline')
 call dein#add('christoomey/vim-tmux-navigator.git')
+call dein#add('ctrlpvim/ctrlp.vim.git')
+call dein#add('sickill/vim-pasta')
+
+
+" call dein#add('chriskempson/base16-vim')
+" call dein#add('justincampbell/vim-eighties')
+call dein#add('rakr/vim-one')
+call dein#add('vim-airline/vim-airline')
 call dein#add('vim-airline/vim-airline-themes')
+" call dein#add('edkolev/tmuxline.vim.git')
+
+" Language/platform specific plugins
+call dein#add('tpope/vim-markdown')
+call dein#add('aklt/plantuml-syntax')
+call dein#add('elixir-lang/vim-elixir')
+call dein#add('slashmili/alchemist.vim')
 call dein#add('vim-ruby/vim-ruby')
-call dein#add('powerman/vim-plugin-AnsiEsc')
+call dein#add('tpope/vim-rails.git')
+call dein#add('tpope/vim-bundler')
+call dein#add('tpope/vim-rake')
+call dein#add('othree/yajs.vim')
 
 " You can specify revision/branch/tag.
 " call dein#add('Shougo/vimshell' |  { 'rev': '3787e5' })
 
 " Required:
 call dein#end()
+call dein#save_state()
 
 " Required:
 filetype plugin indent on
@@ -97,7 +100,6 @@ set backspace=indent,eol,start
 " set mouse=a
 set directory=~/tmp
 set cursorline
-set autoindent
 set splitbelow
 set splitright
 set guifont=Meslo\ LG\ S\ Regular\ for\ Powerline:h14
@@ -110,6 +112,9 @@ set timeoutlen=1000 ttimeoutlen=0
 " highlight by default
 set hls
 set regexpengine=1
+" Load additional vim configuration if .exrc file is present
+set exrc
+
 " Search for visually selected text
 vnoremap // y/<C-R>"<CR>
 inoremap jk <Esc>
@@ -161,8 +166,9 @@ nnoremap <Down> 3<C-w>-
 nnoremap + 3<C-W>+
 nnoremap - 5<C-W>>
 
-nnoremap <Space> za
-nnoremap <Backspace> /
+nnoremap <Space> /
+nnoremap <Backspace> za
+nnoremap <C-Space> :
 
 
 " Required by Gutter
@@ -173,25 +179,28 @@ endif
 " Colors
 syntax enable
 syntax sync minlines=200
-" set t_Co=256
-set background=dark
 
-let base16colorspace=256
-" colorscheme base16-google-light
-" colorscheme base16-atelierforest
-" colorscheme base16-ocean
-" colorscheme base16-flat
-" colorscheme spacegray
-" colorscheme base16-flat
-" colorscheme base16-eighties
-colorscheme base16-harmonic16-dark
+"Credit joshdick
+"Use 24-bit (true-color) mode in Vim/Neovim when outside tmux.
+"If you're using tmux version 2.2 or later, you can remove the outermost $TMUX check and use tmux's 24-bit color support
+"(see < http://sunaku.github.io/tmux-24bit-color.html#usage > for more information.)
+if (has("termguicolors"))
+  set termguicolors
+endif
+set t_8b=[48;2;%lu;%lu;%lum
+set t_8f=[38;2;%lu;%lu;%lum
+set background=dark
+let g:one_allow_italics = 1
+colorscheme one
+
+" let base16colorspace=256
+" colorscheme base16-harmonic16-dark
 
 " If NOT using solarized as your term theme aswell
 " let g:solarized_termcolors=256
 " let g:solarized_visibility = "high"
 " let g:solarized_contrast = "high"
 " colorscheme solarized
-
 
 highlight clear SignColumn
 " highlight Search ctermfg=220
@@ -200,8 +209,8 @@ highlight Search ctermbg=NONE ctermfg=177 cterm=underline,bold
 " highlight Search guibg=NONE guifg=NONE gui=underline
 
 
-let test#strategy = "dispatch"
-" let test#strategy = "tslime"
+" let test#strategy = "dispatch"
+let test#strategy = "neovim"
 " Use zeus stub or rspec
 " if filereadable(".zeus.sock")
 "   let test#ruby#rspec#executable = 'zeus rspec'
@@ -209,15 +218,17 @@ let test#strategy = "dispatch"
 "   let test#ruby#rspec#executable = 'bundle exec rspec'
 " endif
 
-let test#ruby#rspec#executable = 'rspec'
+let test#ruby#rspec#executable = 'bundle exec rspec'
 nmap <silent> <leader>s :w<cr>:TestNearest<CR>
 nmap <silent> <leader>t :w<cr>:TestFile<CR>
 nmap <silent> <leader>l :w<cr>:TestLast<CR>
 nmap <silent> <leader>g :TestVisit<CR>
 
 " " Airline
-let g:tmuxline_powerline_separators = 0
+" let g:tmuxline_preset = 'full'
+" let g:tmuxline_powerline_separators = 0
 let g:airline_powerline_fonts = 1
+let g:airline_theme='one'
 
 " " CtrP
 let g:ctrlp_max_files=0
@@ -227,8 +238,8 @@ let g:ctrlp_follow_symlinks=1
 let g:ctrlp_show_hidden=1
 let g:ctrlp_clear_cache_on_exit=0
 let g:ctrlp_custom_ignore = {
-\ 'dir':  '\.git$\|\.hg$\|\.svn$\|\.yardoc\|public\/images\|public\/system\|public\/assets\|data\|log\|tmp$',
-\ 'file': '\.exe$\|\.so$\|\.dat$'
+\ 'dir':  '\.git$\|\.hg$\|\.svn$\|\.yardoc\|public\/images\|public\/system\|public\/assets\|log\|tmp$\|deps$\|_build$\|node_modules$\|priv$\|doc$',
+\ 'file': '\.exe$\|\.so$\|\.dat$\|.DS_Store'
 \ }
 nnoremap <leader>R :CtrlPTag<cr>
 nnoremap <leader>r :CtrlPBufTag %<cr>
@@ -273,14 +284,12 @@ set ttyfast
 " " " Must be one of: xterm, xterm2, netterm, dec, jsbterm, pterm
 " set ttymouse=xterm2
 
-" " Tmux
-let g:tmuxline_preset = 'full'
 
 " " Spell checking
 if has("autocmd")
   " Enable filetype detection
+  filetype on
   filetype plugin on
-  filetype plugin indent on
   autocmd BufRead,BufNewFile *.md setlocal spell
   autocmd BufRead,BufNewFile *.ron setlocal ft=ruby
   autocmd FileType gitcommit setlocal spell
@@ -297,8 +306,8 @@ if has("autocmd")
   " Restore cursor position
   let blacklist = ['gitcommit']
   autocmd BufReadPost *
-    \ if line("'\"") > 1 && line("'\"") <= line("$") && index(blacklist |  &ft) < 0|
-    \   exe "normal! g`\"" |
+    \ if line("'\"") > 1 && line("'\"") <= line("$") && index(blacklist,  &ft) < 0|
+    \   exe "normal! g`\"zz" |
     \ endif
 
   " Change the quick fix to adjust it's height based on content up to a
@@ -315,10 +324,13 @@ if has("nvim")
 endif
 
 " " TaskWarrior
-let g:task_default_prompt = ['description', 'tag' ]
+let g:task_default_prompt = ['description', 'priority' ]
 let g:task_log_max        = '100'
 let g:task_info_size      = 30
 let g:task_rc_override = 'rc.defaultheight=0'
+" Highlight and cursor line breaks for some reason
+let g:task_highlight_field = 0
+
 
 
 " Gista
@@ -347,6 +359,10 @@ let g:ctrlp_abbrev = {
 let @b='Obyebug:wj'
 let @l='Hyei:yss)iletA { create(:pl'
 let @k='Hilet(:wdehPf=xxv$hS{'
+let @q='nhdHt{dhdl%lD@q'
 
 " Abbreviations
 iabbr clog console.log()<left>
+
+" Ensure no sketchy autocmds are ran
+set secure
