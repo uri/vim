@@ -37,9 +37,10 @@ call dein#add('tpope/vim-repeat')
 call dein#add('tpope/vim-surround')
 call dein#add('tpope/vim-unimpaired.git')
 call dein#add('christoomey/vim-tmux-navigator.git')
-call dein#add('ctrlpvim/ctrlp.vim.git')
+" call dein#add('ctrlpvim/ctrlp.vim.git')
 call dein#add('sickill/vim-pasta')
-
+call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
+call dein#add('junegunn/fzf.vim', { 'depends': 'fzf' })
 
 " call dein#add('chriskempson/base16-vim')
 " call dein#add('justincampbell/vim-eighties')
@@ -58,6 +59,7 @@ call dein#add('tpope/vim-rails.git')
 call dein#add('tpope/vim-bundler')
 call dein#add('tpope/vim-rake')
 call dein#add('othree/yajs.vim')
+call dein#add('kchmck/vim-coffee-script')
 
 " You can specify revision/branch/tag.
 " call dein#add('Shougo/vimshell' |  { 'rev': '3787e5' })
@@ -81,6 +83,7 @@ endif
 " let g:ruby_path = system('echo $HOME/.rbenv/shims')
 " let g:ruby_default_path = system('echo $HOME/.rbenv/shims')
 let $FISH="~/.config/fish/config.fish"
+let $ZSH="~/.zshrc"
 let ruby_fold=1
 let g:ackprg = 'ag -f --nogroup --nocolor --column'
 set laststatus=2
@@ -126,9 +129,9 @@ noremap Y y$
 nnoremap gp `[v`]
 nnoremap <C-w>+ <C-w><bar><C-w>_
 " nnoremap K [s1z=<c-o>
-nnoremap Q :noh<cr>
+nnoremap Q q
+nnoremap q :q<cr>
 nnoremap <esc> :noh<return><esc>
-nnoremap <leader>D :Dispatch<space>
 nnoremap <leader>dm :Dispatch<space>make<space>
 nnoremap <leader>a :Ag!<space>""<left>
 nnoremap <leader>* yiw:Ag!<space>"<C-r>*"<cr>
@@ -139,6 +142,7 @@ nnoremap <leader>w :setl wrap!<CR>
 nnoremap <leader>W :set wrap!<CR>
 nnoremap <leader>ev :e $MYVIMRC<cr>
 nnoremap <leader>ef :e $FISH<cr>
+nnoremap <leader>ez :e $ZSH<cr>
 nnoremap <leader>cv :source $MYVIMRC<cr>
 nnoremap <leader>cr :let @* = expand("%")<cr>
 nnoremap <leader>cf :let @* = expand("%:p")<cr>
@@ -147,7 +151,8 @@ nnoremap <leader>fte :set ft=elixir<cr>
 nnoremap <leader>ftr :set ft=ruby<cr>
 nnoremap <leader>ftm :set ft=markdown<cr>
 nnoremap <leader>T :Tab <cr>
-nnoremap <leader>lt :vsp #<cr>
+nnoremap <leader>cl :set bg=light<cr>
+nnoremap <leader>cd :set bg=dark<cr>
 if has("nvim")
   nnoremap <leader>ha te ssh apist<cr>
   nnoremap <leader>hta :tabe <bar> te ssh apist<cr>
@@ -166,7 +171,6 @@ nnoremap <Down> 3<C-w>-
 nnoremap + 3<C-W>+
 nnoremap - 5<C-W>>
 
-nnoremap <Space> /
 nnoremap <Backspace> za
 nnoremap <C-Space> :
 
@@ -189,7 +193,7 @@ if (has("termguicolors"))
 endif
 set t_8b=[48;2;%lu;%lu;%lum
 set t_8f=[38;2;%lu;%lu;%lum
-set background=dark
+set background=light
 let g:one_allow_italics = 1
 colorscheme one
 
@@ -209,8 +213,6 @@ highlight Search ctermbg=NONE ctermfg=177 cterm=underline,bold
 " highlight Search guibg=NONE guifg=NONE gui=underline
 
 
-" let test#strategy = "dispatch"
-let test#strategy = "neovim"
 " Use zeus stub or rspec
 " if filereadable(".zeus.sock")
 "   let test#ruby#rspec#executable = 'zeus rspec'
@@ -218,7 +220,10 @@ let test#strategy = "neovim"
 "   let test#ruby#rspec#executable = 'bundle exec rspec'
 " endif
 
-let test#ruby#rspec#executable = 'bundle exec rspec'
+" let test#ruby#rspec#executable = 'bundle exec rspec'
+let test#ruby#rspec#executable = 'spring rspec'
+" let test#strategy = "dispatch"
+let test#strategy = "neovim"
 nmap <silent> <leader>s :w<cr>:TestNearest<CR>
 nmap <silent> <leader>t :w<cr>:TestFile<CR>
 nmap <silent> <leader>l :w<cr>:TestLast<CR>
@@ -231,18 +236,24 @@ let g:airline_powerline_fonts = 1
 let g:airline_theme='one'
 
 " " CtrP
-let g:ctrlp_max_files=0
-let g:ctrlp_max_depth = 10
-let g:ctrlp_working_path_mode = 'w'
-let g:ctrlp_follow_symlinks=1
-let g:ctrlp_show_hidden=1
-let g:ctrlp_clear_cache_on_exit=0
-let g:ctrlp_custom_ignore = {
-\ 'dir':  '\.git$\|\.hg$\|\.svn$\|\.yardoc\|public\/images\|public\/system\|public\/assets\|log\|tmp$\|deps$\|_build$\|node_modules$\|priv$\|doc$',
-\ 'file': '\.exe$\|\.so$\|\.dat$\|.DS_Store'
-\ }
-nnoremap <leader>R :CtrlPTag<cr>
-nnoremap <leader>r :CtrlPBufTag %<cr>
+" let g:ctrlp_max_files=0
+" let g:ctrlp_max_depth = 10
+" let g:ctrlp_working_path_mode = 'w'
+" let g:ctrlp_follow_symlinks=1
+" let g:ctrlp_show_hidden=1
+" let g:ctrlp_clear_cache_on_exit=0
+" let g:ctrlp_custom_ignore = {
+" \ 'dir':  '\.git$\|\.hg$\|\.svn$\|\.yardoc\|public\/images\|public\/system\|public\/assets\|log\|tmp$\|deps$\|_build$\|node_modules$\|priv$\|doc$',
+" \ 'file': '\.exe$\|\.so$\|\.dat$\|.DS_Store'
+" \ }
+
+" FZF
+nnoremap <leader>R :Tags<cr>
+nnoremap <leader>r :BTags<cr>
+nnoremap <leader>D :Lines<cr>
+nnoremap <Space> :BLines<cr>
+nnoremap <C-p> :FZF<cr>
+nnoremap <C-f> :Buffers<cr>
 
 " " NERDTree
 " " Might help with NERDTree?"
@@ -366,3 +377,28 @@ iabbr clog console.log()<left>
 
 " Ensure no sketchy autocmds are ran
 set secure
+
+
+" Bullet journal
+
+function! CreateLog()
+  -1put =strftime('%b %d, %Y')
+  let filename = "journal-" . strftime("%m-%d-%y") . ".md"
+  execute 'write ' fnameescape(filename)
+endfunction
+
+" Time abbreviations
+iab <expr> ddt strftime('%b %d, %Y')
+iab <expr> ddt strftime('%b %d, %Y')
+iab <expr> tdt "(" . strftime('%T') . ")"
+
+
+" Turn off [] autopairs for markdown
+au Filetype markdown let b:AutoPairs = {'(':')', '{':'}',"'":"'",'"':'"', '`':'`'}
+
+" Testing out cursor autocmd
+augroup CursorLine
+  au!
+  au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
+  au WinLeave * setlocal nocursorline
+augroup END
