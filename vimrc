@@ -193,7 +193,8 @@ if (has("termguicolors"))
 endif
 set t_8b=[48;2;%lu;%lu;%lum
 set t_8f=[38;2;%lu;%lu;%lum
-set background=light
+
+set background=dark
 let g:one_allow_italics = 1
 colorscheme one
 
@@ -330,7 +331,6 @@ if has("autocmd")
 endif
 
 if has("nvim")
-  tnoremap <Esc><Esc> <C-\><C-n>G$?➜<enter>$
   tnoremap jk <C-\><C-n>G$?➜<enter>$
 endif
 
