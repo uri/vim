@@ -41,6 +41,7 @@ call dein#add('christoomey/vim-tmux-navigator.git')
 call dein#add('sickill/vim-pasta')
 call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
 call dein#add('junegunn/fzf.vim', { 'depends': 'fzf' })
+call dein#add('vim-syntastic/syntastic')
 
 " call dein#add('chriskempson/base16-vim')
 " call dein#add('justincampbell/vim-eighties')
@@ -414,3 +415,14 @@ augroup CursorLine
   au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
   au WinLeave * setlocal nocursorline
 augroup END
+
+" Syntastic default config
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+" let g:syntastic_ruby_checkers = ['rubocop']
