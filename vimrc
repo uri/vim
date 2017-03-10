@@ -45,6 +45,7 @@ call dein#add('junegunn/fzf.vim', { 'depends': 'fzf' })
 " call dein#add('chriskempson/base16-vim')
 " call dein#add('justincampbell/vim-eighties')
 call dein#add('rakr/vim-one')
+" call dein#add('joshdick/onedark.vim')
 call dein#add('vim-airline/vim-airline')
 call dein#add('vim-airline/vim-airline-themes')
 " call dein#add('edkolev/tmuxline.vim.git')
@@ -128,9 +129,15 @@ noremap H ^
 noremap Y y$
 nnoremap gp `[v`]
 nnoremap <C-w>+ <C-w><bar><C-w>_
+
+" Quick Neovim term
+nnoremap <C-w>_ :new <bar> te<space>
+nnoremap <C-w><bar> :vnew <bar> te<space>
+
+
 " nnoremap K [s1z=<c-o>
 nnoremap Q q
-nnoremap q :q<cr>
+nnoremap q :bd<cr>
 nnoremap <esc> :noh<return><esc>
 nnoremap <leader>dm :Dispatch<space>make<space>
 nnoremap <leader>a :Ag!<space>""<left>
@@ -173,6 +180,7 @@ nnoremap - 5<C-W>>
 
 nnoremap <Backspace> za
 nnoremap <C-Space> :
+vnoremap <C-Space> :
 
 
 " Required by Gutter
@@ -194,9 +202,12 @@ endif
 set t_8b=[48;2;%lu;%lu;%lum
 set t_8f=[38;2;%lu;%lu;%lum
 
-set background=dark
+set background=light
 let g:one_allow_italics = 1
+
+" One light and dark
 colorscheme one
+" colorscheme onedark
 
 " let base16colorspace=256
 " colorscheme base16-harmonic16-dark
@@ -222,9 +233,11 @@ highlight Search ctermbg=NONE ctermfg=177 cterm=underline,bold
 " endif
 
 " let test#ruby#rspec#executable = 'bundle exec rspec'
-let test#ruby#rspec#executable = 'spring rspec'
-" let test#strategy = "dispatch"
-let test#strategy = "neovim"
+let test#ruby#rspec#executable = 'rspec'
+let test#strategy = "dispatch"
+" let test#strategy = "neovim"
+" Do not close the screen on success
+let g:test#preserve_screen = 1
 nmap <silent> <leader>s :w<cr>:TestNearest<CR>
 nmap <silent> <leader>t :w<cr>:TestFile<CR>
 nmap <silent> <leader>l :w<cr>:TestLast<CR>
@@ -234,7 +247,7 @@ nmap <silent> <leader>g :TestVisit<CR>
 " let g:tmuxline_preset = 'full'
 " let g:tmuxline_powerline_separators = 0
 let g:airline_powerline_fonts = 1
-let g:airline_theme='one'
+" let g:airline_theme='one'
 
 " " CtrP
 " let g:ctrlp_max_files=0
@@ -388,9 +401,8 @@ function! CreateLog()
 endfunction
 
 " Time abbreviations
-iab <expr> ddt strftime('%b %d, %Y')
-iab <expr> ddt strftime('%b %d, %Y')
-iab <expr> tdt "(" . strftime('%T') . ")"
+iab <expr> ddd strftime('%b %d, %Y')
+iab <expr> dtt "(" . strftime('%T') . ")"
 
 
 " Turn off [] autopairs for markdown
