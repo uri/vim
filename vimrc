@@ -41,7 +41,8 @@ call dein#add('christoomey/vim-tmux-navigator.git')
 call dein#add('sickill/vim-pasta')
 call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
 call dein#add('junegunn/fzf.vim', { 'depends': 'fzf' })
-call dein#add('vim-syntastic/syntastic')
+call dein#add('neomake/neomake')
+
 
 " call dein#add('chriskempson/base16-vim')
 " call dein#add('justincampbell/vim-eighties')
@@ -143,7 +144,8 @@ nnoremap <esc> :noh<return><esc>
 nnoremap <leader>dm :Dispatch<space>make<space>
 nnoremap <leader>a :Ag!<space>""<left>
 nnoremap <leader>* yiw:Ag!<space>"<C-r>*"<cr>
-nnoremap <leader>y :%y<CR>
+nnoremap <leader>yy :%y<CR>
+nnoremap <leader>yf :let @*=expand("%")<cr>
 nnoremap <leader>p :noh<CR>
 nnoremap <leader>P :set hls!<CR>
 nnoremap <leader>w :setl wrap!<CR>
@@ -416,13 +418,9 @@ augroup CursorLine
   au WinLeave * setlocal nocursorline
 augroup END
 
-" Syntastic default config
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
 
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-" let g:syntastic_ruby_checkers = ['rubocop']
+" Neomake
+autocmd! BufWritePost * Neomake
+autocmd! BufReadPost * Neomake
+
+let g:neomake_ruby_enabled_makers = ['rubocop']
