@@ -21,11 +21,14 @@ call dein#add('godlygeek/tabular.git')
 call dein#add('janko-m/vim-test')
 call dein#add('jiangmiao/auto-pairs')
 call dein#add('kana/vim-textobj-user')
+call dein#add('kana/vim-textobj-indent')
+call dein#add('rhysd/vim-textobj-ruby')
+call dein#add('michaeljsmith/vim-indent-object')
 call dein#add('mattn/emmet-vim.git')
 call dein#add('mbbill/undotree')
 call dein#add('nelstrom/vim-qargs')
-call dein#add('rhysd/vim-textobj-ruby')
-call dein#add('rking/ag.vim')
+" call dein#add('rking/ag.vim')
+call dein#add('mileszs/ack.vim')
 call dein#add('scrooloose/nerdtree')
 call dein#add('terryma/vim-multiple-cursors')
 call dein#add('tpope/vim-abolish')
@@ -44,7 +47,7 @@ call dein#add('junegunn/fzf.vim', { 'depends': 'fzf' })
 call dein#add('neomake/neomake')
 
 
-" call dein#add('chriskempson/base16-vim')
+call dein#add('chriskempson/base16-vim')
 " call dein#add('justincampbell/vim-eighties')
 call dein#add('rakr/vim-one')
 " call dein#add('joshdick/onedark.vim')
@@ -88,7 +91,12 @@ endif
 let $FISH="~/.config/fish/config.fish"
 let $ZSH="~/.zshrc"
 let ruby_fold=1
-let g:ackprg = 'ag -f --nogroup --nocolor --column'
+" Silver Surfer
+" let g:ackprg = 'ag -f --nogroup --nocolor --column'
+" Ripgrep
+let g:ackprg = 'rg --vimgrep --no-heading -i'
+" Fenced syntax highlighting
+let g:markdown_fenced_languages = ['html', 'vim', 'ruby', 'python', 'bash=sh', 'javascript', 'elixir', 'sh']
 set laststatus=2
 " set cryptmethod=blowfish2
 set foldmethod=syntax
@@ -99,7 +107,7 @@ set nofoldenable
 set nu
 set rnu
 set nowrap
-set hidden
+set hidden " Do not error when hidding an unsaved buffer
 set ts=2 sts=2 sw=2 expandtab
 set clipboard=unnamed " Use system clipboard by default
 set backspace=indent,eol,start
@@ -125,7 +133,7 @@ set exrc
 vnoremap // y/<C-R>"<CR>
 inoremap jk <Esc>
 inoremap jj <Esc>
-inoremap <C-L> <Esc>[s1z=`]a
+inoremap <C-p> <Esc>[s1z=`]a
 noremap L g_
 noremap H ^
 noremap Y y$
@@ -142,7 +150,7 @@ nnoremap Q q
 nnoremap q :bd<cr>
 nnoremap <esc> :noh<return><esc>
 nnoremap <leader>dm :Dispatch<space>make<space>
-nnoremap <leader>a :Ag!<space>""<left>
+nnoremap <leader>a :Ack!<space>""<left>
 nnoremap <leader>* yiw:Ag!<space>"<C-r>*"<cr>
 nnoremap <leader>yy :%y<CR>
 nnoremap <leader>yf :let @*=expand("%")<cr>
@@ -163,6 +171,7 @@ nnoremap <leader>ftm :set ft=markdown<cr>
 nnoremap <leader>T :Tab <cr>
 nnoremap <leader>cl :set bg=light<cr>
 nnoremap <leader>cd :set bg=dark<cr>
+nnoremap <leader>g :Gst<cr>
 if has("nvim")
   nnoremap <leader>ha te ssh apist<cr>
   nnoremap <leader>hta :tabe <bar> te ssh apist<cr>
@@ -209,8 +218,9 @@ set background=light
 let g:one_allow_italics = 1
 
 " One light and dark
+" colorscheme base16-darktooth
+" colorscheme onedark " joshdick
 colorscheme one
-" colorscheme onedark
 
 " let base16colorspace=256
 " colorscheme base16-harmonic16-dark
@@ -224,7 +234,8 @@ colorscheme one
 highlight clear SignColumn
 " highlight Search ctermfg=220
 " highlight Search ctermbg=4
-highlight Search ctermbg=NONE ctermfg=177 cterm=underline,bold
+" highlight Search ctermbg=8 ctermfg=176 cterm=underline,bold
+highlight Search guibg='yellow' guifg='black'
 " highlight Search guibg=NONE guifg=NONE gui=underline
 
 
@@ -244,7 +255,7 @@ let g:test#preserve_screen = 1
 nmap <silent> <leader>s :w<cr>:TestNearest<CR>
 nmap <silent> <leader>t :w<cr>:TestFile<CR>
 nmap <silent> <leader>l :w<cr>:TestLast<CR>
-nmap <silent> <leader>g :TestVisit<CR>
+" nmap <silent> <leader>l :w<cr>:TestVisit<CR>
 
 " " Airline
 " let g:tmuxline_preset = 'full'
@@ -340,10 +351,10 @@ if has("autocmd")
 
   " Change the quick fix to adjust it's height based on content up to a
   " maximum
-  au FileType qf call AdjustWindowHeight(3, 16)
-  function! AdjustWindowHeight(minheight, maxheight)
-    exe max([min([line("$"), a:maxheight]), a:minheight]) . "wincmd _"
-  endfunction
+  " au FileType qf call AdjustWindowHeight(3, 16)
+  " function! AdjustWindowHeight(minheight, maxheight)
+  "   exe max([min([line("$"), a:maxheight]), a:minheight]) . "wincmd _"
+  " endfunction
 endif
 
 if has("nvim")
@@ -424,3 +435,16 @@ autocmd! BufWritePost * Neomake
 autocmd! BufReadPost * Neomake
 
 let g:neomake_ruby_enabled_makers = ['rubocop']
+
+" Ripgrep
+" --column: Show column number
+" --line-number: Show line number
+" --no-heading: Do not show file headings in results
+" --fixed-strings: Search term as a literal string
+" --ignore-case: Case insensitive search
+" --no-ignore: Do not respect .gitignore, etc...
+" --hidden: Search hidden files and folders
+" --follow: Follow symlinks
+" --glob: Additional conditions for search (in this case ignore everything in the .git/ folder)
+" --color: Search color options
+command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>), 1, <bang>0)
