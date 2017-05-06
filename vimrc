@@ -45,7 +45,7 @@ call dein#add('sickill/vim-pasta')
 call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
 call dein#add('junegunn/fzf.vim', { 'depends': 'fzf' })
 call dein#add('neomake/neomake')
-
+call dein#add('Shougo/neocomplete.vim')
 
 call dein#add('chriskempson/base16-vim')
 " call dein#add('justincampbell/vim-eighties')
@@ -66,6 +66,7 @@ call dein#add('tpope/vim-bundler')
 call dein#add('tpope/vim-rake')
 call dein#add('othree/yajs.vim')
 call dein#add('kchmck/vim-coffee-script')
+call dein#add('ElmCast/elm-vim')
 
 " You can specify revision/branch/tag.
 " call dein#add('Shougo/vimshell' |  { 'rev': '3787e5' })
@@ -140,10 +141,6 @@ noremap Y y$
 nnoremap gp `[v`]
 nnoremap <C-w>+ <C-w><bar><C-w>_
 
-" Quick Neovim term
-nnoremap <C-w>_ :new <bar> te<space>
-nnoremap <C-w><bar> :vnew <bar> te<space>
-
 
 " nnoremap K [s1z=<c-o>
 nnoremap Q q
@@ -151,7 +148,7 @@ nnoremap q :bd<cr>
 nnoremap <esc> :noh<return><esc>
 nnoremap <leader>dm :Dispatch<space>make<space>
 nnoremap <leader>a :Ack!<space>""<left>
-nnoremap <leader>* yiw:Ag!<space>"<C-r>*"<cr>
+nnoremap <leader>* yiw:Ack!<space>"<C-r>*"<cr>
 nnoremap <leader>yy :%y<CR>
 nnoremap <leader>yf :let @*=expand("%")<cr>
 nnoremap <leader>p :noh<CR>
@@ -186,6 +183,9 @@ nnoremap <Left> 5<C-w><
 nnoremap <Up> 3<C-W>+
 nnoremap <Right> 5<C-W>>
 nnoremap <Down> 3<C-w>-
+command! Zoomwindow :wincmd | <bar> wincmd _<cr>
+nnoremap <leader>z Zoomwindow<cr>
+
 
 nnoremap + 3<C-W>+
 nnoremap - 5<C-W>>
@@ -214,7 +214,7 @@ endif
 set t_8b=[48;2;%lu;%lu;%lum
 set t_8f=[38;2;%lu;%lu;%lum
 
-set background=light
+set background=dark
 let g:one_allow_italics = 1
 
 " One light and dark
@@ -339,6 +339,9 @@ if has("autocmd")
   " Fold only in normal mode
   autocmd InsertEnter * let w:last_fdm=&foldmethod | setlocal foldmethod=manual
   autocmd InsertLeave * let &l:foldmethod=w:last_fdm
+
+  " Fold in CoffeeScript
+  autocmd BufNewFile,BufReadPost *.coffee setl foldmethod=indent nofoldenable
   " Enable folding for javascript plugin jelera/vim-javascript-syntax
   " autocmd FileType javascript call JavaScriptFold()
 
@@ -349,12 +352,8 @@ if has("autocmd")
     \   exe "normal! g`\"zz" |
     \ endif
 
-  " Change the quick fix to adjust it's height based on content up to a
-  " maximum
-  " au FileType qf call AdjustWindowHeight(3, 16)
-  " function! AdjustWindowHeight(minheight, maxheight)
-  "   exe max([min([line("$"), a:maxheight]), a:minheight]) . "wincmd _"
-  " endfunction
+  " Handlebar to HTML
+  autocmd BufRead,BufNewFile *.hbs set filetype=html
 endif
 
 if has("nvim")
@@ -448,3 +447,46 @@ let g:neomake_ruby_enabled_makers = ['rubocop']
 " --glob: Additional conditions for search (in this case ignore everything in the .git/ folder)
 " --color: Search color options
 command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>), 1, <bang>0)
+
+" Quick Neovim term
+nnoremap <C-w>_ :Ahte<space>
+nnoremap <C-w><bar> :Avte<space>
+
+function! AsyncTermHorizontal( cmd )
+  new
+  call termopen(a:cmd)
+  wincmd p
+endfunction
+
+function! AsyncTermVertical( cmd )
+  vnew
+  call termopen(a:cmd)
+  wincmd p
+endfunction
+
+command! -nargs=+ Ahte call AsyncTermHorizontal('<args>')
+command! -nargs=+ Avte call AsyncTermVertical('<args>')
+
+function! AsyncTermHorizontal( cmd )
+  new
+  call termopen(a:cmd)
+  wincmd p
+endfunction
+
+function! AsyncTermVertical( cmd )
+  vnew
+  call termopen(a:cmd)
+  wincmd p
+endfunction
+
+command! -nargs=+ Ahte call AsyncTermHorizontal('<args>')
+command! -nargs=+ Avte call AsyncTermVertical('<args>')
+
+command! Zoomwindow :wincmd | <bar> wincmd _
+nnoremap <leader>z :Zoomwindow<cr>
+
+" Neocomplete Elm
+call neocomplete#util#set_default_dictionary(
+  \ 'g:neocomplete#sources#omni#input_patterns',
+  \ 'elm',
+  \ '\.')
