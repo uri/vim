@@ -35,6 +35,7 @@ call dein#add('tpope/vim-abolish')
 call dein#add('tpope/vim-commentary.git')
 call dein#add('tpope/vim-dispatch.git')
 call dein#add('tpope/vim-fugitive')
+call dein#add('tpope/vim-rhubarb')
 call dein#add('tpope/vim-projectionist')
 call dein#add('tpope/vim-repeat')
 call dein#add('tpope/vim-surround')
@@ -45,9 +46,11 @@ call dein#add('sickill/vim-pasta')
 call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
 call dein#add('junegunn/fzf.vim', { 'depends': 'fzf' })
 call dein#add('neomake/neomake')
-call dein#add('Shougo/neocomplete.vim')
+" call dein#add('Shougo/neocomplete.vim')
+call dein#add('sbdchd/neoformat')
+call dein#add('majutsushi/tagbar')
 
-call dein#add('chriskempson/base16-vim')
+" call dein#add('chriskempson/base16-vim')
 " call dein#add('justincampbell/vim-eighties')
 call dein#add('rakr/vim-one')
 " call dein#add('joshdick/onedark.vim')
@@ -67,6 +70,7 @@ call dein#add('tpope/vim-rake')
 call dein#add('othree/yajs.vim')
 call dein#add('kchmck/vim-coffee-script')
 call dein#add('ElmCast/elm-vim')
+call dein#add('mpyatishev/vim-sqlformat')
 
 " You can specify revision/branch/tag.
 " call dein#add('Shougo/vimshell' |  { 'rev': '3787e5' })
@@ -214,8 +218,12 @@ endif
 set t_8b=[48;2;%lu;%lu;%lum
 set t_8f=[38;2;%lu;%lu;%lum
 
-set background=dark
+set background=light
 let g:one_allow_italics = 1
+let g:enable_bold_font = 1
+
+highlight Comment gui=italic
+highlight Comment cterm=italic
 
 " One light and dark
 " colorscheme base16-darktooth
@@ -247,9 +255,9 @@ highlight Search guibg='yellow' guifg='black'
 " endif
 
 " let test#ruby#rspec#executable = 'bundle exec rspec'
-let test#ruby#rspec#executable = 'rspec'
-let test#strategy = "dispatch"
-" let test#strategy = "neovim"
+let test#ruby#rspec#executable = 'bundle exec rspec'
+" let test#strategy = "dispatch"
+let test#strategy = "neovim"
 " Do not close the screen on success
 let g:test#preserve_screen = 1
 nmap <silent> <leader>s :w<cr>:TestNearest<CR>
@@ -281,7 +289,25 @@ nnoremap <leader>r :BTags<cr>
 nnoremap <leader>D :Lines<cr>
 nnoremap <Space> :BLines<cr>
 nnoremap <C-p> :FZF<cr>
+" nnoremap <C-p> :call fzf#vim#gitfiles('', fzf#vim#with_preview('right'))<cr>
 nnoremap <C-f> :Buffers<cr>
+nnoremap <C-g> :GFiles?<cr>
+nnoremap <C-Space> :History:<cr>
+
+" Mapping selecting mappings
+nmap <leader><tab> <plug>(fzf-maps-n)
+xmap <leader><tab> <plug>(fzf-maps-x)
+omap <leader><tab> <plug>(fzf-maps-o)
+
+" Insert mode completion
+imap <c-x><c-k> <plug>(fzf-complete-word)
+imap <c-x><c-f> <plug>(fzf-complete-path)
+imap <c-x><c-j> <plug>(fzf-complete-file-ag)
+imap <c-x><c-l> <plug>(fzf-complete-line)
+
+
+" Advanced customization using autoload functions
+inoremap <expr> <c-x><c-k> fzf#vim#complete#word({'left': '15%'})
 
 " " NERDTree
 " " Might help with NERDTree?"
@@ -346,18 +372,24 @@ if has("autocmd")
   " autocmd FileType javascript call JavaScriptFold()
 
   " Restore cursor position
-  let blacklist = ['gitcommit']
+  " let blacklist = ['gitcommit']
+  " autocmd BufReadPost *
+  "   \ if line("'\"") > 1 && line("'\"") <= line("$") && index(blacklist,  &ft) < 0|
+  "   \   exe "normal! g`\"zz" |
+  "   \ endif
+
   autocmd BufReadPost *
-    \ if line("'\"") > 1 && line("'\"") <= line("$") && index(blacklist,  &ft) < 0|
-    \   exe "normal! g`\"zz" |
-    \ endif
+      \ if line("'\"") > 1 && line("'\"") <= line("$") |
+      \   exe "normal! g`\"" |
+      \ endif
 
   " Handlebar to HTML
   autocmd BufRead,BufNewFile *.hbs set filetype=html
 endif
 
+
 if has("nvim")
-  tnoremap jk <C-\><C-n>G$?➜<enter>$
+  tnoremap jk <C-\><C-n>G$?λ<enter>$
 endif
 
 " " TaskWarrior
@@ -432,6 +464,7 @@ augroup END
 " Neomake
 autocmd! BufWritePost * Neomake
 autocmd! BufReadPost * Neomake
+" autocmd! BufWritePost,TextChanged,InsertLeave *.js silent Neomake
 
 let g:neomake_ruby_enabled_makers = ['rubocop']
 
@@ -446,7 +479,7 @@ let g:neomake_ruby_enabled_makers = ['rubocop']
 " --follow: Follow symlinks
 " --glob: Additional conditions for search (in this case ignore everything in the .git/ folder)
 " --color: Search color options
-command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>), 1, <bang>0)
+" command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>), 1, <bang>0)
 
 " Quick Neovim term
 nnoremap <C-w>_ :Ahte<space>
@@ -486,7 +519,26 @@ command! Zoomwindow :wincmd | <bar> wincmd _
 nnoremap <leader>z :Zoomwindow<cr>
 
 " Neocomplete Elm
-call neocomplete#util#set_default_dictionary(
-  \ 'g:neocomplete#sources#omni#input_patterns',
-  \ 'elm',
-  \ '\.')
+" call neocomplete#util#set_default_dictionary(
+"   \ 'g:neocomplete#sources#omni#input_patterns',
+"   \ 'elm',
+"   \ '\.')
+
+" Neoformat
+let g:neoformat_try_formatprg = 1
+
+" autocmd FileType javascript setlocal formatprg=prettier\ --stdin\ --single-quote\ --trailing-comma\ es5\ --no-semi
+autocmd FileType javascript setlocal formatprg=npm\ run\ -s\ prettier
+autocmd BufWritePre *.js silent Neoformat
+" autocmd BufWritePre,TextChanged,InsertLeave *.js silent Neoformat
+
+
+" TagbarToggle
+nmap <F8> :TagbarToggle<CR>
+
+
+
+
+command! -range PSQLExec execute '<line1>,<line2>.w !psql ' . script_database
+nnoremap <leader>p :PSQLExec<cr>
+vnoremap <leader>p :PSQLExec<cr>
