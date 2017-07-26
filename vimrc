@@ -49,14 +49,16 @@ call dein#add('neomake/neomake')
 " call dein#add('Shougo/neocomplete.vim')
 call dein#add('sbdchd/neoformat')
 call dein#add('majutsushi/tagbar')
+call dein#add('roman/golden-ratio')
+
 
 " call dein#add('chriskempson/base16-vim')
 " call dein#add('justincampbell/vim-eighties')
-call dein#add('rakr/vim-one')
+" call dein#add('rakr/vim-one')
 " call dein#add('joshdick/onedark.vim')
 call dein#add('vim-airline/vim-airline')
 call dein#add('vim-airline/vim-airline-themes')
-" call dein#add('edkolev/tmuxline.vim.git')
+call dein#add('rakr/vim-one')
 
 " Language/platform specific plugins
 call dein#add('tpope/vim-markdown')
@@ -208,43 +210,25 @@ endif
 syntax enable
 syntax sync minlines=200
 
-"Credit joshdick
-"Use 24-bit (true-color) mode in Vim/Neovim when outside tmux.
-"If you're using tmux version 2.2 or later, you can remove the outermost $TMUX check and use tmux's 24-bit color support
-"(see < http://sunaku.github.io/tmux-24bit-color.html#usage > for more information.)
 if (has("termguicolors"))
   set termguicolors
 endif
 set t_8b=[48;2;%lu;%lu;%lum
 set t_8f=[38;2;%lu;%lu;%lum
 
-set background=light
 let g:one_allow_italics = 1
 let g:enable_bold_font = 1
 
 highlight Comment gui=italic
 highlight Comment cterm=italic
 
-" One light and dark
-" colorscheme base16-darktooth
-" colorscheme onedark " joshdick
+let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+set background=light
 colorscheme one
+let g:airline_theme='one'
 
-" let base16colorspace=256
-" colorscheme base16-harmonic16-dark
-
-" If NOT using solarized as your term theme aswell
-" let g:solarized_termcolors=256
-" let g:solarized_visibility = "high"
-" let g:solarized_contrast = "high"
-" colorscheme solarized
-
-highlight clear SignColumn
-" highlight Search ctermfg=220
-" highlight Search ctermbg=4
-" highlight Search ctermbg=8 ctermfg=176 cterm=underline,bold
+" highlight clear SignColumn
 highlight Search guibg='yellow' guifg='black'
-" highlight Search guibg=NONE guifg=NONE gui=underline
 
 
 " Use zeus stub or rspec
@@ -266,22 +250,7 @@ nmap <silent> <leader>l :w<cr>:TestLast<CR>
 " nmap <silent> <leader>l :w<cr>:TestVisit<CR>
 
 " " Airline
-" let g:tmuxline_preset = 'full'
-" let g:tmuxline_powerline_separators = 0
 let g:airline_powerline_fonts = 1
-" let g:airline_theme='one'
-
-" " CtrP
-" let g:ctrlp_max_files=0
-" let g:ctrlp_max_depth = 10
-" let g:ctrlp_working_path_mode = 'w'
-" let g:ctrlp_follow_symlinks=1
-" let g:ctrlp_show_hidden=1
-" let g:ctrlp_clear_cache_on_exit=0
-" let g:ctrlp_custom_ignore = {
-" \ 'dir':  '\.git$\|\.hg$\|\.svn$\|\.yardoc\|public\/images\|public\/system\|public\/assets\|log\|tmp$\|deps$\|_build$\|node_modules$\|priv$\|doc$',
-" \ 'file': '\.exe$\|\.so$\|\.dat$\|.DS_Store'
-" \ }
 
 " FZF
 nnoremap <leader>R :Tags<cr>
@@ -289,7 +258,6 @@ nnoremap <leader>r :BTags<cr>
 nnoremap <leader>D :Lines<cr>
 nnoremap <Space> :BLines<cr>
 nnoremap <C-p> :FZF<cr>
-" nnoremap <C-p> :call fzf#vim#gitfiles('', fzf#vim#with_preview('right'))<cr>
 nnoremap <C-f> :Buffers<cr>
 nnoremap <C-g> :GFiles?<cr>
 nnoremap <C-Space> :History:<cr>
@@ -318,6 +286,17 @@ let NERDTreeWinPos="left"
 let NERDTreeMapHelp="Q"
 map <Leader>b :NERDTreeToggle<cr>
 map <Leader>B :NERDTreeFind<cr>
+
+" Default tree explorer
+let g:netrw_banner = 0
+let g:netrw_liststyle = 3
+let g:netrw_browse_split = 4
+let g:netrw_altv = 1
+let g:netrw_winsize = 25
+" augroup ProjectDrawer
+"   autocmd!
+"   autocmd VimEnter * :Vexplore
+" augroup END
 
 " " MultiCursor
 let g:multi_cursor_exit_from_insert_mode=0
@@ -467,6 +446,8 @@ autocmd! BufReadPost * Neomake
 " autocmd! BufWritePost,TextChanged,InsertLeave *.js silent Neomake
 
 let g:neomake_ruby_enabled_makers = ['rubocop']
+let g:neomake_javascript_enabled_makers = ['eslint']
+let g:neomake_highlight_lines=1
 
 " Ripgrep
 " --column: Show column number
@@ -528,8 +509,10 @@ nnoremap <leader>z :Zoomwindow<cr>
 let g:neoformat_try_formatprg = 1
 
 " autocmd FileType javascript setlocal formatprg=prettier\ --stdin\ --single-quote\ --trailing-comma\ es5\ --no-semi
-autocmd FileType javascript setlocal formatprg=npm\ run\ -s\ prettier
-autocmd BufWritePre *.js silent Neoformat
+augroup fmt
+  autocmd FileType javascript setlocal formatprg=npm\ run\ -s\ prettier
+  autocmd BufWritePre *.js silent Neoformat
+augroup END
 " autocmd BufWritePre,TextChanged,InsertLeave *.js silent Neoformat
 
 
@@ -542,3 +525,39 @@ nmap <F8> :TagbarToggle<CR>
 command! -range PSQLExec execute '<line1>,<line2>.w !psql ' . script_database
 nnoremap <leader>p :PSQLExec<cr>
 vnoremap <leader>p :PSQLExec<cr>
+
+
+" Protect large files from sourcing and other overhead.
+" Files become read only
+if !exists("my_auto_commands_loaded")
+  let my_auto_commands_loaded = 1
+  " Large files are > 10M
+  " Set options:
+  " eventignore+=FileType (no syntax highlighting etc
+  " assumes FileType always on)
+  " noswapfile (save copy of file)
+  " bufhidden=unload (save memory when other file is viewed)
+  " buftype=nowrite (file is read-only)
+  " undolevels=-1 (no undo possible)
+  let g:LargeFile = 1024 * 1024 * 1
+  augroup LargeFile
+    autocmd BufReadPre * let f=expand("<afile>") | if getfsize(f) > g:LargeFile | set eventignore+=FileType | setlocal noswapfile bufhidden=unload buftype=nowrite undolevels=-1 | else | set eventignore-=FileType | endif
+    augroup END
+  endif
+
+
+" Runtime toggle prettier/neoformat
+function! TogglePrettier()
+    if !exists('#fmt#BufWritePre')
+        augroup fmt
+          autocmd!
+          autocmd BufWritePre * silent Neoformat
+        augroup END
+    else
+        augroup fmt
+          autocmd!
+        augroup END
+    endif
+endfunction
+
+command! TogglePrettier :call TogglePrettier()<cr>
