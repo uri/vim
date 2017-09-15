@@ -119,7 +119,7 @@ set rnu
 set nowrap
 set hidden " Do not error when hidding an unsaved buffer
 set ts=2 sts=2 sw=2 expandtab
-set clipboard=unnamed " Use system clipboard by default
+set clipboard=unnamedplus " Use system clipboard by default
 set backspace=indent,eol,start
 " set mouse=a
 set directory=~/tmp
