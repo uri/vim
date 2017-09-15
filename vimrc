@@ -15,7 +15,7 @@ call dein#add('Shougo/dein.vim')
 
 " Add or remove your plugins here:
 call dein#add('airblade/vim-gitgutter')
-call dein#add('ervandew/supertab')
+" call dein#add('ervandew/supertab')
 call dein#add('blindFS/vim-taskwarrior')
 call dein#add('godlygeek/tabular.git')
 call dein#add('janko-m/vim-test')
@@ -49,8 +49,7 @@ call dein#add('neomake/neomake')
 " call dein#add('Shougo/neocomplete.vim')
 call dein#add('sbdchd/neoformat')
 call dein#add('majutsushi/tagbar')
-call dein#add('roman/golden-ratio')
-
+" call dein#add('roman/golden-ratio')
 
 " call dein#add('chriskempson/base16-vim')
 " call dein#add('justincampbell/vim-eighties')
@@ -73,6 +72,10 @@ call dein#add('othree/yajs.vim')
 call dein#add('kchmck/vim-coffee-script')
 call dein#add('ElmCast/elm-vim')
 call dein#add('mpyatishev/vim-sqlformat')
+call dein#add('justinmk/vim-sneak')
+call dein#add('Shougo/deoplete.nvim')
+let g:deoplete#enable_at_startup = 1
+inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 
 " You can specify revision/branch/tag.
 " call dein#add('Shougo/vimshell' |  { 'rev': '3787e5' })
@@ -124,7 +127,7 @@ set cursorline
 set splitbelow
 set splitright
 set guifont=Meslo\ LG\ S\ Regular\ for\ Powerline:h14
-set ignorecase
+" set ignorecase
 set smartcase
 set incsearch
 set wildmenu
@@ -133,6 +136,8 @@ set timeoutlen=1000 ttimeoutlen=0
 " highlight by default
 set hls
 set regexpengine=1
+" Remove _ as a word delimeter
+" set iskeyword-=_
 " Load additional vim configuration if .exrc file is present
 set exrc
 
@@ -200,6 +205,9 @@ nnoremap <Backspace> za
 nnoremap <C-Space> :
 vnoremap <C-Space> :
 
+" Change # to not jump immediately
+nnoremap # *``
+
 
 " Required by Gutter
 if &shell =~# 'fish$'
@@ -241,7 +249,8 @@ highlight Search guibg='yellow' guifg='black'
 " let test#ruby#rspec#executable = 'bundle exec rspec'
 let test#ruby#rspec#executable = 'bundle exec rspec'
 " let test#strategy = "dispatch"
-let test#strategy = "neovim"
+" let test#strategy = "neovim"
+let test#strategy = "neomake"
 " Do not close the screen on success
 let g:test#preserve_screen = 1
 nmap <silent> <leader>s :w<cr>:TestNearest<CR>
