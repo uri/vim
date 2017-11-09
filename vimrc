@@ -53,7 +53,7 @@ call dein#add('majutsushi/tagbar')
 
 " call dein#add('chriskempson/base16-vim')
 " call dein#add('justincampbell/vim-eighties')
-" call dein#add('rakr/vim-one')
+call dein#add('rakr/vim-one')
 " call dein#add('joshdick/onedark.vim')
 call dein#add('vim-airline/vim-airline')
 call dein#add('vim-airline/vim-airline-themes')
@@ -248,9 +248,9 @@ highlight Search guibg='yellow' guifg='black'
 
 " let test#ruby#rspec#executable = 'bundle exec rspec'
 let test#ruby#rspec#executable = 'bundle exec rspec'
-" let test#strategy = "dispatch"
+let test#strategy = "dispatch"
 " let test#strategy = "neovim"
-let test#strategy = "neomake"
+" let test#strategy = "neomake"
 " Do not close the screen on success
 let g:test#preserve_screen = 1
 nmap <silent> <leader>s :w<cr>:TestNearest<CR>
@@ -570,3 +570,9 @@ function! TogglePrettier()
 endfunction
 
 command! TogglePrettier :call TogglePrettier()<cr>
+
+
+" Terminal quick mappings
+" Ruby
+tnoremap fbe find_by(email:"")<left><left>
+tnoremap fbu find_by(uid:"")<left><left>
