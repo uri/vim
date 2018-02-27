@@ -46,18 +46,18 @@ call dein#add('sickill/vim-pasta')
 call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
 call dein#add('junegunn/fzf.vim', { 'depends': 'fzf' })
 call dein#add('neomake/neomake')
-" call dein#add('Shougo/neocomplete.vim')
 call dein#add('sbdchd/neoformat')
 call dein#add('majutsushi/tagbar')
 " call dein#add('roman/golden-ratio')
+call dein#add('git-time-metric/gtm-vim-plugin')
+call dein#add('machakann/vim-highlightedyank')
 
 " call dein#add('chriskempson/base16-vim')
 " call dein#add('justincampbell/vim-eighties')
-call dein#add('rakr/vim-one')
-" call dein#add('joshdick/onedark.vim')
 call dein#add('vim-airline/vim-airline')
 call dein#add('vim-airline/vim-airline-themes')
-call dein#add('rakr/vim-one')
+" call dein#add('rakr/vim-one')
+call dein#add('lifepillar/vim-solarized8')
 
 " Language/platform specific plugins
 call dein#add('tpope/vim-markdown')
@@ -73,9 +73,8 @@ call dein#add('kchmck/vim-coffee-script')
 call dein#add('ElmCast/elm-vim')
 call dein#add('mpyatishev/vim-sqlformat')
 call dein#add('justinmk/vim-sneak')
-call dein#add('Shougo/deoplete.nvim')
-let g:deoplete#enable_at_startup = 1
-inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+" call dein#add('Shougo/deoplete.nvim')
+" inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 
 " You can specify revision/branch/tag.
 " call dein#add('Shougo/vimshell' |  { 'rev': '3787e5' })
@@ -141,15 +140,17 @@ set regexpengine=1
 " Load additional vim configuration if .exrc file is present
 set exrc
 
+" Preview substititions
+" nosplit also works
+set inccommand=split
+
 " Search for visually selected text
 vnoremap // y/<C-R>"<CR>
 inoremap jk <Esc>
 inoremap jj <Esc>
-inoremap <C-p> <Esc>[s1z=`]a
 noremap L g_
 noremap H ^
 noremap Y y$
-nnoremap gp `[v`]
 nnoremap <C-w>+ <C-w><bar><C-w>_
 
 
@@ -208,6 +209,13 @@ vnoremap <C-Space> :
 " Change # to not jump immediately
 nnoremap # *``
 
+" Terminal quick mappings
+" Ruby
+tnoremap fbe find_by(email:"")<left><left>
+tnoremap fbu find_by(uid:"")<left><left>
+tnoremap zusa UploadSim.all(async:true)
+
+
 
 " Required by Gutter
 if &shell =~# 'fish$'
@@ -232,11 +240,11 @@ highlight Comment cterm=italic
 
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 set background=light
-colorscheme one
-let g:airline_theme='one'
+" colorscheme one
+colorscheme solarized8
 
 " highlight clear SignColumn
-highlight Search guibg='yellow' guifg='black'
+" highlight Search guibg='yellow' guifg='black'
 
 
 " Use zeus stub or rspec
@@ -260,6 +268,19 @@ nmap <silent> <leader>l :w<cr>:TestLast<CR>
 
 " " Airline
 let g:airline_powerline_fonts = 1
+" let g:airline#extensions#tabline#enabled = 1
+let g:airline_theme='alduin'
+let g:airline#extensions#tabline#fnamemod = ':.'
+let g:airline#extensions#default#section_truncate_width = {
+    \ 'a': 0,
+    \ 'b': 180,
+    \ 'c': 0,
+    \ 'x': 130,
+    \ 'y': 130,
+    \ 'z': 0,
+    \ 'warning': 40,
+    \ 'error': 40,
+    \ }
 
 " FZF
 nnoremap <leader>R :Tags<cr>
@@ -272,24 +293,24 @@ nnoremap <C-g> :GFiles?<cr>
 nnoremap <C-Space> :History:<cr>
 
 " Mapping selecting mappings
-nmap <leader><tab> <plug>(fzf-maps-n)
-xmap <leader><tab> <plug>(fzf-maps-x)
-omap <leader><tab> <plug>(fzf-maps-o)
+" nmap <leader><tab> <plug>(fzf-maps-n)
+" xmap <leader><tab> <plug>(fzf-maps-x)
+" omap <leader><tab> <plug>(fzf-maps-o)
 
 " Insert mode completion
-imap <c-x><c-k> <plug>(fzf-complete-word)
-imap <c-x><c-f> <plug>(fzf-complete-path)
-imap <c-x><c-j> <plug>(fzf-complete-file-ag)
-imap <c-x><c-l> <plug>(fzf-complete-line)
+" imap <c-x><c-k> <plug>(fzf-complete-word)
+" imap <c-x><c-f> <plug>(fzf-complete-path)
+" imap <c-x><c-j> <plug>(fzf-complete-file-ag)
+" imap <c-x><c-l> <plug>(fzf-complete-line)
+
 
 
 " Advanced customization using autoload functions
-inoremap <expr> <c-x><c-k> fzf#vim#complete#word({'left': '15%'})
+" inoremap <expr> <c-x><c-k> fzf#vim#complete#word({'left': '15%'})
 
 " " NERDTree
-" " Might help with NERDTree?"
 let NERDTreeIgnore = ['\.sock$','\.zeus\.sock$']
-" let g:NERDTreeMouseMode=1
+let g:NERDTreeMouseMode=1
 let NERDTreeWinSize=31
 let NERDTreeWinPos="left"
 let NERDTreeMapHelp="Q"
@@ -313,13 +334,13 @@ let g:multi_cursor_exit_from_visual_mode=0
 let g:multi_cursor_quit_key='<C-c>'
 nnoremap <C-c> :call multiple_cursors#quit()<CR>
 
-" Called once right before you start selecting multiple cursors
+" Called once only when the multiple selection is cancel
 function! Multiple_cursors_before()
   set foldmethod=manual
+  let g:deoplete#disable_auto_complete = 1
 endfunction
-
-" Called once only when the multiple selection is cancel
 function! Multiple_cursors_after()
+  let g:deoplete#disable_auto_complete = 0
   set foldmethod=syntax
 endfunction
 
@@ -396,9 +417,6 @@ let g:gista#post_private = 1
 " Autopairs
 let g:AutoPairsFlyMode = 0
 
-" Emmet
-let g:user_emmet_leader_key='<C-Z>'
-
 let g:ctrlp_abbrev = {
   \ 'gmode': 'i',
   \ 'abbrevs': [
@@ -417,6 +435,7 @@ let @b='Obyebug:wj'
 let @l='Hyei:yss)iletA { create(:pl'
 let @k='Hilet(:wdehPf=xxv$hS{'
 let @q='nhdHt{dhdl%lD@q'
+let @e='^yeea: "'
 
 " Abbreviations
 iabbr clog console.log()<left>
@@ -519,8 +538,8 @@ let g:neoformat_try_formatprg = 1
 
 " autocmd FileType javascript setlocal formatprg=prettier\ --stdin\ --single-quote\ --trailing-comma\ es5\ --no-semi
 augroup fmt
-  autocmd FileType javascript setlocal formatprg=npm\ run\ -s\ prettier
-  autocmd BufWritePre *.js silent Neoformat
+  autocmd FileType javascript,scss,css setlocal formatprg=npm\ run\ -s\ prettier
+  autocmd BufWritePre *.js,*.scss,*.css silent Neoformat
 augroup END
 " autocmd BufWritePre,TextChanged,InsertLeave *.js silent Neoformat
 
@@ -529,6 +548,8 @@ augroup END
 nmap <F8> :TagbarToggle<CR>
 
 
+" Deoplete
+let g:deoplete#enable_at_startup = 1
 
 
 command! -range PSQLExec execute '<line1>,<line2>.w !psql ' . script_database
@@ -572,7 +593,12 @@ endfunction
 command! TogglePrettier :call TogglePrettier()<cr>
 
 
-" Terminal quick mappings
-" Ruby
-tnoremap fbe find_by(email:"")<left><left>
-tnoremap fbu find_by(uid:"")<left><left>
+" GTM
+let g:gtm_plugin_status_enabled = 1
+function! AirlineInit()
+  if exists('*GTMStatusline')
+    call airline#parts#define_function('gtmstatus', 'GTMStatusline')
+    let g:airline_section_b = airline#section#create([g:airline_section_b, ' ', '[', 'gtmstatus', ']'])
+  endif
+endfunction
+autocmd User AirlineAfterInit call AirlineInit()
