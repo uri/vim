@@ -19,7 +19,7 @@ call dein#add('airblade/vim-gitgutter')
 call dein#add('blindFS/vim-taskwarrior')
 call dein#add('godlygeek/tabular.git')
 call dein#add('janko-m/vim-test')
-call dein#add('jiangmiao/auto-pairs')
+" call dein#add('jiangmiao/auto-pairs')
 call dein#add('kana/vim-textobj-user')
 call dein#add('kana/vim-textobj-indent')
 call dein#add('rhysd/vim-textobj-ruby')
@@ -40,6 +40,7 @@ call dein#add('tpope/vim-projectionist')
 call dein#add('tpope/vim-repeat')
 call dein#add('tpope/vim-surround')
 call dein#add('tpope/vim-unimpaired.git')
+call dein#add('tpope/vim-dadbod')
 call dein#add('christoomey/vim-tmux-navigator.git')
 " call dein#add('ctrlpvim/ctrlp.vim.git')
 call dein#add('sickill/vim-pasta')
@@ -552,6 +553,8 @@ nmap <F8> :TagbarToggle<CR>
 let g:deoplete#enable_at_startup = 1
 
 
+command! -nargs=+ Rec execute 'silent ! nrec <args>'
+
 command! -range PSQLExec execute '<line1>,<line2>.w !psql ' . script_database
 nnoremap <leader>p :PSQLExec<cr>
 vnoremap <leader>p :PSQLExec<cr>
@@ -602,3 +605,5 @@ function! AirlineInit()
   endif
 endfunction
 autocmd User AirlineAfterInit call AirlineInit()
+
+inoremap <esc> <nop>
