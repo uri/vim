@@ -66,7 +66,7 @@ call dein#add('aklt/plantuml-syntax')
 call dein#add('elixir-lang/vim-elixir')
 call dein#add('slashmili/alchemist.vim')
 call dein#add('vim-ruby/vim-ruby')
-call dein#add('tpope/vim-rails.git')
+" call dein#add('tpope/vim-rails.git')
 call dein#add('tpope/vim-bundler')
 call dein#add('tpope/vim-rake')
 call dein#add('othree/yajs.vim')
@@ -607,3 +607,5 @@ endfunction
 autocmd User AirlineAfterInit call AirlineInit()
 
 inoremap <esc> <nop>
+
+autocmd Bufenter *.js,*.coffee set suffixesadd=.js,.cofeee,.hbs | setlocal path+=,,
