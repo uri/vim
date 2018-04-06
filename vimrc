@@ -1,4 +1,5 @@
 " dein Scripts-----------------------------
+"
 if &compatible
   set nocompatible
 endif
@@ -399,7 +400,7 @@ endif
 
 
 if has("nvim")
-  tnoremap jk <C-\><C-n>G$?λ<enter>$
+  tnoremap jk <C-\><C-n>G$?>\\|λ<enter>$<esc>
 endif
 
 " " TaskWarrior
