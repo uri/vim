@@ -42,7 +42,7 @@ call dein#add('tpope/vim-repeat')
 call dein#add('tpope/vim-surround')
 call dein#add('tpope/vim-unimpaired.git')
 call dein#add('tpope/vim-dadbod')
-call dein#add('christoomey/vim-tmux-navigator.git')
+" call dein#add('christoomey/vim-tmux-navigator.git')
 " call dein#add('ctrlpvim/ctrlp.vim.git')
 call dein#add('sickill/vim-pasta')
 call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
@@ -162,7 +162,8 @@ nnoremap q :bd<cr>
 nnoremap <esc> :noh<return><esc>
 nnoremap <leader>dm :Dispatch<space>make<space>
 nnoremap <leader>a :Ack!<space>""<left>
-nnoremap <leader>* yiw:Ack!<space>"<C-r>*"<cr>
+" nnoremap <leader>* yiw:Ack!<space>"<C-r>*"<cr>
+nnoremap <leader>* g*``:Ack!<space>"<C-r>/"<cr>
 nnoremap <leader>yy :%y<CR>
 nnoremap <leader>yf :let @*=expand("%")<cr>
 nnoremap <leader>p :noh<CR>
@@ -610,3 +611,14 @@ autocmd User AirlineAfterInit call AirlineInit()
 inoremap <esc> <nop>
 
 autocmd Bufenter *.js,*.coffee set suffixesadd=.js,.cofeee,.hbs | setlocal path+=,,
+
+inoremap <Backspace> <nop>
+
+" Tmux navigator
+" let g:tmux_navigator_no_mappings = 1
+
+" nnoremap <silent> <C-S-h> :TmuxNavigateLeft<cr>
+" nnoremap <silent> <C-S-k> :TmuxNavigateDown<cr>
+" nnoremap <silent> <C-S-j> :TmuxNavigateUp<cr>
+" nnoremap <silent> <C-S-l> :TmuxNavigateRight<cr>
+" nnoremap <silent> {Previous-Mapping} :TmuxNavigatePrevious<cr>
