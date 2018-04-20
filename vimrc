@@ -210,7 +210,10 @@ nnoremap <C-Space> :
 vnoremap <C-Space> :
 
 " Change # to not jump immediately
-nnoremap # *``
+nnoremap <silent> # :let @/=expand('<cword>') <bar> set hls <cr>
+nnoremap <leader># :%s///g<left><left>
+vnoremap <leader># :s///g<left><left>
+" nnoremap <silent> # :let @/= '\<' . expand('<cword>') . '\>' <bar> set hls <cr>
 
 " Terminal quick mappings
 " Ruby
