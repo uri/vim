@@ -159,7 +159,7 @@ nnoremap <C-w>+ <C-w><bar><C-w>_
 " nnoremap K [s1z=<c-o>
 nnoremap Q q
 nnoremap q :bd<cr>
-nnoremap <esc> :noh<return><esc>
+nnoremap <silent> <esc> <esc>:noh<cr>
 nnoremap <leader>dm :Dispatch<space>make<space>
 nnoremap <leader>a :Ack!<space>""<left>
 " nnoremap <leader>* yiw:Ack!<space>"<C-r>*"<cr>
