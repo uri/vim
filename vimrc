@@ -180,10 +180,12 @@ nnoremap <leader>cc :Dispatch ctags -R .<cr>
 nnoremap <leader>fte :set ft=elixir<cr>
 nnoremap <leader>ftr :set ft=ruby<cr>
 nnoremap <leader>ftm :set ft=markdown<cr>
+nnoremap <leader>fts :set ft=sql<cr>
 nnoremap <leader>T :Tab <cr>
 nnoremap <leader>cl :set bg=light<cr>
 nnoremap <leader>cd :set bg=dark<cr>
 nnoremap <leader>g :Gst<cr>
+nnoremap <leader>db :%DB g:prod<cr>
 if has("nvim")
   nnoremap <leader>ha te ssh apist<cr>
   nnoremap <leader>hta :tabe <bar> te ssh apist<cr>
@@ -251,6 +253,8 @@ colorscheme solarized8
 
 " highlight clear SignColumn
 " highlight Search guibg='yellow' guifg='black'
+" highlight Search guibg='black' guifg='yellow'
+hi Search guibg=peru guifg=wheat
 
 
 " Use zeus stub or rspec
@@ -443,6 +447,7 @@ let @k='Hilet(:wdehPf=xxv$hS{'
 let @q='nhdHt{dhdl%lD@q'
 let @e='^yeea: "'
 
+
 " Abbreviations
 iabbr clog console.log()<left>
 
@@ -540,14 +545,14 @@ nnoremap <leader>z :Zoomwindow<cr>
 "   \ '\.')
 
 " Neoformat
-let g:neoformat_try_formatprg = 1
+let g:neoformat_enabled_scss = ['prettier']
+let g:neoformat_enabled_css = ['prettier']
+let g:neoformat_enabled_javascript = ['prettier']
 
-" autocmd FileType javascript setlocal formatprg=prettier\ --stdin\ --single-quote\ --trailing-comma\ es5\ --no-semi
 augroup fmt
-  autocmd FileType javascript,scss,css setlocal formatprg=npm\ run\ -s\ prettier
-  autocmd BufWritePre *.js,*.scss,*.css silent Neoformat
+  " autocmd BufWritePre *.js,*.scss,*.css silent Neoformat
+  autocmd BufWritePre,TextChanged,InsertLeave *.js silent Neoformat
 augroup END
-" autocmd BufWritePre,TextChanged,InsertLeave *.js silent Neoformat
 
 
 " TagbarToggle
