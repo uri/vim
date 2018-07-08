@@ -16,7 +16,6 @@ call dein#add('Shougo/dein.vim')
 
 " Add or remove your plugins here:
 call dein#add('airblade/vim-gitgutter')
-" call dein#add('ervandew/supertab')
 call dein#add('blindFS/vim-taskwarrior')
 call dein#add('godlygeek/tabular.git')
 call dein#add('janko-m/vim-test')
@@ -28,7 +27,6 @@ call dein#add('michaeljsmith/vim-indent-object')
 call dein#add('mattn/emmet-vim.git')
 call dein#add('mbbill/undotree')
 call dein#add('nelstrom/vim-qargs')
-" call dein#add('rking/ag.vim')
 call dein#add('mileszs/ack.vim')
 call dein#add('scrooloose/nerdtree')
 call dein#add('terryma/vim-multiple-cursors')
@@ -43,7 +41,6 @@ call dein#add('tpope/vim-surround')
 call dein#add('tpope/vim-unimpaired.git')
 call dein#add('tpope/vim-dadbod')
 " call dein#add('christoomey/vim-tmux-navigator.git')
-" call dein#add('ctrlpvim/ctrlp.vim.git')
 call dein#add('sickill/vim-pasta')
 call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
 call dein#add('junegunn/fzf.vim', { 'depends': 'fzf' })
@@ -54,8 +51,6 @@ call dein#add('majutsushi/tagbar')
 call dein#add('git-time-metric/gtm-vim-plugin')
 call dein#add('machakann/vim-highlightedyank')
 
-" call dein#add('chriskempson/base16-vim')
-" call dein#add('justincampbell/vim-eighties')
 call dein#add('vim-airline/vim-airline')
 call dein#add('vim-airline/vim-airline-themes')
 " call dein#add('rakr/vim-one')
@@ -75,8 +70,6 @@ call dein#add('kchmck/vim-coffee-script')
 call dein#add('ElmCast/elm-vim')
 call dein#add('mpyatishev/vim-sqlformat')
 call dein#add('justinmk/vim-sneak')
-" call dein#add('Shougo/deoplete.nvim')
-" inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 
 " You can specify revision/branch/tag.
 " call dein#add('Shougo/vimshell' |  { 'rev': '3787e5' })
@@ -97,13 +90,10 @@ endif
 
 
 " Speeds up ruby syntax apparently
-" let g:ruby_path = system('echo $HOME/.rbenv/shims')
-" let g:ruby_default_path = system('echo $HOME/.rbenv/shims')
-let $FISH="~/.config/fish/config.fish"
+let g:ruby_path = system('echo $HOME/.rbenv/shims')
+let g:ruby_default_path = system('echo $HOME/.rbenv/shims')
 let $ZSH="~/.zshrc"
 let ruby_fold=1
-" Silver Surfer
-" let g:ackprg = 'ag -f --nogroup --nocolor --column'
 " Ripgrep
 let g:ackprg = 'rg --vimgrep --no-heading -i'
 " Fenced syntax highlighting
@@ -113,8 +103,6 @@ set laststatus=2
 set foldmethod=syntax
 set foldlevel=6
 set nofoldenable
-
-
 set nu
 set rnu
 set nowrap
@@ -127,6 +115,7 @@ set directory=~/tmp
 set cursorline
 set splitbelow
 set splitright
+" MacVim
 set guifont=Meslo\ LG\ S\ Regular\ for\ Powerline:h14
 " set ignorecase
 set smartcase
@@ -146,6 +135,10 @@ set exrc
 " nosplit also works
 set inccommand=split
 
+" Ensure no sketchy autocmds are ran
+set secure
+
+
 " Search for visually selected text
 vnoremap // y/<C-R>"<CR>
 inoremap jk <Esc>
@@ -155,6 +148,10 @@ noremap H ^
 noremap Y y$
 nnoremap <C-w>+ <C-w><bar><C-w>_
 
+" Disable backspace in insert mode to form good habits
+inoremap <Backspace> <nop>
+" Disable esc to exit insert mode
+inoremap <esc> <nop>
 
 " nnoremap K [s1z=<c-o>
 nnoremap Q q
@@ -162,7 +159,6 @@ nnoremap q :bd<cr>
 nnoremap <silent> <esc> <esc>:noh<cr>
 nnoremap <leader>dm :Dispatch<space>make<space>
 nnoremap <leader>a :Ack!<space>""<left>
-" nnoremap <leader>* yiw:Ack!<space>"<C-r>*"<cr>
 nnoremap <leader>* g*``:Ack!<space>"<C-r>/"<cr>
 nnoremap <leader>yy :%y<CR>
 nnoremap <leader>yf :let @*=expand("%")<cr>
@@ -187,12 +183,12 @@ nnoremap <leader>cd :set bg=dark<cr>
 nnoremap <leader>g :Gst<cr>
 nnoremap <leader>db :%DB g:prod<cr>
 if has("nvim")
-  nnoremap <leader>ha te ssh apist<cr>
-  nnoremap <leader>hta :tabe <bar> te ssh apist<cr>
-  nnoremap <leader>hs te ssh st<cr>
-  nnoremap <leader>hts :tabe <bar> te ssh st<cr>
-  nnoremap <leader>hp te ssh hw<cr>
-  nnoremap <leader>htp :tabe <bar> te ssh hw<cr>
+  " nnoremap <leader>ha :te ssh apist<cr>
+  " nnoremap <leader>hta :tabe <bar> te ssh apist<cr>
+  " nnoremap <leader>hs :te ssh st<cr>
+  " nnoremap <leader>hts :tabe <bar> te ssh st<cr>
+  " nnoremap <leader>hp :te ssh hw<cr>
+  " nnoremap <leader>htp :tabe <bar> te ssh hw<cr>
 endif
 
 " Maps Alt-[h,j,k,l] to resizing a window split
@@ -202,7 +198,6 @@ nnoremap <Right> 5<C-W>>
 nnoremap <Down> 3<C-w>-
 command! Zoomwindow :wincmd | <bar> wincmd _<cr>
 nnoremap <leader>z Zoomwindow<cr>
-
 
 nnoremap + 3<C-W>+
 nnoremap - 5<C-W>>
@@ -223,7 +218,9 @@ tnoremap fbe find_by(email:"")<left><left>
 tnoremap fbu find_by(uid:"")<left><left>
 tnoremap zusa UploadSim.all(async:true)
 
-
+" Quick Neovim term
+nnoremap <C-w>_ :Ahte<space>
+nnoremap <C-w><bar> :Avte<space>
 
 " Required by Gutter
 if &shell =~# 'fish$'
@@ -257,6 +254,122 @@ colorscheme solarized8
 hi Search guibg=peru guifg=wheat
 
 
+" direnv
+" if exists("$EXTRA_VIM")
+"   for path in split($EXTRA_VIM, ':')
+"     exec "source ".path
+"   endfor
+" endif
+
+" " Send more characters for redraws
+set ttyfast
+
+" " " Set this to the name of your terminal that supports mouse codes.
+" " " Must be one of: xterm, xterm2, netterm, dec, jsbterm, pterm
+" set ttymouse=xterm2
+
+if has("autocmd")
+  " Enable filetype detection
+  filetype on
+  filetype plugin on
+  autocmd BufRead,BufNewFile *.md setlocal spell
+  autocmd BufRead,BufNewFile *.ron setlocal ft=ruby
+  autocmd FileType gitcommit setlocal spell
+
+  " Remove whitespace on save
+  autocmd BufWritePre * :%s/\s\+$//e
+
+  " Fold only in normal mode
+  autocmd InsertEnter * let w:last_fdm=&foldmethod | setlocal foldmethod=manual
+  autocmd InsertLeave * let &l:foldmethod=w:last_fdm
+
+  " Fold in CoffeeScript
+  autocmd BufNewFile,BufReadPost *.coffee setl foldmethod=indent nofoldenable
+  " Enable folding for javascript plugin jelera/vim-javascript-syntax
+  " autocmd FileType javascript call JavaScriptFold()
+
+  " Restore cursor position
+  " let blacklist = ['gitcommit']
+  " autocmd BufReadPost *
+  "   \ if line("'\"") > 1 && line("'\"") <= line("$") && index(blacklist,  &ft) < 0|
+  "   \   exe "normal! g`\"zz" |
+  "   \ endif
+
+  autocmd BufReadPost *
+      \ if line("'\"") > 1 && line("'\"") <= line("$") |
+      \   exe "normal! g`\"" |
+      \ endif
+
+  " Handlebar to HTML
+  autocmd BufRead,BufNewFile *.hbs set filetype=html
+
+  " Use gf to open JavaScript imports
+  autocmd Bufenter *.js,*.coffee set suffixesadd=.js,.cofeee,.hbs | setlocal path+=,,
+endif
+
+
+if has("nvim")
+  tnoremap jk <C-\><C-n>G$?>\\|λ<enter>$<esc>
+endif
+
+" Macros
+let @b='Obyebug:wj'
+let @l='Hyei:yss)iletA { create(:pl'
+let @k='Hilet(:jkea)jkf=r{A }jkH'
+let @q='nhdHt{dhdl%lD@q'
+let @e='^yeea: "'
+
+" Abbreviations
+iabbr clog console.log()<left>
+
+" Time abbreviations
+iab <expr> ddd strftime('%b %d, %Y')
+iab <expr> dtt "(" . strftime('%T') . ")"
+
+" Custom vimscript
+
+" Bullet journal
+function! CreateLog()
+  -1put =strftime('%b %d, %Y')
+  let filename = "journal-" . strftime("%m-%d-%y") . ".md"
+  execute 'write ' fnameescape(filename)
+endfunction
+
+function! AsyncTermHorizontal( cmd )
+  new
+  call termopen(a:cmd)
+  wincmd p
+endfunction
+
+function! AsyncTermVertical( cmd )
+  vnew
+  call termopen(a:cmd)
+  wincmd p
+endfunction
+
+command! -nargs=+ Ahte call AsyncTermHorizontal('<args>')
+command! -nargs=+ Avte call AsyncTermVertical('<args>')
+
+function! AsyncTermHorizontal( cmd )
+  new
+  call termopen(a:cmd)
+  wincmd p
+endfunction
+
+function! AsyncTermVertical( cmd )
+  vnew
+  call termopen(a:cmd)
+  wincmd p
+endfunction
+
+command! -nargs=+ Ahte call AsyncTermHorizontal('<args>')
+command! -nargs=+ Avte call AsyncTermVertical('<args>')
+
+command! Zoomwindow :wincmd | <bar> wincmd _
+nnoremap <leader>z :Zoomwindow<cr>
+
+
+
 " Use zeus stub or rspec
 " if filereadable(".zeus.sock")
 "   let test#ruby#rspec#executable = 'zeus rspec'
@@ -265,7 +378,8 @@ hi Search guibg=peru guifg=wheat
 " endif
 
 " let test#ruby#rspec#executable = 'bundle exec rspec'
-let test#ruby#rspec#executable = 'bundle exec rspec'
+" let test#ruby#rspec#executable = 'bundle exec rspec'
+let test#ruby#rspec#executable = 'rspec'
 let test#strategy = "dispatch"
 " let test#strategy = "neovim"
 " let test#strategy = "neomake"
@@ -354,62 +468,6 @@ function! Multiple_cursors_after()
   set foldmethod=syntax
 endfunction
 
-" direnv
-" if exists("$EXTRA_VIM")
-"   for path in split($EXTRA_VIM, ':')
-"     exec "source ".path
-"   endfor
-" endif
-
-" " Send more characters for redraws
-set ttyfast
-
-" " " Set this to the name of your terminal that supports mouse codes.
-" " " Must be one of: xterm, xterm2, netterm, dec, jsbterm, pterm
-" set ttymouse=xterm2
-
-
-" " Spell checking
-if has("autocmd")
-  " Enable filetype detection
-  filetype on
-  filetype plugin on
-  autocmd BufRead,BufNewFile *.md setlocal spell
-  autocmd BufRead,BufNewFile *.ron setlocal ft=ruby
-  autocmd FileType gitcommit setlocal spell
-
-  " Remove whitespace on save
-  autocmd BufWritePre * :%s/\s\+$//e
-
-  " Fold only in normal mode
-  autocmd InsertEnter * let w:last_fdm=&foldmethod | setlocal foldmethod=manual
-  autocmd InsertLeave * let &l:foldmethod=w:last_fdm
-
-  " Fold in CoffeeScript
-  autocmd BufNewFile,BufReadPost *.coffee setl foldmethod=indent nofoldenable
-  " Enable folding for javascript plugin jelera/vim-javascript-syntax
-  " autocmd FileType javascript call JavaScriptFold()
-
-  " Restore cursor position
-  " let blacklist = ['gitcommit']
-  " autocmd BufReadPost *
-  "   \ if line("'\"") > 1 && line("'\"") <= line("$") && index(blacklist,  &ft) < 0|
-  "   \   exe "normal! g`\"zz" |
-  "   \ endif
-
-  autocmd BufReadPost *
-      \ if line("'\"") > 1 && line("'\"") <= line("$") |
-      \   exe "normal! g`\"" |
-      \ endif
-
-  " Handlebar to HTML
-  autocmd BufRead,BufNewFile *.hbs set filetype=html
-endif
-
-
-if has("nvim")
-  tnoremap jk <C-\><C-n>G$?>\\|λ<enter>$<esc>
-endif
 
 " " TaskWarrior
 let g:task_default_prompt = ['description', 'priority' ]
@@ -438,38 +496,9 @@ let g:ctrlp_abbrev = {
     \ ]
   \ }
 
-" Macros
-
-
-let @b='Obyebug:wj'
-let @l='Hyei:yss)iletA { create(:pl'
-let @k='Hilet(:wdehPf=xxv$hS{'
-let @q='nhdHt{dhdl%lD@q'
-let @e='^yeea: "'
-
-
-" Abbreviations
-iabbr clog console.log()<left>
-
-" Ensure no sketchy autocmds are ran
-set secure
-
-
-" Bullet journal
-
-function! CreateLog()
-  -1put =strftime('%b %d, %Y')
-  let filename = "journal-" . strftime("%m-%d-%y") . ".md"
-  execute 'write ' fnameescape(filename)
-endfunction
-
-" Time abbreviations
-iab <expr> ddd strftime('%b %d, %Y')
-iab <expr> dtt "(" . strftime('%T') . ")"
-
 
 " Turn off [] autopairs for markdown
-au Filetype markdown let b:AutoPairs = {'(':')', '{':'}',"'":"'",'"':'"', '`':'`'}
+" au Filetype markdown let b:AutoPairs = {'(':')', '{':'}',"'":"'",'"':'"', '`':'`'}
 
 " Testing out cursor autocmd
 augroup CursorLine
@@ -488,55 +517,6 @@ let g:neomake_ruby_enabled_makers = ['rubocop']
 let g:neomake_javascript_enabled_makers = ['eslint']
 let g:neomake_highlight_lines=1
 
-" Ripgrep
-" --column: Show column number
-" --line-number: Show line number
-" --no-heading: Do not show file headings in results
-" --fixed-strings: Search term as a literal string
-" --ignore-case: Case insensitive search
-" --no-ignore: Do not respect .gitignore, etc...
-" --hidden: Search hidden files and folders
-" --follow: Follow symlinks
-" --glob: Additional conditions for search (in this case ignore everything in the .git/ folder)
-" --color: Search color options
-" command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>), 1, <bang>0)
-
-" Quick Neovim term
-nnoremap <C-w>_ :Ahte<space>
-nnoremap <C-w><bar> :Avte<space>
-
-function! AsyncTermHorizontal( cmd )
-  new
-  call termopen(a:cmd)
-  wincmd p
-endfunction
-
-function! AsyncTermVertical( cmd )
-  vnew
-  call termopen(a:cmd)
-  wincmd p
-endfunction
-
-command! -nargs=+ Ahte call AsyncTermHorizontal('<args>')
-command! -nargs=+ Avte call AsyncTermVertical('<args>')
-
-function! AsyncTermHorizontal( cmd )
-  new
-  call termopen(a:cmd)
-  wincmd p
-endfunction
-
-function! AsyncTermVertical( cmd )
-  vnew
-  call termopen(a:cmd)
-  wincmd p
-endfunction
-
-command! -nargs=+ Ahte call AsyncTermHorizontal('<args>')
-command! -nargs=+ Avte call AsyncTermVertical('<args>')
-
-command! Zoomwindow :wincmd | <bar> wincmd _
-nnoremap <leader>z :Zoomwindow<cr>
 
 " Neocomplete Elm
 " call neocomplete#util#set_default_dictionary(
@@ -550,14 +530,13 @@ let g:neoformat_enabled_css = ['prettier']
 let g:neoformat_enabled_javascript = ['prettier']
 
 augroup fmt
-  " autocmd BufWritePre *.js,*.scss,*.css silent Neoformat
-  autocmd BufWritePre,TextChanged,InsertLeave *.js silent Neoformat
+  autocmd BufWritePre *.js,*.scss,*.css silent Neoformat
+  " autocmd BufWritePre,TextChanged,InsertLeave *.js silent Neoformat
 augroup END
 
 
 " TagbarToggle
 nmap <F8> :TagbarToggle<CR>
-
 
 " Deoplete
 let g:deoplete#enable_at_startup = 1
@@ -615,18 +594,3 @@ function! AirlineInit()
   endif
 endfunction
 autocmd User AirlineAfterInit call AirlineInit()
-
-inoremap <esc> <nop>
-
-autocmd Bufenter *.js,*.coffee set suffixesadd=.js,.cofeee,.hbs | setlocal path+=,,
-
-inoremap <Backspace> <nop>
-
-" Tmux navigator
-" let g:tmux_navigator_no_mappings = 1
-
-" nnoremap <silent> <C-S-h> :TmuxNavigateLeft<cr>
-" nnoremap <silent> <C-S-k> :TmuxNavigateDown<cr>
-" nnoremap <silent> <C-S-j> :TmuxNavigateUp<cr>
-" nnoremap <silent> <C-S-l> :TmuxNavigateRight<cr>
-" nnoremap <silent> {Previous-Mapping} :TmuxNavigatePrevious<cr>
