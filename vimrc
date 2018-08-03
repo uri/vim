@@ -98,6 +98,7 @@ let ruby_fold=1
 let g:ackprg = 'rg --vimgrep --no-heading -i'
 " Fenced syntax highlighting
 let g:markdown_fenced_languages = ['html', 'vim', 'ruby', 'python', 'bash=sh', 'javascript', 'elixir', 'sh']
+let mapleader=','
 set laststatus=2
 " set cryptmethod=blowfish2
 set foldmethod=syntax
@@ -314,7 +315,7 @@ endif
 
 " Macros
 let @b='Obyebug:wj'
-let @l='Hyei:yss)iletA { create(:pl'
+let @l='yiwilet(:A) { create(:") }H'
 let @k='Hilet(:jkea)jkf=r{A }jkH'
 let @q='nhdHt{dhdl%lD@q'
 let @e='^yeea: "'
