@@ -53,8 +53,8 @@ call dein#add('machakann/vim-highlightedyank')
 
 call dein#add('vim-airline/vim-airline')
 call dein#add('vim-airline/vim-airline-themes')
-" call dein#add('rakr/vim-one')
-call dein#add('lifepillar/vim-solarized8')
+call dein#add('rakr/vim-one')
+" call dein#add('lifepillar/vim-solarized8')
 
 " Language/platform specific plugins
 call dein#add('tpope/vim-markdown')
@@ -62,7 +62,7 @@ call dein#add('aklt/plantuml-syntax')
 call dein#add('elixir-lang/vim-elixir')
 call dein#add('slashmili/alchemist.vim')
 call dein#add('vim-ruby/vim-ruby')
-" call dein#add('tpope/vim-rails.git')
+call dein#add('tpope/vim-rails.git')
 call dein#add('tpope/vim-bundler')
 call dein#add('tpope/vim-rake')
 call dein#add('othree/yajs.vim')
@@ -138,6 +138,9 @@ set inccommand=split
 
 " Ensure no sketchy autocmds are ran
 set secure
+
+" Allow mouse control
+set mouse=a
 
 
 " Search for visually selected text
@@ -246,8 +249,8 @@ highlight Comment cterm=italic
 
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 set background=light
-" colorscheme one
-colorscheme solarized8
+colorscheme one
+" colorscheme solarized8
 
 " highlight clear SignColumn
 " highlight Search guibg='yellow' guifg='black'
@@ -276,6 +279,7 @@ if has("autocmd")
   autocmd BufRead,BufNewFile *.md setlocal spell
   autocmd BufRead,BufNewFile *.ron setlocal ft=ruby
   autocmd FileType gitcommit setlocal spell
+  autocmd FileType markdown setlocal tw=80
 
   " Remove whitespace on save
   autocmd BufWritePre * :%s/\s\+$//e
@@ -380,7 +384,7 @@ nnoremap <leader>z :Zoomwindow<cr>
 
 " let test#ruby#rspec#executable = 'bundle exec rspec'
 " let test#ruby#rspec#executable = 'bundle exec rspec'
-let test#ruby#rspec#executable = 'rspec'
+let test#ruby#rspec#executable = 'bundle exec rspec'
 let test#strategy = "dispatch"
 " let test#strategy = "neovim"
 " let test#strategy = "neomake"
@@ -562,7 +566,7 @@ if !exists("my_auto_commands_loaded")
   " bufhidden=unload (save memory when other file is viewed)
   " buftype=nowrite (file is read-only)
   " undolevels=-1 (no undo possible)
-  let g:LargeFile = 1024 * 1024 * 1
+  let g:LargeFile = 1024 * 1024 * 100
   augroup LargeFile
     autocmd BufReadPre * let f=expand("<afile>") | if getfsize(f) > g:LargeFile | set eventignore+=FileType | setlocal noswapfile bufhidden=unload buftype=nowrite undolevels=-1 | else | set eventignore-=FileType | endif
     augroup END
