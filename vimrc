@@ -514,13 +514,11 @@ augroup END
 
 
 " Neomake
-autocmd! BufWritePost * Neomake
-autocmd! BufReadPost * Neomake
-" autocmd! BufWritePost,TextChanged,InsertLeave *.js silent Neomake
+call neomake#configure#automake('nrwi', 500)
 
 let g:neomake_ruby_enabled_makers = ['rubocop']
 let g:neomake_javascript_enabled_makers = ['eslint']
-let g:neomake_highlight_lines=1
+" let g:neomake_highlight_lines=1
 
 
 " Neocomplete Elm
