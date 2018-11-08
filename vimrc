@@ -142,6 +142,8 @@ set secure
 " Allow mouse control
 set mouse=a
 
+" Do not search in folded regions
+set fdo-=search
 
 " Search for visually selected text
 vnoremap // y/<C-R>"<CR>
@@ -255,7 +257,7 @@ colorscheme one
 " highlight clear SignColumn
 " highlight Search guibg='yellow' guifg='black'
 " highlight Search guibg='black' guifg='yellow'
-hi Search guibg=peru guifg=wheat
+hi Search guibg=yellow guifg=black
 
 
 " direnv
