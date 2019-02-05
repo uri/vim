@@ -44,15 +44,15 @@ call dein#add('tpope/vim-dadbod')
 call dein#add('sickill/vim-pasta')
 call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
 call dein#add('junegunn/fzf.vim', { 'depends': 'fzf' })
-call dein#add('neomake/neomake')
+" call dein#add('neomake/neomake')
 call dein#add('sbdchd/neoformat')
 call dein#add('majutsushi/tagbar')
 " call dein#add('roman/golden-ratio')
-call dein#add('git-time-metric/gtm-vim-plugin')
+" call dein#add('git-time-metric/gtm-vim-plugin')
 call dein#add('machakann/vim-highlightedyank')
 
-call dein#add('vim-airline/vim-airline')
-call dein#add('vim-airline/vim-airline-themes')
+" call dein#add('vim-airline/vim-airline')
+" call dein#add('vim-airline/vim-airline-themes')
 call dein#add('rakr/vim-one')
 " call dein#add('lifepillar/vim-solarized8')
 
@@ -62,15 +62,15 @@ call dein#add('aklt/plantuml-syntax')
 call dein#add('elixir-lang/vim-elixir')
 call dein#add('slashmili/alchemist.vim')
 call dein#add('vim-ruby/vim-ruby')
-call dein#add('tpope/vim-rails.git')
+call dein#add('rhysd/vim-crystal')
+" call dein#add('tpope/vim-rails.git')
 call dein#add('tpope/vim-bundler')
 call dein#add('tpope/vim-rake')
 call dein#add('othree/yajs.vim')
 call dein#add('kchmck/vim-coffee-script')
 call dein#add('ElmCast/elm-vim')
-call dein#add('mpyatishev/vim-sqlformat')
-call dein#add('justinmk/vim-sneak')
-
+" call dein#add('mpyatishev/vim-sqlformat')
+call dein#add('chrisbra/Colorizer')
 " You can specify revision/branch/tag.
 " call dein#add('Shougo/vimshell' |  { 'rev': '3787e5' })
 
@@ -109,7 +109,6 @@ set rnu
 set nowrap
 set hidden " Do not error when hidding an unsaved buffer
 set ts=2 sts=2 sw=2 expandtab
-set clipboard=unnamedplus " Use system clipboard by default
 set backspace=indent,eol,start
 " set mouse=a
 set directory=~/tmp
@@ -134,7 +133,12 @@ set exrc
 
 " Preview substititions
 " nosplit also works
-set inccommand=split
+if has("nvim")
+  set inccommand=split
+  set clipboard=unnamedplus " Use system clipboard by default
+else
+  set clipboard=unnamed " Use system clipboard by default
+endif
 
 " Ensure no sketchy autocmds are ran
 set secure
@@ -147,17 +151,17 @@ set fdo-=search
 
 " Search for visually selected text
 vnoremap // y/<C-R>"<CR>
-inoremap jk <Esc>
-inoremap jj <Esc>
+" inoremap jk <Esc>
+" inoremap jj <Esc>
 noremap L g_
 noremap H ^
 noremap Y y$
 nnoremap <C-w>+ <C-w><bar><C-w>_
 
 " Disable backspace in insert mode to form good habits
-inoremap <Backspace> <nop>
+" inoremap <Backspace> <nop>
 " Disable esc to exit insert mode
-inoremap <esc> <nop>
+" inoremap <esc> <nop>
 
 " nnoremap K [s1z=<c-o>
 nnoremap Q q
@@ -250,7 +254,7 @@ highlight Comment gui=italic
 highlight Comment cterm=italic
 
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-set background=light
+set background=
 colorscheme one
 " colorscheme solarized8
 
@@ -398,20 +402,20 @@ nmap <silent> <leader>l :w<cr>:TestLast<CR>
 " nmap <silent> <leader>l :w<cr>:TestVisit<CR>
 
 " " Airline
-let g:airline_powerline_fonts = 1
-" let g:airline#extensions#tabline#enabled = 1
-let g:airline_theme='alduin'
-let g:airline#extensions#tabline#fnamemod = ':.'
-let g:airline#extensions#default#section_truncate_width = {
-    \ 'a': 0,
-    \ 'b': 180,
-    \ 'c': 0,
-    \ 'x': 130,
-    \ 'y': 130,
-    \ 'z': 0,
-    \ 'warning': 40,
-    \ 'error': 40,
-    \ }
+" let g:airline_powerline_fonts = 1
+" " let g:airline#extensions#tabline#enabled = 1
+" let g:airline_theme='alduin'
+" let g:airline#extensions#tabline#fnamemod = ':.'
+" let g:airline#extensions#default#section_truncate_width = {
+"     \ 'a': 0,
+"     \ 'b': 180,
+"     \ 'c': 0,
+"     \ 'x': 130,
+"     \ 'y': 130,
+"     \ 'z': 0,
+"     \ 'warning': 40,
+"     \ 'error': 40,
+"     \ }
 
 " FZF
 nnoremap <leader>R :Tags<cr>
@@ -516,7 +520,7 @@ augroup END
 
 
 " Neomake
-call neomake#configure#automake('nrwi', 500)
+" call neomake#configure#automake('nrwi', 500)
 
 let g:neomake_ruby_enabled_makers = ['rubocop']
 let g:neomake_javascript_enabled_makers = ['eslint']
@@ -533,6 +537,7 @@ let g:neomake_javascript_enabled_makers = ['eslint']
 let g:neoformat_enabled_scss = ['prettier']
 let g:neoformat_enabled_css = ['prettier']
 let g:neoformat_enabled_javascript = ['prettier']
+let g:neoformat_enabled_html = ['prettier']
 
 augroup fmt
   autocmd BufWritePre *.js,*.scss,*.css silent Neoformat
@@ -591,11 +596,11 @@ command! TogglePrettier :call TogglePrettier()<cr>
 
 
 " GTM
-let g:gtm_plugin_status_enabled = 1
-function! AirlineInit()
-  if exists('*GTMStatusline')
-    call airline#parts#define_function('gtmstatus', 'GTMStatusline')
-    let g:airline_section_b = airline#section#create([g:airline_section_b, ' ', '[', 'gtmstatus', ']'])
-  endif
-endfunction
-autocmd User AirlineAfterInit call AirlineInit()
+" let g:gtm_plugin_status_enabled = 1
+" function! AirlineInit()
+"   if exists('*GTMStatusline')
+"     call airline#parts#define_function('gtmstatus', 'GTMStatusline')
+"     let g:airline_section_b = airline#section#create([g:airline_section_b, ' ', '[', 'gtmstatus', ']'])
+"   endif
+" endfunction
+"
