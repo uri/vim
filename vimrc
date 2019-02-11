@@ -286,6 +286,7 @@ if has("autocmd")
   autocmd BufRead,BufNewFile *.ron setlocal ft=ruby
   autocmd FileType gitcommit setlocal spell
   autocmd FileType markdown setlocal tw=80
+  autocmd filetype crontab setlocal nobackup nowritebackup
 
   " Remove whitespace on save
   autocmd BufWritePre * :%s/\s\+$//e
