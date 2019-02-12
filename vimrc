@@ -169,7 +169,8 @@ nnoremap q :bd<cr>
 nnoremap <silent> <esc> <esc>:noh<cr>
 nnoremap <leader>dm :Dispatch<space>make<space>
 nnoremap <leader>a :Ack!<space>""<left>
-nnoremap <leader>* g*``:Ack!<space>"<C-r>/"<cr>
+nnoremap <leader>sf :exe 'Ack! ' . expand('%:t:r')<cr>
+nnoremap <leader>ss :exe 'Ack! ' . expand('<cword>')<cr>
 nnoremap <leader>yy :%y<CR>
 nnoremap <leader>yf :let @*=expand("%")<cr>
 nnoremap <leader>p :noh<CR>
