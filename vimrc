@@ -98,7 +98,7 @@ let ruby_fold=1
 let g:ackprg = 'rg --vimgrep --no-heading -i'
 " Fenced syntax highlighting
 let g:markdown_fenced_languages = ['html', 'vim', 'ruby', 'python', 'bash=sh', 'javascript', 'elixir', 'sh']
-let mapleader=','
+let mapleader='\'
 set laststatus=2
 " set cryptmethod=blowfish2
 set foldmethod=syntax
