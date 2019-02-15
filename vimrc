@@ -44,7 +44,7 @@ call dein#add('tpope/vim-dadbod')
 call dein#add('sickill/vim-pasta')
 call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
 call dein#add('junegunn/fzf.vim', { 'depends': 'fzf' })
-" call dein#add('neomake/neomake')
+call dein#add('neomake/neomake')
 call dein#add('sbdchd/neoformat')
 call dein#add('majutsushi/tagbar')
 " call dein#add('roman/golden-ratio')
@@ -283,41 +283,44 @@ if has("autocmd")
   " Enable filetype detection
   filetype on
   filetype plugin on
-  autocmd BufRead,BufNewFile *.md setlocal spell
-  autocmd BufRead,BufNewFile *.ron setlocal ft=ruby
-  autocmd FileType gitcommit setlocal spell
-  autocmd FileType markdown setlocal tw=80
-  autocmd filetype crontab setlocal nobackup nowritebackup
+  augroup urigroup
+    autocmd!
+    autocmd BufRead,BufNewFile *.md setlocal spell
+    autocmd BufRead,BufNewFile *.ron setlocal ft=ruby
+    autocmd FileType gitcommit setlocal spell
+    autocmd FileType markdown setlocal tw=80
+    autocmd filetype crontab setlocal nobackup nowritebackup
 
-  " Remove whitespace on save
-  autocmd BufWritePre * :%s/\s\+$//e
+    " Remove whitespace on save
+    autocmd BufWritePre * :%s/\s\+$//e
 
-  " Fold only in normal mode
-  autocmd InsertEnter * let w:last_fdm=&foldmethod | setlocal foldmethod=manual
-  autocmd InsertLeave * let &l:foldmethod=w:last_fdm
+    " Fold only in normal mode
+    autocmd InsertEnter * let w:last_fdm=&foldmethod | setlocal foldmethod=manual
+    autocmd InsertLeave * let &l:foldmethod=w:last_fdm
 
-  " Fold in CoffeeScript
-  autocmd BufNewFile,BufReadPost *.coffee setl foldmethod=indent nofoldenable
-  " Enable folding for javascript plugin jelera/vim-javascript-syntax
-  " autocmd FileType javascript call JavaScriptFold()
+    " Fold in CoffeeScript
+    autocmd BufNewFile,BufReadPost *.coffee setl foldmethod=indent nofoldenable
+    " Enable folding for javascript plugin jelera/vim-javascript-syntax
+    " autocmd FileType javascript call JavaScriptFold()
 
-  " Restore cursor position
-  " let blacklist = ['gitcommit']
-  " autocmd BufReadPost *
-  "   \ if line("'\"") > 1 && line("'\"") <= line("$") && index(blacklist,  &ft) < 0|
-  "   \   exe "normal! g`\"zz" |
-  "   \ endif
+    " Restore cursor position
+    " let blacklist = ['gitcommit']
+    " autocmd BufReadPost *
+    "   \ if line("'\"") > 1 && line("'\"") <= line("$") && index(blacklist,  &ft) < 0|
+    "   \   exe "normal! g`\"zz" |
+    "   \ endif
 
-  autocmd BufReadPost *
-      \ if line("'\"") > 1 && line("'\"") <= line("$") |
-      \   exe "normal! g`\"" |
-      \ endif
+    autocmd BufReadPost *
+        \ if line("'\"") > 1 && line("'\"") <= line("$") |
+        \   exe "normal! g`\"" |
+        \ endif
 
-  " Handlebar to HTML
-  autocmd BufRead,BufNewFile *.hbs set filetype=html
+    " Handlebar to HTML
+    autocmd BufRead,BufNewFile *.hbs set filetype=html
 
-  " Use gf to open JavaScript imports
-  autocmd Bufenter *.js,*.coffee set suffixesadd=.js,.cofeee,.hbs | setlocal path+=,,
+    " Use gf to open JavaScript imports
+    autocmd Bufenter *.js,*.coffee set suffixesadd=.js,.cofeee,.hbs | setlocal path+=,,
+  augroup END
 endif
 
 
@@ -428,7 +431,7 @@ nnoremap <C-p> :FZF<cr>
 nnoremap <C-f> :Buffers<cr>
 nnoremap <C-g> :GFiles?<cr>
 nnoremap <C-Space> :History:<cr>
-
+command! -bang -nargs=? GFiles call fzf#vim#gitfiles(<q-args>, {'options': '--no-preview'}, <bang>0)
 " Mapping selecting mappings
 " nmap <leader><tab> <plug>(fzf-maps-n)
 " xmap <leader><tab> <plug>(fzf-maps-x)
@@ -522,37 +525,46 @@ augroup END
 
 
 " Neomake
-" call neomake#configure#automake('nrwi', 500)
-
-let g:neomake_ruby_enabled_makers = ['rubocop']
-let g:neomake_javascript_enabled_makers = ['eslint']
-" let g:neomake_highlight_lines=1
-
-
-" Neocomplete Elm
-" call neocomplete#util#set_default_dictionary(
-"   \ 'g:neocomplete#sources#omni#input_patterns',
-"   \ 'elm',
-"   \ '\.')
+call neomake#configure#automake('nrwi', 500)
 
 " Neoformat
+let g:neoformat_ruby_prettier = {
+            \ 'exe': './node_modules/.bin/prettier',
+            \ 'args': ['--plugin=@prettier/plugin-ruby','--stdin', '--stdin-filepath', '"%:p"'],
+            \ 'stdin': 1,
+            \ }
+let g:neoformat_javascript_prettier = {
+            \ 'exe': './node_modules/.bin/prettier',
+            \ 'args': ['--stdin', '--stdin-filepath', '"%:p"'],
+            \ 'stdin': 1,
+            \ }
+let g:neoformat_html_prettier = {
+            \ 'exe': './node_modules/.bin/prettier',
+            \ 'args': ['--parser', 'html', '--stdin', '--stdin-filepath', '"%:p"'],
+            \ 'stdin': 1,
+            \ }
+let g:neoformat_css_prettier = {
+            \ 'exe': './node_modules/.bin/prettier',
+            \ 'args': ['--stdin', '--stdin-filepath', '"%:p"'],
+            \ 'stdin': 1,
+            \ }
 let g:neoformat_enabled_scss = ['prettier']
 let g:neoformat_enabled_css = ['prettier']
 let g:neoformat_enabled_javascript = ['prettier']
 let g:neoformat_enabled_html = ['prettier']
+let g:neoformat_enabled_ruby = ['prettier']
+let g:neomake_javascript_enabled_makers = ['eslint']
+
 
 augroup fmt
-  autocmd BufWritePre *.js,*.scss,*.css silent Neoformat
+  au!
+  autocmd BufWritePre *.js,*.scss,*.css,*.html,*.erb,*.hbs silent Neoformat
   " autocmd BufWritePre,TextChanged,InsertLeave *.js silent Neoformat
 augroup END
 
 
 " TagbarToggle
 nmap <F8> :TagbarToggle<CR>
-
-" Deoplete
-let g:deoplete#enable_at_startup = 1
-
 
 command! -nargs=+ Rec execute 'silent ! nrec <args>'
 
@@ -575,9 +587,10 @@ if !exists("my_auto_commands_loaded")
   " undolevels=-1 (no undo possible)
   let g:LargeFile = 1024 * 1024 * 100
   augroup LargeFile
+    au!
     autocmd BufReadPre * let f=expand("<afile>") | if getfsize(f) > g:LargeFile | set eventignore+=FileType | setlocal noswapfile bufhidden=unload buftype=nowrite undolevels=-1 | else | set eventignore-=FileType | endif
-    augroup END
-  endif
+  augroup END
+endif
 
 
 " Runtime toggle prettier/neoformat
@@ -589,6 +602,7 @@ function! TogglePrettier()
         augroup END
     else
         augroup fmt
+          au!
           autocmd!
         augroup END
     endif
