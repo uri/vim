@@ -16,7 +16,6 @@ call dein#add('Shougo/dein.vim')
 
 " Add or remove your plugins here:
 call dein#add('airblade/vim-gitgutter')
-call dein#add('blindFS/vim-taskwarrior')
 call dein#add('godlygeek/tabular.git')
 call dein#add('janko-m/vim-test')
 " call dein#add('jiangmiao/auto-pairs')
