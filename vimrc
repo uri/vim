@@ -34,7 +34,6 @@ call dein#add('tpope/vim-commentary.git')
 call dein#add('tpope/vim-dispatch.git')
 call dein#add('tpope/vim-fugitive')
 call dein#add('tpope/vim-rhubarb')
-call dein#add('tpope/vim-projectionist')
 call dein#add('tpope/vim-repeat')
 call dein#add('tpope/vim-surround')
 call dein#add('tpope/vim-unimpaired.git')
@@ -49,7 +48,6 @@ call dein#add('majutsushi/tagbar')
 " call dein#add('roman/golden-ratio')
 " call dein#add('git-time-metric/gtm-vim-plugin')
 call dein#add('machakann/vim-highlightedyank')
-
 " call dein#add('vim-airline/vim-airline')
 " call dein#add('vim-airline/vim-airline-themes')
 call dein#add('rakr/vim-one')
@@ -70,6 +68,9 @@ call dein#add('kchmck/vim-coffee-script')
 call dein#add('ElmCast/elm-vim')
 " call dein#add('mpyatishev/vim-sqlformat')
 call dein#add('chrisbra/Colorizer')
+call dein#add('posva/vim-vue')
+call dein#add('leafgarland/typescript-vim')
+
 " You can specify revision/branch/tag.
 " call dein#add('Shougo/vimshell' |  { 'rev': '3787e5' })
 
@@ -254,7 +255,7 @@ highlight Comment gui=italic
 highlight Comment cterm=italic
 
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-set background=
+set background=light
 colorscheme one
 " colorscheme solarized8
 
@@ -539,7 +540,7 @@ let g:neoformat_javascript_prettier = {
             \ }
 let g:neoformat_html_prettier = {
             \ 'exe': './node_modules/.bin/prettier',
-            \ 'args': ['--parser', 'html', '--stdin', '--stdin-filepath', '"%:p"'],
+            \ 'args': ['--parser', 'glimmer', '--stdin', '--stdin-filepath', '"%:p"'],
             \ 'stdin': 1,
             \ }
 let g:neoformat_css_prettier = {
@@ -547,17 +548,25 @@ let g:neoformat_css_prettier = {
             \ 'args': ['--stdin', '--stdin-filepath', '"%:p"'],
             \ 'stdin': 1,
             \ }
+let g:neoformat_css_prettier = {
+            \ 'exe': 'vueprettier',
+            \ 'args': ['--stdin', '--stdin-filepath', '"%:p"'],
+            \ 'stdin': 1,
+            \ }
 let g:neoformat_enabled_scss = ['prettier']
 let g:neoformat_enabled_css = ['prettier']
 let g:neoformat_enabled_javascript = ['prettier']
-let g:neoformat_enabled_html = ['prettier']
+let g:neoformat_enabled_html = []
 let g:neoformat_enabled_ruby = ['prettier']
+let g:neoformat_enabled_vue = ['prettier']
+
 let g:neomake_javascript_enabled_makers = ['eslint']
+" let g:neomake_ruby_enabled_makers = ['']
 
 
 augroup fmt
   au!
-  autocmd BufWritePre *.js,*.scss,*.css,*.html,*.erb,*.hbs silent Neoformat
+  autocmd BufWritePre *.js,*.scss,*.css,*.hbs silent Neoformat
   " autocmd BufWritePre,TextChanged,InsertLeave *.js silent Neoformat
 augroup END
 
@@ -587,7 +596,7 @@ if !exists("my_auto_commands_loaded")
   let g:LargeFile = 1024 * 1024 * 100
   augroup LargeFile
     au!
-    autocmd BufReadPre * let f=expand("<afile>") | if getfsize(f) > g:LargeFile | set eventignore+=FileType | setlocal noswapfile bufhidden=unload buftype=nowrite undolevels=-1 | else | set eventignore-=FileType | endif
+    " autocmd BufReadPre * let f=expand("<afile>") | if getfsize(f) > g:LargeFile | set eventignore+=FileType | setlocal noswapfile bufhidden=unload buftype=nowrite undolevels=-1 | else | set eventignore-=FileType | endif
   augroup END
 endif
 
@@ -619,3 +628,6 @@ command! TogglePrettier :call TogglePrettier()<cr>
 "   endif
 " endfunction
 "
+
+" Git gutter
+nmap <Leader>hf <Plug>GitGutterFold
