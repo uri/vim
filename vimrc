@@ -44,6 +44,7 @@ call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
 call dein#add('junegunn/fzf.vim', { 'depends': 'fzf' })
 call dein#add('neomake/neomake')
 call dein#add('sbdchd/neoformat')
+" call dein#add('w0rp/ale')
 call dein#add('majutsushi/tagbar')
 " call dein#add('roman/golden-ratio')
 " call dein#add('git-time-metric/gtm-vim-plugin')
@@ -68,11 +69,11 @@ call dein#add('kchmck/vim-coffee-script')
 call dein#add('ElmCast/elm-vim')
 " call dein#add('mpyatishev/vim-sqlformat')
 call dein#add('chrisbra/Colorizer')
-call dein#add('posva/vim-vue')
-call dein#add('leafgarland/typescript-vim')
-
+call dein#add('HerringtonDarkholme/yats.vim')
 " You can specify revision/branch/tag.
 " call dein#add('Shougo/vimshell' |  { 'rev': '3787e5' })
+
+call dein#add('Konfekt/FastFold')
 
 " Required:
 call dein#end()
@@ -93,7 +94,6 @@ endif
 let g:ruby_path = system('echo $HOME/.rbenv/shims')
 let g:ruby_default_path = system('echo $HOME/.rbenv/shims')
 let $ZSH="~/.zshrc"
-let ruby_fold=1
 " Ripgrep
 let g:ackprg = 'rg --vimgrep --no-heading -i'
 " Fenced syntax highlighting
@@ -101,9 +101,6 @@ let g:markdown_fenced_languages = ['html', 'vim', 'ruby', 'python', 'bash=sh', '
 let mapleader='_'
 set laststatus=2
 " set cryptmethod=blowfish2
-set foldmethod=syntax
-set foldlevel=6
-set nofoldenable
 set nu
 set rnu
 set nowrap
@@ -193,6 +190,7 @@ nnoremap <leader>cl :set bg=light<cr>
 nnoremap <leader>cd :set bg=dark<cr>
 nnoremap <leader>g :Gst<cr>
 nnoremap <leader>db :%DB g:prod<cr>
+nnoremap <leader>u `]v[`gU`>
 if has("nvim")
   " nnoremap <leader>ha :te ssh apist<cr>
   " nnoremap <leader>hta :tabe <bar> te ssh apist<cr>
@@ -294,22 +292,6 @@ if has("autocmd")
     " Remove whitespace on save
     autocmd BufWritePre * :%s/\s\+$//e
 
-    " Fold only in normal mode
-    autocmd InsertEnter * let w:last_fdm=&foldmethod | setlocal foldmethod=manual
-    autocmd InsertLeave * let &l:foldmethod=w:last_fdm
-
-    " Fold in CoffeeScript
-    autocmd BufNewFile,BufReadPost *.coffee setl foldmethod=indent nofoldenable
-    " Enable folding for javascript plugin jelera/vim-javascript-syntax
-    " autocmd FileType javascript call JavaScriptFold()
-
-    " Restore cursor position
-    " let blacklist = ['gitcommit']
-    " autocmd BufReadPost *
-    "   \ if line("'\"") > 1 && line("'\"") <= line("$") && index(blacklist,  &ft) < 0|
-    "   \   exe "normal! g`\"zz" |
-    "   \ endif
-
     autocmd BufReadPost *
         \ if line("'\"") > 1 && line("'\"") <= line("$") |
         \   exe "normal! g`\"" |
@@ -331,7 +313,7 @@ endif
 " Macros
 let @b='Obyebug:wj'
 let @l='yiwilet(:A) { create(:") }H'
-let @k='Hilet(:jkea)jkf=r{A }jkH'
+let @k='^ilet(:wea)f=xi{A }'
 let @q='nhdHt{dhdl%lD@q'
 let @e='^yeea: "'
 
@@ -395,7 +377,7 @@ nnoremap <leader>z :Zoomwindow<cr>
 
 " let test#ruby#rspec#executable = 'bundle exec rspec'
 " let test#ruby#rspec#executable = 'bundle exec rspec'
-let test#ruby#rspec#executable = 'bundle exec rspec'
+let test#ruby#rspec#executable = 'bundle exec spring rspec'
 let test#strategy = "dispatch"
 " let test#strategy = "neovim"
 " let test#strategy = "neomake"
@@ -473,6 +455,8 @@ let g:multi_cursor_exit_from_insert_mode=0
 let g:multi_cursor_exit_from_visual_mode=0
 let g:multi_cursor_quit_key='<C-c>'
 nnoremap <C-c> :call multiple_cursors#quit()<CR>
+nnoremap <silent> <M-j> :MultipleCursorsFind <C-R>/<CR>
+vnoremap <silent> <M-j> :MultipleCursorsFind <C-R>/<CR>
 
 " Called once only when the multiple selection is cancel
 function! Multiple_cursors_before()
@@ -524,9 +508,6 @@ augroup CursorLine
 augroup END
 
 
-" Neomake
-call neomake#configure#automake('nrwi', 500)
-
 " Neoformat
 let g:neoformat_ruby_prettier = {
             \ 'exe': './node_modules/.bin/prettier',
@@ -548,11 +529,16 @@ let g:neoformat_css_prettier = {
             \ 'args': ['--stdin', '--stdin-filepath', '"%:p"'],
             \ 'stdin': 1,
             \ }
-let g:neoformat_css_prettier = {
-            \ 'exe': 'vueprettier',
+let g:neoformat_scss_prettier = {
+            \ 'exe': './node_modules/.bin/prettier',
             \ 'args': ['--stdin', '--stdin-filepath', '"%:p"'],
             \ 'stdin': 1,
             \ }
+" let g:neoformat_ruby_standard = {
+"             \ 'exe': 'standardrb',
+"             \ 'args': ['--fix'],
+"             \ 'stdin': 0,
+"             \ }
 let g:neoformat_enabled_scss = ['prettier']
 let g:neoformat_enabled_css = ['prettier']
 let g:neoformat_enabled_javascript = ['prettier']
@@ -569,6 +555,11 @@ augroup fmt
   autocmd BufWritePre *.js,*.scss,*.css,*.hbs silent Neoformat
   " autocmd BufWritePre,TextChanged,InsertLeave *.js silent Neoformat
 augroup END
+
+
+"Neomake
+call neomake#configure#automake('nrwi', 500)
+let g:neomake_javascript_enabled_makers = ['eslint']
 
 
 " TagbarToggle
@@ -631,3 +622,22 @@ command! TogglePrettier :call TogglePrettier()<cr>
 
 " Git gutter
 nmap <Leader>hf <Plug>GitGutterFold
+
+" FastFold
+nmap zuz <Plug>(FastFoldUpdate)
+let g:fastfold_savehook = 1
+let g:fastfold_fold_command_suffixes =  ['x','X','a','A','o','O','c','C']
+let g:fastfold_fold_movement_commands = [']z', '[z', 'zj', 'zk']
+" let g:markdown_folding = 1
+" let g:tex_fold_enabled = 1
+" let g:vimsyn_folding = 'af'
+" let g:xml_syntax_folding = 1
+" let g:javaScript_fold = 1
+" let g:sh_fold_enabled= 7
+" let g:ruby_fold = 1
+
+augroup urifolds
+  au!
+  " Fold in CoffeeScript
+  autocmd BufNewFile,BufReadPost *.coffee setl foldmethod=indent nofoldenable
+augroup END
