@@ -8,77 +8,45 @@ endif
 set runtimepath+=~/.vim/dein/repos/github.com/Shougo/dein.vim
 
 " Required:
-call dein#begin(expand('~/.vim/dein'))
+if dein#load_state('~/.vim/dein')
+  call dein#begin(expand('~/.vim/dein'))
 
-" Let dein manage dein
-" Required:
-call dein#add('Shougo/dein.vim')
+  " Let dein manage dein
+  " Required:
+  call dein#add('Shougo/dein.vim')
 
-" Add or remove your plugins here:
-call dein#add('airblade/vim-gitgutter')
-call dein#add('godlygeek/tabular.git')
-call dein#add('janko-m/vim-test')
-" call dein#add('jiangmiao/auto-pairs')
-call dein#add('kana/vim-textobj-user')
-call dein#add('kana/vim-textobj-indent')
-call dein#add('rhysd/vim-textobj-ruby')
-call dein#add('michaeljsmith/vim-indent-object')
-call dein#add('mattn/emmet-vim.git')
-call dein#add('mbbill/undotree')
-call dein#add('nelstrom/vim-qargs')
-call dein#add('mileszs/ack.vim')
-call dein#add('scrooloose/nerdtree')
-call dein#add('terryma/vim-multiple-cursors')
-call dein#add('tpope/vim-abolish')
-call dein#add('tpope/vim-commentary.git')
-call dein#add('tpope/vim-dispatch.git')
-call dein#add('tpope/vim-fugitive')
-call dein#add('tpope/vim-rhubarb')
-call dein#add('tpope/vim-repeat')
-call dein#add('tpope/vim-surround')
-call dein#add('tpope/vim-unimpaired.git')
-call dein#add('tpope/vim-dadbod')
-" call dein#add('christoomey/vim-tmux-navigator.git')
-call dein#add('sickill/vim-pasta')
-call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
-call dein#add('junegunn/fzf.vim', { 'depends': 'fzf' })
-call dein#add('neomake/neomake')
-call dein#add('sbdchd/neoformat')
-" call dein#add('w0rp/ale')
-call dein#add('majutsushi/tagbar')
-" call dein#add('roman/golden-ratio')
-" call dein#add('git-time-metric/gtm-vim-plugin')
-call dein#add('machakann/vim-highlightedyank')
-" call dein#add('vim-airline/vim-airline')
-" call dein#add('vim-airline/vim-airline-themes')
-call dein#add('rakr/vim-one')
-" call dein#add('lifepillar/vim-solarized8')
+  call dein#add('airblade/vim-gitgutter')
+  " call dein#add('godlygeek/tabular.git')
+  " call dein#add('janko-m/vim-test')
+  call dein#add('mileszs/ack.vim')
+  call dein#add('scrooloose/nerdtree')
+  call dein#add('terryma/vim-multiple-cursors')
+  call dein#add('tpope/vim-commentary.git')
+  call dein#add('tpope/vim-dispatch.git')
+  call dein#add('tpope/vim-fugitive')
+  call dein#add('tpope/vim-surround')
+  call dein#add('tpope/vim-repeat')
+  " call dein#add('sickill/vim-pasta')
+  call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
+  call dein#add('junegunn/fzf.vim', { 'depends': 'fzf' })
+  call dein#add('neoclide/coc.nvim', {'merge':0, 'rev': 'release'})
+  call dein#add('machakann/vim-highlightedyank')
+  " call dein#add('rakr/vim-one')
+  call dein#add('lifepillar/vim-solarized8')
 
-" Language/platform specific plugins
-call dein#add('tpope/vim-markdown')
-call dein#add('aklt/plantuml-syntax')
-call dein#add('elixir-lang/vim-elixir')
-call dein#add('slashmili/alchemist.vim')
-call dein#add('vim-ruby/vim-ruby')
-call dein#add('rhysd/vim-crystal')
-" call dein#add('tpope/vim-rails.git')
-call dein#add('tpope/vim-bundler')
-call dein#add('tpope/vim-rake')
-call dein#add('othree/yajs.vim')
-call dein#add('kchmck/vim-coffee-script')
-call dein#add('ElmCast/elm-vim')
-" call dein#add('mpyatishev/vim-sqlformat')
-call dein#add('chrisbra/Colorizer')
-call dein#add('HerringtonDarkholme/yats.vim')
-" You can specify revision/branch/tag.
-" call dein#add('Shougo/vimshell' |  { 'rev': '3787e5' })
 
-call dein#add('Konfekt/FastFold')
+  " Language/platform specific plugins
+  call dein#add('vim-ruby/vim-ruby')
+  " call dein#add('othree/yajs.vim')
+  call dein#add('leafgarland/typescript-vim')
+  call dein#add('posva/vim-vue')
 
-" Required:
-call dein#end()
-call dein#save_state()
+  " You can specify revision/branch/tag.
+  " call dein#add('Shougo/vimshell' |  { 'rev': '3787e5' })
 
+  call dein#end()
+  call dein#save_state()
+endif
 " Required:
 filetype plugin indent on
 
@@ -91,8 +59,6 @@ endif
 
 
 " Speeds up ruby syntax apparently
-let g:ruby_path = system('echo $HOME/.rbenv/shims')
-let g:ruby_default_path = system('echo $HOME/.rbenv/shims')
 let $ZSH="~/.zshrc"
 " Ripgrep
 let g:ackprg = 'rg --vimgrep --no-heading -i'
@@ -113,7 +79,6 @@ set cursorline
 set splitbelow
 set splitright
 " MacVim
-set guifont=Meslo\ LG\ S\ Regular\ for\ Powerline:h14
 " set ignorecase
 set smartcase
 set incsearch
@@ -122,7 +87,6 @@ set wildmenu
 set timeoutlen=1000 ttimeoutlen=0
 " highlight by default
 set hls
-set regexpengine=1
 " Remove _ as a word delimeter
 " set iskeyword-=_
 " Load additional vim configuration if .exrc file is present
@@ -241,10 +205,14 @@ syntax enable
 syntax sync minlines=200
 
 if (has("termguicolors"))
+  let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
   set termguicolors
+
+  " set termguicolors
+  " set t_8b=[48;2;%lu;%lu;%lum
+  " set t_8f=[38;2;%lu;%lu;%lum
 endif
-set t_8b=[48;2;%lu;%lu;%lum
-set t_8f=[38;2;%lu;%lu;%lum
 
 let g:one_allow_italics = 1
 let g:enable_bold_font = 1
@@ -252,26 +220,16 @@ let g:enable_bold_font = 1
 highlight Comment gui=italic
 highlight Comment cterm=italic
 
-let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+" let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 set background=light
-colorscheme one
-" colorscheme solarized8
+" colorscheme one
+colorscheme solarized8
 
 " highlight clear SignColumn
 " highlight Search guibg='yellow' guifg='black'
 " highlight Search guibg='black' guifg='yellow'
 hi Search guibg=yellow guifg=black
 
-
-" direnv
-" if exists("$EXTRA_VIM")
-"   for path in split($EXTRA_VIM, ':')
-"     exec "source ".path
-"   endfor
-" endif
-
-" " Send more characters for redraws
-set ttyfast
 
 " " " Set this to the name of your terminal that supports mouse codes.
 " " " Must be one of: xterm, xterm2, netterm, dec, jsbterm, pterm
@@ -290,24 +248,19 @@ if has("autocmd")
     autocmd filetype crontab setlocal nobackup nowritebackup
 
     " Remove whitespace on save
-    autocmd BufWritePre * :%s/\s\+$//e
-
-    autocmd BufReadPost *
-        \ if line("'\"") > 1 && line("'\"") <= line("$") |
-        \   exe "normal! g`\"" |
-        \ endif
+    " autocmd BufWritePre * :%s/\s\+$//e
 
     " Handlebar to HTML
-    autocmd BufRead,BufNewFile *.hbs set filetype=html
+    " autocmd BufRead,BufNewFile *.hbs set filetype=html
 
     " Use gf to open JavaScript imports
-    autocmd Bufenter *.js,*.coffee set suffixesadd=.js,.cofeee,.hbs | setlocal path+=,,
+    autocmd Bufenter *.ts,*.js,*.coffee set suffixesadd=.js,.cofeee,.hbs | setlocal path+=,,
   augroup END
 endif
 
 
 if has("nvim")
-  tnoremap jk <C-\><C-n>G$?>\\|λ<enter>$<esc>
+  " tnoremap jk <C-\><C-n>G$?>\\|λ<enter>$<esc>
 endif
 
 " Macros
@@ -375,12 +328,8 @@ nnoremap <leader>z :Zoomwindow<cr>
 "   let test#ruby#rspec#executable = 'bundle exec rspec'
 " endif
 
-" let test#ruby#rspec#executable = 'bundle exec rspec'
-" let test#ruby#rspec#executable = 'bundle exec rspec'
-let test#ruby#rspec#executable = 'bundle exec spring rspec'
+let test#ruby#rspec#executable = 'bundle exec rspec'
 let test#strategy = "dispatch"
-" let test#strategy = "neovim"
-" let test#strategy = "neomake"
 " Do not close the screen on success
 let g:test#preserve_screen = 1
 nmap <silent> <leader>s :w<cr>:TestNearest<CR>
@@ -459,111 +408,35 @@ nnoremap <silent> <M-j> :MultipleCursorsFind <C-R>/<CR>
 vnoremap <silent> <M-j> :MultipleCursorsFind <C-R>/<CR>
 
 " Called once only when the multiple selection is cancel
-function! Multiple_cursors_before()
-  set foldmethod=manual
-  let g:deoplete#disable_auto_complete = 1
-endfunction
-function! Multiple_cursors_after()
-  let g:deoplete#disable_auto_complete = 0
-  set foldmethod=syntax
-endfunction
+" function! Multiple_cursors_before()
+"   set foldmethod=manual
+"   let g:deoplete#disable_auto_complete = 1
+" endfunction
+" function! Multiple_cursors_after()
+"   let g:deoplete#disable_auto_complete = 0
+"   set foldmethod=syntax
+" endfunction
 
 
 " " TaskWarrior
-let g:task_default_prompt = ['description', 'priority' ]
-let g:task_log_max        = '100'
-let g:task_info_size      = 30
-let g:task_rc_override = 'rc.defaultheight=0'
-" Highlight and cursor line breaks for some reason
-let g:task_highlight_field = 0
+" let g:task_default_prompt = ['description', 'priority' ]
+" let g:task_log_max        = '100'
+" let g:task_info_size      = 30
+" let g:task_rc_override = 'rc.defaultheight=0'
+" " Highlight and cursor line breaks for some reason
+" let g:task_highlight_field = 0
 
-
-
-" Gista
-let g:gista#post_private = 1
-
-" Autopairs
-let g:AutoPairsFlyMode = 0
-
-let g:ctrlp_abbrev = {
-  \ 'gmode': 'i',
-  \ 'abbrevs': [
-    \ {
-      \ 'pattern': ' ',
-      \ 'expanded': '',
-      \ 'mode': 'pfrz',
-    \ },
-    \ ]
-  \ }
 
 
 " Turn off [] autopairs for markdown
 " au Filetype markdown let b:AutoPairs = {'(':')', '{':'}',"'":"'",'"':'"', '`':'`'}
 
 " Testing out cursor autocmd
-augroup CursorLine
-  au!
-  au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
-  au WinLeave * setlocal nocursorline
-augroup END
-
-
-" Neoformat
-let g:neoformat_ruby_prettier = {
-            \ 'exe': './node_modules/.bin/prettier',
-            \ 'args': ['--plugin=@prettier/plugin-ruby','--stdin', '--stdin-filepath', '"%:p"'],
-            \ 'stdin': 1,
-            \ }
-let g:neoformat_javascript_prettier = {
-            \ 'exe': './node_modules/.bin/prettier',
-            \ 'args': ['--stdin', '--stdin-filepath', '"%:p"'],
-            \ 'stdin': 1,
-            \ }
-let g:neoformat_html_prettier = {
-            \ 'exe': './node_modules/.bin/prettier',
-            \ 'args': ['--parser', 'glimmer', '--stdin', '--stdin-filepath', '"%:p"'],
-            \ 'stdin': 1,
-            \ }
-let g:neoformat_css_prettier = {
-            \ 'exe': './node_modules/.bin/prettier',
-            \ 'args': ['--stdin', '--stdin-filepath', '"%:p"'],
-            \ 'stdin': 1,
-            \ }
-let g:neoformat_scss_prettier = {
-            \ 'exe': './node_modules/.bin/prettier',
-            \ 'args': ['--stdin', '--stdin-filepath', '"%:p"'],
-            \ 'stdin': 1,
-            \ }
-" let g:neoformat_ruby_standard = {
-"             \ 'exe': 'standardrb',
-"             \ 'args': ['--fix'],
-"             \ 'stdin': 0,
-"             \ }
-let g:neoformat_enabled_scss = ['prettier']
-let g:neoformat_enabled_css = ['prettier']
-let g:neoformat_enabled_javascript = ['prettier']
-let g:neoformat_enabled_html = []
-let g:neoformat_enabled_ruby = ['prettier']
-let g:neoformat_enabled_vue = ['prettier']
-
-let g:neomake_javascript_enabled_makers = ['eslint']
-" let g:neomake_ruby_enabled_makers = ['']
-
-
-augroup fmt
-  au!
-  autocmd BufWritePre *.js,*.scss,*.css,*.hbs silent Neoformat
-  " autocmd BufWritePre,TextChanged,InsertLeave *.js silent Neoformat
-augroup END
-
-
-"Neomake
-call neomake#configure#automake('nrwi', 500)
-let g:neomake_javascript_enabled_makers = ['eslint']
-
-
-" TagbarToggle
-nmap <F8> :TagbarToggle<CR>
+" augroup CursorLine
+"   au!
+"   au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
+"   au WinLeave * setlocal nocursorline
+" augroup END
 
 command! -nargs=+ Rec execute 'silent ! nrec <args>'
 
@@ -592,52 +465,156 @@ if !exists("my_auto_commands_loaded")
 endif
 
 
-" Runtime toggle prettier/neoformat
-function! TogglePrettier()
-    if !exists('#fmt#BufWritePre')
-        augroup fmt
-          autocmd!
-          autocmd BufWritePre * silent Neoformat
-        augroup END
-    else
-        augroup fmt
-          au!
-          autocmd!
-        augroup END
-    endif
-endfunction
-
-command! TogglePrettier :call TogglePrettier()<cr>
-
-
-" GTM
-" let g:gtm_plugin_status_enabled = 1
-" function! AirlineInit()
-"   if exists('*GTMStatusline')
-"     call airline#parts#define_function('gtmstatus', 'GTMStatusline')
-"     let g:airline_section_b = airline#section#create([g:airline_section_b, ' ', '[', 'gtmstatus', ']'])
-"   endif
-" endfunction
-"
-
 " Git gutter
 nmap <Leader>hf <Plug>GitGutterFold
 
-" FastFold
-nmap zuz <Plug>(FastFoldUpdate)
-let g:fastfold_savehook = 1
-let g:fastfold_fold_command_suffixes =  ['x','X','a','A','o','O','c','C']
-let g:fastfold_fold_movement_commands = [']z', '[z', 'zj', 'zk']
-" let g:markdown_folding = 1
-" let g:tex_fold_enabled = 1
-" let g:vimsyn_folding = 'af'
-" let g:xml_syntax_folding = 1
-" let g:javaScript_fold = 1
-" let g:sh_fold_enabled= 7
-" let g:ruby_fold = 1
 
-augroup urifolds
-  au!
-  " Fold in CoffeeScript
-  autocmd BufNewFile,BufReadPost *.coffee setl foldmethod=indent nofoldenable
-augroup END
+
+
+
+
+
+" COC
+" if hidden is not set, TextEdit might fail.
+set hidden
+
+" Some servers have issues with backup files, see #649
+set nobackup
+set nowritebackup
+
+" Better display for messages
+set cmdheight=2
+
+" You will have bad experience for diagnostic messages when it's default 4000.
+set updatetime=300
+
+" don't give |ins-completion-menu| messages.
+set shortmess+=c
+
+" always show signcolumns
+set signcolumn=yes
+
+inoremap <silent><expr> <C-p>
+      \ pumvisible() ? "\<C-p>" :
+      \ coc#refresh()
+
+
+" Use tab for trigger completion with characters ahead and navigate.
+" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use `[g` and `]g` to navigate diagnostics
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" Remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Use K to show documentation in preview window
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+" Highlight symbol under cursor on CursorHold
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Remap for rename current word
+nmap <leader>rn <Plug>(coc-rename)
+
+" Remap for format selected region
+xmap <leader>f  <Plug>(coc-format-selected)
+nmap <leader>f  <Plug>(coc-format-selected)
+
+augroup mygroup
+  autocmd!
+  " Setup formatexpr specified filetype(s).
+  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+  " Update signature help on jump placeholder
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+augroup end
+
+" Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
+" xmap <leader>a  <Plug>(coc-codeaction-selected)
+" nmap <leader>a  <Plug>(coc-codeaction-selected)
+
+" Remap for do codeAction of current line
+nmap <leader>xx  <Plug>(coc-codeaction)
+" Fix autofix problem of current line
+nmap <leader>xf  <Plug>(coc-fix-current)
+
+" Create mappings for function text object, requires document symbols feature of
+" languageserver.
+
+xmap if <Plug>(coc-funcobj-i)
+xmap af <Plug>(coc-funcobj-a)
+omap if <Plug>(coc-funcobj-i)
+omap af <Plug>(coc-funcobj-a)
+
+" Use <tab> for select selections ranges, needs server support, like: coc-tsserver, coc-python
+" nmap <silent> <TAB> <Plug>(coc-range-select)
+" xmap <silent> <TAB> <Plug>(coc-range-select)
+" xmap <silent> <S-TAB> <Plug>(coc-range-select-backword)
+
+" Use `:Format` to format current buffer
+command! -nargs=0 Format :call CocAction('format')
+
+" Use `:Fold` to fold current buffer
+command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+
+" use `:OR` for organize import of current buffer
+command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+
+" Add status line support, for integration with other plugin, checkout `:h coc-status`
+" set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+
+" Using CocList
+" Show all diagnostics
+nnoremap <silent> <leader>ca  :<C-u>CocList diagnostics<cr>
+" Manage extensions
+nnoremap <silent> <leader>ce  :<C-u>CocList extensions<cr>
+" Show commands
+nnoremap <silent> <leader>cc  :<C-u>CocList commands<cr>
+" Find symbol of current document
+nnoremap <silent> <leader>co  :<C-u>CocList outline<cr>
+" Search workspace symbols
+nnoremap <silent> <leader>cs  :<C-u>CocList -I symbols<cr>
+" Do default action for next item.
+nnoremap <silent> <leader>cj  :<C-u>CocNext<CR>
+" Do default action for previous item.
+nnoremap <silent> <leader>ck  :<C-u>CocPrev<CR>
+" Resume latest coc list
+nnoremap <silent> <leader>cp  :<C-u>CocListResume<CR>
+
+
+" Use <C-l> for trigger snippet expand.
+imap <C-l> <Plug>(coc-snippets-expand)
+
+" Use <C-j> for select text for visual placeholder of snippet.
+vmap <C-j> <Plug>(coc-snippets-select)
+
+" Use <C-j> for jump to next placeholder, it's default of coc.nvim
+let g:coc_snippet_next = '<c-j>'
+
+" Use <C-k> for jump to previous placeholder, it's default of coc.nvim
+let g:coc_snippet_prev = '<c-k>'
+
+" Use <C-j> for both expand and jump (make expand higher priority.)
+imap <C-j> <Plug>(coc-snippets-expand-jump)
