@@ -1,0 +1,16 @@
+{
+  "codeLens.enable": true,
+  "solargraph.symbols": true,
+  "coc.preferences.formatOnSaveFiletypes": ["css", "javascript", "typescript", "vue", "html", "scss", "ts" ],
+  "prettier.disableLanguages": [],
+  "prettier.semi": true,
+  "prettier.trailingComma": "es5",
+  "prettier.htmlWhitespaceSensitivity": "strict",
+  "suggest.autoTrigger": "always",
+  "vetur.useWorkspaceDependencies": true,
+  "vetur.experimental.templateInterpolationService": false,
+  "snippets.extends": {
+    "typescript": ["javascript"]
+  }
+}
+
