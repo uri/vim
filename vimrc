@@ -1,61 +1,36 @@
-" dein Scripts-----------------------------
-"
-if &compatible
-  set nocompatible
-endif
+" Specify a directory for plugins
+" - For Neovim: stdpath('data') . '/plugged'
+" - Avoid using standard Vim directory names like 'plugin'
+call plug#begin('~/.vim/plugged')
 
-" Required:
-set runtimepath+=~/.vim/dein/repos/github.com/Shougo/dein.vim
-
-" Required:
-if dein#load_state('~/.vim/dein')
-  call dein#begin(expand('~/.vim/dein'))
-
-  " Let dein manage dein
-  " Required:
-  call dein#add('Shougo/dein.vim')
-
-  call dein#add('airblade/vim-gitgutter')
-  " call dein#add('godlygeek/tabular.git')
-  " call dein#add('janko-m/vim-test')
-  call dein#add('mileszs/ack.vim')
-  call dein#add('scrooloose/nerdtree')
-  call dein#add('terryma/vim-multiple-cursors')
-  call dein#add('tpope/vim-commentary.git')
-  call dein#add('tpope/vim-dispatch.git')
-  call dein#add('tpope/vim-fugitive')
-  call dein#add('tpope/vim-surround')
-  call dein#add('tpope/vim-repeat')
-  " call dein#add('sickill/vim-pasta')
-  call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
-  call dein#add('junegunn/fzf.vim', { 'depends': 'fzf' })
-  call dein#add('neoclide/coc.nvim', {'merge':0, 'rev': 'release'})
-  call dein#add('machakann/vim-highlightedyank')
-  " call dein#add('rakr/vim-one')
-  call dein#add('lifepillar/vim-solarized8')
+Plug 'airblade/vim-gitgutter'
+" Plug 'godlygeek/tabular.git'
+" Plug 'janko-m/vim-test'
+Plug 'mileszs/ack.vim'
+Plug 'scrooloose/nerdtree'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'tpope/vim-commentary.git'
+Plug 'tpope/vim-dispatch.git'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-repeat'
+" Plug 'sickill/vim-pasta'
+Plug 'junegunn/fzf', { 'build': './install --all', 'merged': 0 }
+Plug 'junegunn/fzf.vim', { 'depends': 'fzf' }
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'machakann/vim-highlightedyank'
+" Plug 'rakr/vim-one'
+Plug 'lifepillar/vim-solarized8'
 
 
-  " Language/platform specific plugins
-  call dein#add('vim-ruby/vim-ruby')
-  " call dein#add('othree/yajs.vim')
-  call dein#add('leafgarland/typescript-vim')
-  call dein#add('posva/vim-vue')
+" Language/platform specific plugins
+Plug 'vim-ruby/vim-ruby'
+" Plug 'othree/yajs.vim'
+Plug 'leafgarland/typescript-vim'
+Plug 'posva/vim-vue'
 
-  " You can specify revision/branch/tag.
-  " call dein#add('Shougo/vimshell' |  { 'rev': '3787e5' })
-
-  call dein#end()
-  call dein#save_state()
-endif
-" Required:
-filetype plugin indent on
-
-" If you want to install not installed plugins on startup.
-if dein#check_install()
-  call dein#install()
-endif
-
-"End dein Scripts-------------------------
+" Initialize plugin system
+call plug#end()
 
 
 " Speeds up ruby syntax apparently
