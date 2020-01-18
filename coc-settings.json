@@ -1,4 +1,5 @@
 {
+  "coc.preferences.rootPatterns": ["tsconfig.json", ".vim",".git",".hg",".projections.json"],
   "codeLens.enable": true,
   "solargraph.symbols": true,
   "coc.preferences.formatOnSaveFiletypes": ["go", "css", "javascript", "typescript", "vue", "html", "scss", "ts" ],

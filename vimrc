@@ -14,6 +14,7 @@ Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-abolish'
 " Plug 'sickill/vim-pasta'
 Plug 'junegunn/fzf', { 'build': './install --all', 'merged': 0 }
 Plug 'junegunn/fzf.vim', { 'depends': 'fzf' }
@@ -28,6 +29,7 @@ Plug 'vim-ruby/vim-ruby'
 " Plug 'othree/yajs.vim'
 Plug 'leafgarland/typescript-vim'
 Plug 'posva/vim-vue'
+Plug 'fatih/vim-go'
 
 " Initialize plugin system
 call plug#end()
@@ -39,7 +41,7 @@ let $ZSH="~/.zshrc"
 let g:ackprg = 'rg --vimgrep --no-heading -i'
 " Fenced syntax highlighting
 let g:markdown_fenced_languages = ['html', 'vim', 'ruby', 'python', 'bash=sh', 'javascript', 'elixir', 'sh']
-let mapleader='_'
+let mapleader='-'
 set laststatus=2
 " set cryptmethod=blowfish2
 set nu
@@ -221,6 +223,7 @@ if has("autocmd")
     autocmd FileType gitcommit setlocal spell
     autocmd FileType markdown setlocal tw=80
     autocmd filetype crontab setlocal nobackup nowritebackup
+    autocmd filetype go setlocal tabstop=8 softtabstop=0 noexpandtab shiftwidth=8 smarttab
 
     " Remove whitespace on save
     " autocmd BufWritePre * :%s/\s\+$//e
@@ -247,6 +250,8 @@ let @e='^yeea: "'
 
 " Abbreviations
 iabbr clog console.log()<left>
+iabbr flog fmt.Println("")<left><left>
+iabbr fpr fmt.Printf("\n",)<left><left><left><left><left>
 
 " Time abbreviations
 iab <expr> ddd strftime('%b %d, %Y')
@@ -307,10 +312,13 @@ let test#ruby#rspec#executable = 'bundle exec rspec'
 let test#strategy = "dispatch"
 " Do not close the screen on success
 let g:test#preserve_screen = 1
-nmap <silent> <leader>s :w<cr>:TestNearest<CR>
-nmap <silent> <leader>t :w<cr>:TestFile<CR>
-nmap <silent> <leader>l :w<cr>:TestLast<CR>
+" nmap <silent> <leader>s :w<cr>:TestNearest<CR>
+" nmap <silent> <leader>t :w<cr>:TestFile<CR>
+" nmap <silent> <leader>l :w<cr>:TestLast<CR>
 " nmap <silent> <leader>l :w<cr>:TestVisit<CR>
+nmap <silent> <leader>s :w<cr>:GoTestFunc<CR>
+nmap <silent> <leader>t :w<cr>:GoTest<CR>
+" nmap <silent> <leader>l :w<cr>:TestLast<CR>
 
 " " Airline
 " let g:airline_powerline_fonts = 1
@@ -469,6 +477,9 @@ set shortmess+=c
 " always show signcolumns
 set signcolumn=yes
 
+
+autocmd FileType vue,typescript let b:coc_root_patterns = ['tsconfig.json', 'vue.config.js']
+
 inoremap <silent><expr> <C-p>
       \ pumvisible() ? "\<C-p>" :
       \ coc#refresh()
@@ -579,17 +590,21 @@ nnoremap <silent> <leader>ck  :<C-u>CocPrev<CR>
 nnoremap <silent> <leader>cp  :<C-u>CocListResume<CR>
 
 
-" Use <C-l> for trigger snippet expand.
-imap <C-l> <Plug>(coc-snippets-expand)
+" " Use <C-l> for trigger snippet expand.
+" imap <C-l> <Plug>(coc-snippets-expand)
 
-" Use <C-j> for select text for visual placeholder of snippet.
-vmap <C-j> <Plug>(coc-snippets-select)
+" " Use <C-j> for select text for visual placeholder of snippet.
+" vmap <C-j> <Plug>(coc-snippets-select)
 
-" Use <C-j> for jump to next placeholder, it's default of coc.nvim
-let g:coc_snippet_next = '<c-j>'
+" " Use <C-j> for jump to next placeholder, it's default of coc.nvim
+" let g:coc_snippet_next = '<c-j>'
 
-" Use <C-k> for jump to previous placeholder, it's default of coc.nvim
-let g:coc_snippet_prev = '<c-k>'
+" " Use <C-k> for jump to previous placeholder, it's default of coc.nvim
+" let g:coc_snippet_prev = '<c-k>'
 
-" Use <C-j> for both expand and jump (make expand higher priority.)
-imap <C-j> <Plug>(coc-snippets-expand-jump)
+" " Use <C-j> for both expand and jump (make expand higher priority.)
+" imap <C-j> <Plug>(coc-snippets-expand-jump)
+
+let g:go_def_mapping_enabled = 0
+let g:go_metalinter_command = "golangci-lint"
+let g:go_fmt_command="goimports"
