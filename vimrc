@@ -15,6 +15,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-abolish'
+Plug 'tpope/vim-unimpaired'
 " Plug 'sickill/vim-pasta'
 Plug 'junegunn/fzf', { 'build': './install --all', 'merged': 0 }
 Plug 'junegunn/fzf.vim', { 'depends': 'fzf' }
@@ -487,16 +488,16 @@ inoremap <silent><expr> <C-p>
 
 " Use tab for trigger completion with characters ahead and navigate.
 " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+" inoremap <silent><expr> <TAB>
+"       \ pumvisible() ? "\<C-n>" :
+"       \ <SID>check_back_space() ? "\<TAB>" :
+"       \ coc#refresh()
+" inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
+" function! s:check_back_space() abort
+"   let col = col('.') - 1
+"   return !col || getline('.')[col - 1]  =~# '\s'
+" endfunction
 
 " Use `[g` and `]g` to navigate diagnostics
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
@@ -606,5 +607,7 @@ nnoremap <silent> <leader>cp  :<C-u>CocListResume<CR>
 " imap <C-j> <Plug>(coc-snippets-expand-jump)
 
 let g:go_def_mapping_enabled = 0
-let g:go_metalinter_command = "golangci-lint"
+" let g:go_metalinter_command = "golint"
+let g:go_metalinter = "golangci-lint"
 let g:go_fmt_command="goimports"
+let g:go_auto_sameids=1

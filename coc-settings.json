@@ -14,6 +14,16 @@
     "typescript": ["javascript"]
   },
   "tsserver.trace.server":"verbose",
-  "vetur.trace.server":"verbose"
+  "vetur.trace.server":"verbose",
+  "languageserver": {
+    "golang": {
+      "command": "gopls",
+      "rootPatterns": ["go.mod"],
+      "filetypes": ["go"],
+      "initializationOptions": {
+        "lintTool": "golangci-lint"
+      }
+    }
+  }
 }
 
