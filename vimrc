@@ -7,8 +7,8 @@ Plug 'airblade/vim-gitgutter'
 " Plug 'godlygeek/tabular.git'
 " Plug 'janko-m/vim-test'
 Plug 'mileszs/ack.vim'
-Plug 'scrooloose/nerdtree'
-Plug 'terryma/vim-multiple-cursors'
+Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind'] }
+Plug 'terryma/vim-multiple-cursors' 
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-fugitive'
@@ -26,11 +26,11 @@ Plug 'lifepillar/vim-solarized8'
 
 
 " Language/platform specific plugins
-Plug 'vim-ruby/vim-ruby'
+Plug 'vim-ruby/vim-ruby', { 'for': 'ruby' }
 " Plug 'othree/yajs.vim'
-Plug 'leafgarland/typescript-vim'
-Plug 'posva/vim-vue'
-Plug 'fatih/vim-go'
+Plug 'leafgarland/typescript-vim', { 'for': 'typescript' }
+Plug 'posva/vim-vue', { 'for': 'vue' }
+Plug 'fatih/vim-go', { 'for': 'go' }
 
 " Initialize plugin system
 call plug#end()
@@ -610,4 +610,4 @@ let g:go_def_mapping_enabled = 0
 " let g:go_metalinter_command = "golint"
 let g:go_metalinter = "golangci-lint"
 let g:go_fmt_command="goimports"
-let g:go_auto_sameids=1
+let g:go_doc_popup_window = 1
