@@ -4,6 +4,7 @@
   "solargraph.symbols": true,
   "coc.preferences.formatOnSaveFiletypes": ["go", "css", "javascript", "typescript", "vue", "html", "scss", "ts" ],
   "prettier.disableLanguages": [],
+  "list.maxPreviewHeight": 30,
   "prettier.semi": true,
   "prettier.trailingComma": "es5",
   "prettier.htmlWhitespaceSensitivity": "strict",
@@ -13,17 +14,23 @@
   "snippets.extends": {
     "typescript": ["javascript"]
   },
+
   "tsserver.trace.server":"verbose",
   "vetur.trace.server":"verbose",
   "languageserver": {
     "golang": {
       "command": "gopls",
-      "rootPatterns": ["go.mod"],
+      "rootPatterns": ["go.mod", ".vim/", ".git/", ".hg/"],
       "filetypes": ["go"],
       "initializationOptions": {
-        "lintTool": "golangci-lint"
+        "usePlaceholders": true
       }
     }
-  }
+  },
+	"list.insertMappings": {
+		"<C-n>": "normal:j",
+		"<C-p>": "normal:k",
+		"<C-t>": "action:tabe"
+	}
 }
 

@@ -12,6 +12,7 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-rhubarb'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-abolish'
@@ -23,7 +24,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'machakann/vim-highlightedyank'
 " Plug 'rakr/vim-one'
 Plug 'lifepillar/vim-solarized8'
-
+Plug 'junegunn/vim-peekaboo'
 
 " Language/platform specific plugins
 Plug 'vim-ruby/vim-ruby', { 'for': 'ruby' }
@@ -41,7 +42,7 @@ let $ZSH="~/.zshrc"
 " Ripgrep
 let g:ackprg = 'rg --vimgrep --no-heading -i'
 " Fenced syntax highlighting
-let g:markdown_fenced_languages = ['html', 'vim', 'ruby', 'python', 'bash=sh', 'javascript', 'elixir', 'sh']
+let g:markdown_fenced_languages = ['html', 'vim', 'ruby', 'python', 'bash=sh', 'javascript', 'sh']
 let mapleader='-'
 set laststatus=2
 " set cryptmethod=blowfish2
@@ -89,13 +90,15 @@ set mouse=a
 set fdo-=search
 
 " Search for visually selected text
-vnoremap // y/<C-R>"<CR>
+vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 " inoremap jk <Esc>
 " inoremap jj <Esc>
 noremap L g_
 noremap H ^
 noremap Y y$
 nnoremap <C-w>+ <C-w><bar><C-w>_
+
+let g:python3_host_prog="$HOME/dev/plugins/neovim-python3/bin/python3"
 
 " Disable backspace in insert mode to form good habits
 " inoremap <Backspace> <nop>
@@ -111,7 +114,8 @@ nnoremap <leader>a :Ack!<space>""<left>
 nnoremap <leader>sf :exe 'Ack! ' . expand('%:t:r')<cr>
 nnoremap <leader>ss :exe 'Ack! ' . expand('<cword>')<cr>
 nnoremap <leader>yy :%y<CR>
-nnoremap <leader>yf :let @*=expand("%")<cr>
+nnoremap <leader>yF :let @*=expand("%")<cr>
+nnoremap <leader>yf :let @*=expand("%") . ":" . line(".")<cr>
 nnoremap <leader>p :noh<CR>
 nnoremap <leader>P :set hls!<CR>
 nnoremap <leader>w :setl wrap!<CR>
@@ -122,11 +126,11 @@ nnoremap <leader>ez :e $ZSH<cr>
 nnoremap <leader>cv :source $MYVIMRC<cr>
 nnoremap <leader>cr :let @* = expand("%")<cr>
 nnoremap <leader>cf :let @* = expand("%:p")<cr>
-nnoremap <leader>cc :Dispatch ctags -R .<cr>
-nnoremap <leader>fte :set ft=elixir<cr>
-nnoremap <leader>ftr :set ft=ruby<cr>
-nnoremap <leader>ftm :set ft=markdown<cr>
-nnoremap <leader>fts :set ft=sql<cr>
+nnoremap <leader>ct :Dispatch ctags -R .<cr>
+" nnoremap <leader>fte :set ft=elixir<cr>
+" nnoremap <leader>ftr :set ft=ruby<cr>
+" nnoremap <leader>ftm :set ft=markdown<cr>
+" nnoremap <leader>fts :set ft=sql<cr>
 nnoremap <leader>T :Tab <cr>
 nnoremap <leader>cl :set bg=light<cr>
 nnoremap <leader>cd :set bg=dark<cr>
@@ -488,16 +492,16 @@ inoremap <silent><expr> <C-p>
 
 " Use tab for trigger completion with characters ahead and navigate.
 " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
-" inoremap <silent><expr> <TAB>
-"       \ pumvisible() ? "\<C-n>" :
-"       \ <SID>check_back_space() ? "\<TAB>" :
-"       \ coc#refresh()
-" inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
-" function! s:check_back_space() abort
-"   let col = col('.') - 1
-"   return !col || getline('.')[col - 1]  =~# '\s'
-" endfunction
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
 
 " Use `[g` and `]g` to navigate diagnostics
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
@@ -523,12 +527,21 @@ endfunction
 " Highlight symbol under cursor on CursorHold
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
+" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
+" position. Coc only does snippet and additional edit on confirm.
+if exists('*complete_info')
+  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+else
+  imap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+endif
+
 " Remap for rename current word
 nmap <leader>rn <Plug>(coc-rename)
 
 " Remap for format selected region
-xmap <leader>f  <Plug>(coc-format-selected)
-nmap <leader>f  <Plug>(coc-format-selected)
+xmap <leader>f <Plug>(coc-float-hide)
+nmap <leader>f <Plug>(coc-float-hide)
+
 
 augroup mygroup
   autocmd!
@@ -574,11 +587,11 @@ command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organize
 
 " Using CocList
 " Show all diagnostics
-nnoremap <silent> <leader>ca  :<C-u>CocList diagnostics<cr>
+nnoremap <silent> <leader>ca  :<C-u>CocList --normal diagnostics<cr>
 " Manage extensions
 nnoremap <silent> <leader>ce  :<C-u>CocList extensions<cr>
 " Show commands
-nnoremap <silent> <leader>cc  :<C-u>CocList commands<cr>
+nnoremap <silent> <leader>cp  :<C-u>CocList commands<cr>
 " Find symbol of current document
 nnoremap <silent> <leader>co  :<C-u>CocList outline<cr>
 " Search workspace symbols
@@ -588,7 +601,7 @@ nnoremap <silent> <leader>cj  :<C-u>CocNext<CR>
 " Do default action for previous item.
 nnoremap <silent> <leader>ck  :<C-u>CocPrev<CR>
 " Resume latest coc list
-nnoremap <silent> <leader>cp  :<C-u>CocListResume<CR>
+nnoremap <silent> <leader>cc  :<C-u>CocListResume<CR>
 
 
 " " Use <C-l> for trigger snippet expand.
@@ -605,9 +618,16 @@ nnoremap <silent> <leader>cp  :<C-u>CocListResume<CR>
 
 " " Use <C-j> for both expand and jump (make expand higher priority.)
 " imap <C-j> <Plug>(coc-snippets-expand-jump)
-
+let g:go_bin_path = "/usr/local/bin/go"
+let $GOPATH = $HOME."/dev/go"
 let g:go_def_mapping_enabled = 0
 " let g:go_metalinter_command = "golint"
-let g:go_metalinter = "golangci-lint"
+let g:go_metalinter_command = "golangci-lint"
 let g:go_fmt_command="goimports"
 let g:go_doc_popup_window = 1
+let g:go_def_mode='gopls'
+let g:go_info_mode='gopls'
+let g:go_rename_command = 'gopls'
+let g:go_metalinter_autosave = 0
+
+autocmd FileType go nnoremap <buffer> <leader>rn :GoRename<CR>
