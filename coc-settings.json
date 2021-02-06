@@ -1,8 +1,23 @@
 {
-  "coc.preferences.rootPatterns": ["tsconfig.json", ".vim",".git",".hg",".projections.json"],
+  "coc.preferences.rootPatterns": [
+    "tsconfig.json",
+    ".vim",
+    ".git",
+    ".hg",
+    ".projections.json"
+  ],
   "codeLens.enable": true,
   "solargraph.symbols": true,
-  "coc.preferences.formatOnSaveFiletypes": ["go", "css", "javascript", "typescript", "vue", "html", "scss", "ts" ],
+  "coc.preferences.formatOnSaveFiletypes": [
+    "go",
+    "css",
+    "javascript",
+    "typescript",
+    "vue",
+    "html",
+    "scss",
+    "ts"
+  ],
   "prettier.disableLanguages": [],
   "list.maxPreviewHeight": 30,
   "prettier.semi": true,
@@ -14,23 +29,19 @@
   "snippets.extends": {
     "typescript": ["javascript"]
   },
-
-  "tsserver.trace.server":"verbose",
-  "vetur.trace.server":"verbose",
-  "languageserver": {
-    "golang": {
-      "command": "gopls",
-      "rootPatterns": ["go.mod", ".vim/", ".git/", ".hg/"],
-      "filetypes": ["go"],
-      "initializationOptions": {
-        "usePlaceholders": true
-      }
-    }
+  "go.disable": {
+    "workspaceFolders": false
   },
-	"list.insertMappings": {
-		"<C-n>": "normal:j",
-		"<C-p>": "normal:k",
-		"<C-t>": "action:tabe"
-	}
+  "go.goplsOptions": {
+    "codelens": true,
+    "completeUnimported": true,
+    "usePlaceholders": true
+  },
+  "tsserver.trace.server": "verbose",
+  "vetur.trace.server": "verbose",
+  "list.insertMappings": {
+    "<C-n>": "normal:j",
+    "<C-p>": "normal:k",
+    "<C-t>": "action:tabe"
+  }
 }
-

@@ -1,0 +1,16 @@
+" Specify a directory for plugins
+" - For Neovim: stdpath('data') . '/plugged'
+" - Avoid using standard Vim directory names like 'plugin'
+call plug#begin('~/.vim/plugged')
+
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+" Language/platform specific plugins
+"Plug 'fatih/vim-go', { 'for': 'go' }
+
+" Initialize plugin system
+call plug#end()
+
+" Use `[g` and `]g` to navigate diagnostics
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
