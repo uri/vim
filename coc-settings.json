@@ -1,4 +1,6 @@
 {
+  "coc.source.around.firstMatch": false,
+  "coc.source.buffer.firstMatch": false,
   "coc.preferences.rootPatterns": [
     "tsconfig.json",
     ".vim",
@@ -10,6 +12,7 @@
   "solargraph.symbols": true,
   "coc.preferences.formatOnSaveFiletypes": [
     "go",
+    "ruby",
     "css",
     "javascript",
     "typescript",
@@ -37,7 +40,9 @@
     "completeUnimported": true,
     "usePlaceholders": true
   },
-  "tsserver.trace.server": "verbose",
+  "go.goplsEnv": {
+    "GO111MODULE": "auto"
+  },
   "vetur.trace.server": "verbose",
   "list.insertMappings": {
     "<C-n>": "normal:j",

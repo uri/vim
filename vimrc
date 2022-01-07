@@ -4,11 +4,12 @@
 call plug#begin('~/.vim/plugged')
 
 Plug 'airblade/vim-gitgutter'
-" Plug 'godlygeek/tabular.git'
+Plug 'godlygeek/tabular'
 " Plug 'janko-m/vim-test'
 Plug 'mileszs/ack.vim'
 Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind'] }
-Plug 'terryma/vim-multiple-cursors' 
+" Plug 'terryma/vim-multiple-cursors' 
+Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-fugitive'
@@ -18,18 +19,22 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-unimpaired'
 Plug 'justinmk/vim-sneak'
+Plug 'jiangmiao/auto-pairs'
 " Plug 'sickill/vim-pasta'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() }  }
 Plug 'junegunn/fzf.vim', { 'depends': 'fzf' }
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'machakann/vim-highlightedyank'
-Plug 'rakr/vim-one'
-" Plug 'lifepillar/vim-solarized8'
+" Plug 'rakr/vim-one'
+Plug 'lifepillar/vim-solarized8'
 " Plug 'arcticicestudio/nord-vim'
 " Plug 'junegunn/vim-peekaboo'
+Plug 'powerman/vim-plugin-AnsiEsc'
 
 " Language/platform specific plugins
 Plug 'vim-ruby/vim-ruby', { 'for': 'ruby' }
+Plug 'kchmck/vim-coffee-script', { 'for': 'coffeescript' }
+Plug 'mustache/vim-mustache-handlebars', { 'for': 'hbs' }
 " Plug 'othree/yajs.vim'
 Plug 'leafgarland/typescript-vim', { 'for': 'typescript' }
 Plug 'posva/vim-vue', { 'for': 'vue' }
@@ -46,7 +51,7 @@ let $ZSH="~/.zshrc"
 let g:ackprg = 'rg --vimgrep --no-heading -i'
 " Fenced syntax highlighting
 let g:markdown_fenced_languages = ['html', 'vim', 'ruby', 'python', 'bash=sh', 'javascript', 'sh']
-let mapleader='-'
+let mapleader='_'
 set laststatus=2
 " set cryptmethod=blowfish2
 set nu
@@ -73,6 +78,8 @@ set hls
 " set iskeyword-=_
 " Load additional vim configuration if .exrc file is present
 set exrc
+
+set sidescroll=50
 
 " Preview substititions
 " nosplit also works
@@ -101,6 +108,10 @@ noremap H ^
 noremap Y y$
 nnoremap <C-w>+ <C-w><bar><C-w>_
 
+" Use <C-e> in insesrt mode to move to the end of the line
+inoremap <C-e> <End>
+inoremap <C-j> <C-o>o
+
 let g:python3_host_prog="$HOME/dev/plugins/neovim-python3/bin/python3"
 
 " Disable backspace in insert mode to form good habits
@@ -111,7 +122,7 @@ let g:python3_host_prog="$HOME/dev/plugins/neovim-python3/bin/python3"
 " nnoremap K [s1z=<c-o>
 nnoremap Q q
 nnoremap q :bd<cr>
-nnoremap <silent> <esc> <esc>:noh<cr>
+nnoremap <silent> <esc> <esc>:noh<bar>:ccl<cr>
 nnoremap <leader>dm :Dispatch<space>make<space>
 nnoremap <leader>a :Ack!<space>""<left>
 nnoremap <leader>sf :exe 'Ack! ' . expand('%:t:r')<cr>
@@ -119,6 +130,7 @@ nnoremap <leader>ss :exe 'Ack! ' . expand('<cword>')<cr>
 nnoremap <leader>yy :%y<CR>
 nnoremap <leader>yF :let @*=expand("%")<cr>
 nnoremap <leader>yf :let @*=expand("%") . ":" . line(".")<cr>
+nnoremap <leader>ye :let @*=system("epoch -n")<cr>
 nnoremap <leader>p :noh<CR>
 nnoremap <leader>P :set hls!<CR>
 nnoremap <leader>w :setl wrap!<CR>
@@ -137,7 +149,7 @@ nnoremap <leader>ct :Dispatch ctags -R .<cr>
 nnoremap <leader>T :Tab <cr>
 nnoremap <leader>cl :set bg=light<cr>
 nnoremap <leader>cd :set bg=dark<cr>
-nnoremap <leader>g :Gst<cr>
+nnoremap <leader>g :Git blame<cr>
 nnoremap <leader>db :%DB g:prod<cr>
 nnoremap <leader>u `]v[`gU`>
 if has("nvim")
@@ -171,14 +183,46 @@ vnoremap <leader># :s///g<left><left>
 " nnoremap <silent> # :let @/= '\<' . expand('<cword>') . '\>' <bar> set hls <cr>
 
 " Terminal quick mappings
-" Ruby
-tnoremap fbe find_by(email:"")<left><left>
-tnoremap fbu find_by(uid:"")<left><left>
-tnoremap zusa UploadSim.all(async:true)
+
+function! AsyncTermHorizontal()
+  new
+  call termopen("zsh")
+endfunction
+
+function! AsyncTermVertical()
+  vnew
+  call termopen("zsh")
+endfunction
+
+command! Ahte call AsyncTermHorizontal()
+command! Avte call AsyncTermVertical()
 
 " Quick Neovim term
-nnoremap <C-w>_ :Ahte<space>
-nnoremap <C-w><bar> :Avte<space>
+nnoremap <C-w>z <C-w><bar><C-w>_
+nnoremap <C-w>_ :Ahte<cr>
+nnoremap <C-w><bar> :Avte<cr>
+
+if has("nvim")
+
+  function! s:term_open()
+    nnoremap <buffer> x :Ahte zsh<cr>
+    nnoremap <buffer> c :Avte zsh<cr>
+    setlocal nonumber
+    setlocal nornu
+    startinsert
+  endfunction
+
+  augroup terminal
+          autocmd!
+          autocmd TermOpen * call s:term_open()
+          autocmd TermClose * if getline('$') == '[Process exited 0]' | close | endif
+  augroup end
+
+
+  " Breaks escaping out of fzf
+  " tnoremap <Esc> <C-\><C-n>
+endif
+
 
 " Required by Gutter
 if &shell =~# 'fish$'
@@ -206,15 +250,15 @@ highlight Comment gui=italic
 highlight Comment cterm=italic
 
 " let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-set background=light
-colorscheme one
-" colorscheme solarized8
+set background=dark
+" colorscheme one 
+colorscheme solarized8_flat
 " colorscheme nord
 
 " highlight clear SignColumn
 " highlight Search guibg='yellow' guifg='black'
 " highlight Search guibg='black' guifg='yellow'
-hi Search guibg=yellow guifg=black
+" hi Search guibg=yellow guifg=black
 
 
 " " " Set this to the name of your terminal that supports mouse codes.
@@ -246,10 +290,6 @@ if has("autocmd")
 endif
 
 
-if has("nvim")
-  " tnoremap jk <C-\><C-n>G$?>\\|λ<enter>$<esc>
-endif
-
 " Macros
 let @b='Obyebug:wj'
 let @l='yiwilet(:A) { create(:") }H'
@@ -257,10 +297,32 @@ let @k='^ilet(:wea)f=xi{A }'
 let @q='nhdHt{dhdl%lD@q'
 let @e='^yeea: "'
 
+" Go test
+function! s:go_test_case()
+  let s:old_search = @/
+  let @/='func Test'
+
+  execute "norm! Nftl\"gye\<c-o>"
+
+  let @/= s:old_search
+
+  execute "!go test ./%:h -run " . @g
+endfunction
+
+function! s:go_test_all()
+  execute "!go test ./%:h"
+endfunction
+
+command! GoTest call s:go_test_case()
+command! GoTestAll call s:go_test_all()
+
+
+
 " Abbreviations
 iabbr clog console.log()<left>
 iabbr flog fmt.Println("")<left><left>
 iabbr fpr fmt.Printf("\n",)<left><left><left><left><left>
+iabbr gomain package<space>main<cr><cr>func<space>main()<space>{<cr>}
 
 " Time abbreviations
 iab <expr> ddd strftime('%b %d, %Y')
@@ -275,40 +337,12 @@ function! CreateLog()
   execute 'write ' fnameescape(filename)
 endfunction
 
-function! AsyncTermHorizontal( cmd )
-  new
-  call termopen(a:cmd)
-  wincmd p
-endfunction
-
-function! AsyncTermVertical( cmd )
-  vnew
-  call termopen(a:cmd)
-  wincmd p
-endfunction
-
-command! -nargs=+ Ahte call AsyncTermHorizontal('<args>')
-command! -nargs=+ Avte call AsyncTermVertical('<args>')
-
-function! AsyncTermHorizontal( cmd )
-  new
-  call termopen(a:cmd)
-  wincmd p
-endfunction
-
-function! AsyncTermVertical( cmd )
-  vnew
-  call termopen(a:cmd)
-  wincmd p
-endfunction
-
-command! -nargs=+ Ahte call AsyncTermHorizontal('<args>')
-command! -nargs=+ Avte call AsyncTermVertical('<args>')
-
 command! Zoomwindow :wincmd | <bar> wincmd _
 nnoremap <leader>z :Zoomwindow<cr>
 
-
+" auto pairs
+let g:AutoPairsFlyMode = 0
+let g:AutoPairsShortcutFastWrap = '<C-l>'
 
 " Use zeus stub or rspec
 " if filereadable(".zeus.sock")
@@ -327,6 +361,7 @@ let g:test#preserve_screen = 1
 " nmap <silent> <leader>l :w<cr>:TestVisit<CR>
 nmap <silent> <leader>s :w<cr>:GoTestFunc<CR>
 nmap <silent> <leader>t :w<cr>:GoTest<CR>
+nmap <silent> <leader>T :w<cr>:GoTestAll<CR>
 " nmap <silent> <leader>l :w<cr>:TestLast<CR>
 
 " " Airline
@@ -355,7 +390,7 @@ nnoremap <C-f> :Buffers<cr>
 nnoremap <C-g> :GFiles?<cr>
 nnoremap <M-Space> :History:<cr>
 nnoremap <C-Space> :Commands<cr>
-command! -bang -nargs=? GFiles call fzf#vim#gitfiles(<q-args>, {'options': '--no-preview'}, <bang>0)
+" command! -bang -nargs=? GFiles call fzf#vim#gitfiles(<q-args>, {'options': '--no-preview'}, <bang>0)
 " Mapping selecting mappings
 " nmap <leader><tab> <plug>(fzf-maps-n)
 " xmap <leader><tab> <plug>(fzf-maps-x)
@@ -393,12 +428,24 @@ let g:netrw_winsize = 25
 " augroup END
 
 " " MultiCursor
-let g:multi_cursor_exit_from_insert_mode=0
-let g:multi_cursor_exit_from_visual_mode=0
-let g:multi_cursor_quit_key='<C-c>'
-nnoremap <C-c> :call multiple_cursors#quit()<CR>
-nnoremap <silent> <M-j> :MultipleCursorsFind <C-R>/<CR>
-vnoremap <silent> <M-j> :MultipleCursorsFind <C-R>/<CR>
+" let g:multi_cursor_exit_from_insert_mode=0
+" let g:multi_cursor_exit_from_visual_mode=0
+" let g:multi_cursor_quit_key='<C-c>'
+" nnoremap <C-c> :call multiple_cursors#quit()<CR>
+" nnoremap <silent> <M-j> :MultipleCursorsFind <C-R>/<CR>
+" vnoremap <silent> <M-j> :MultipleCursorsFind <C-R>/<CR>
+"
+
+" Vim Multi
+let g:VM_highlight_matches = 'underline'
+let g:VM_maps = {}
+let g:VM_maps["Undo"] = 'u'
+let g:VM_maps["Redo"] = '<C-r>'
+" Can use Select instead of Add
+let g:VM_maps["Add Cursor Down"] = '<C-j>'
+let g:VM_maps["Add Cursor Up"] = '<C-k>'
+
+let g:VM_theme = 'iceblue'
 
 " Sneak
 " let g:sneak#label=1
@@ -516,7 +563,9 @@ nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
 " Remap keys for gotos
+" nmap <silent> gd :call CocAction('jumpDefinition', 'tabe')<CR>
 nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gs :call CocAction('jumpDefinition', 'vsplit')<CR>
 nmap <silent> gD <Plug>(coc-declaration)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
@@ -536,13 +585,10 @@ endfunction
 " Highlight symbol under cursor on CursorHold
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
-" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
-" position. Coc only does snippet and additional edit on confirm.
-if exists('*complete_info')
-  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
-else
-  imap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-endif
+" Make <CR> auto-select the first completion item and notify coc.nvim to
+" format on enter, <cr> could be remapped by other vim plugin
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 " Remap for rename current word
 nmap <leader>rn <Plug>(coc-rename)
