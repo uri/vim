@@ -1,7 +1,6 @@
 {
-  "coc.source.around.firstMatch": false,
-  "coc.source.buffer.firstMatch": false,
-  "coc.preferences.rootPatterns": [
+  "suggest.noselect": false,
+  "workspace.rootPatterns": [
     "tsconfig.json",
     ".vim",
     ".git",
@@ -9,41 +8,34 @@
     ".projections.json"
   ],
   "codeLens.enable": true,
-  "solargraph.symbols": true,
-  "coc.preferences.formatOnSaveFiletypes": [
-    "go",
-    "ruby",
-    "css",
-    "javascript",
-    "typescript",
-    "vue",
-    "html",
-    "scss",
-    "ts"
-  ],
+  "coc.preferences.formatOnSave": true,
+  "[go]": {
+    "coc.preferences.formatOnSave": true
+  },
   "prettier.disableLanguages": [],
-  "list.maxPreviewHeight": 30,
+  "list.maxPreviewHeight": 12,
   "prettier.semi": true,
   "prettier.trailingComma": "es5",
   "prettier.htmlWhitespaceSensitivity": "strict",
   "suggest.autoTrigger": "always",
-  "vetur.useWorkspaceDependencies": true,
-  "vetur.experimental.templateInterpolationService": false,
-  "snippets.extends": {
-    "typescript": ["javascript"]
-  },
   "go.disable": {
     "workspaceFolders": false
   },
   "go.goplsOptions": {
-    "codelens": true,
+    "codelenses": {
+      "gc_details": false,
+      "generate": true,
+      "regenerate_cgo": true,
+      "tidy": true,
+      "upgrade_dependency": true,
+      "vendor": true
+    },
     "completeUnimported": true,
     "usePlaceholders": true
   },
   "go.goplsEnv": {
     "GO111MODULE": "auto"
   },
-  "vetur.trace.server": "verbose",
   "list.insertMappings": {
     "<C-n>": "normal:j",
     "<C-p>": "normal:k",
