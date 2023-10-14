@@ -1,0 +1,6 @@
+require("uri.options")
+require("uri.plugins")
+require("uri.remap")
+require("uri.autocmd")
+require("uri.terminal")
+require("uri.colors")

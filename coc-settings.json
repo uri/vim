@@ -1,17 +1,18 @@
 {
   "suggest.noselect": false,
   "workspace.rootPatterns": [
-    "tsconfig.json",
     ".vim",
     ".git",
     ".hg",
-    ".projections.json"
+    ".projections.json",
+    "go.mod"
   ],
   "codeLens.enable": true,
   "coc.preferences.formatOnSave": true,
   "[go]": {
     "coc.preferences.formatOnSave": true
   },
+  "tsserver.rootPatterns": ["tsconfig.json"],
   "prettier.disableLanguages": [],
   "list.maxPreviewHeight": 12,
   "prettier.semi": true,
@@ -40,5 +41,7 @@
     "<C-n>": "normal:j",
     "<C-p>": "normal:k",
     "<C-t>": "action:tabe"
-  }
+  },
+  "list.source.symbols.excludes": ["**/node_modules/**/*"],
+  "sumneko-lua.enableNvimLuaDev": true
 }

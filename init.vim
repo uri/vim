@@ -1,1 +1,1 @@
-vimrc
+lua require("init")
