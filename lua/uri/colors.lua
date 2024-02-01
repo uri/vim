@@ -1,16 +1,25 @@
 -- Color
-if os.date("%H") > "16" then
-  vim.cmd('colorscheme rose-pine-moon')
+-- require("rose-pine").load()
+
+if os.date("%H") >= "14" then
+  -- catppuccin-latte, catppuccin-frappe, catppuccin-macchiato, catppuccin-mocha
+  vim.cmd.colorscheme "catppuccin"
+  -- vim.cmd('colorscheme rose-pine-moon')
   vim.cmd('set bg=dark')
 else
-  vim.cmd('colorscheme rose-pine-dawn')
+  vim.cmd.colorscheme "catppuccin-latte"
+  -- vim.cmd('colorscheme rose-pine-dawn')
   vim.cmd('set bg=light')
 end
+-- tmp override
+-- vim.cmd('colorscheme rose-pine-main')
+-- vim.cmd('set bg=dark')
 
 vim.g.enable_bold_font = true
-
 -- vim.cmd("highlight Comment cterm=italic")
--- highlight Comment cterm=italic
+
+vim.o.termguicolors = true
+
 
 -- if (has("termguicolors"))
 --   let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"

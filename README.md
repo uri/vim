@@ -15,3 +15,7 @@ tic $TERM.ti
 ```
 
 Originally found https://github.com/neovim/neovim/issues/2048#issuecomment-78045837
+
+## Go templates
+
+Follow instructions here: https://github.com/baptman21/tree-sitter-go-template

@@ -47,9 +47,13 @@ keyset("n", "]g", "<Plug>(coc-diagnostic-next)", { silent = true })
 
 -- GoTo code navigation
 keyset("n", "gd", "<Plug>(coc-definition)", { silent = true })
+-- Most lsp don't implement this. rust-analyzer does but it seems to do the same thing as definition.
+-- keyset("n", "gD", "<Plug>(coc-declaration)", { silent = true })
 keyset("n", "gy", "<Plug>(coc-type-definition)", { silent = true })
 keyset("n", "gi", "<Plug>(coc-implementation)", { silent = true })
-keyset("n", "gr", "<Plug>(coc-references)", { silent = true })
+keyset("n", "gR", "<Plug>(coc-references)", { silent = true })
+keyset("n", "gr", "<Plug>(coc-references-used)", { silent = true })
+-- missing declaration
 
 
 -- Use K to show documentation in preview window
@@ -81,8 +85,8 @@ keyset("n", "<leader>rn", "<Plug>(coc-rename)", { silent = true })
 
 
 -- Formatting selected code
-keyset("x", "<leader>f", "<Plug>(coc-format-selected)", { silent = true })
-keyset("n", "<leader>f", "<Plug>(coc-format-selected)", { silent = true })
+keyset("x", "<leader>cf", "<Plug>(coc-format-selected)", { silent = true })
+keyset("n", "<leader>cf", "<Plug>(coc-format-selected)", { silent = true })
 
 
 -- Setup formatexpr specified filetype(s)
@@ -182,6 +186,7 @@ vim.opt.statusline:prepend("%{coc#status()}%{get(b:,'coc_current_function','')}"
 ---@diagnostic disable-next-line: redefined-local
 local opts = { silent = true, nowait = true }
 -- Show all diagnostics
+keyset("n", "<leader>cd", ":CocDiagnostics<cr>", opts)
 keyset("n", "<leader>ca", ":<C-u>CocList diagnostics<cr>", opts)
 -- Manage extensions
 keyset("n", "<leader>ce", ":<C-u>CocList extensions<cr>", opts)
@@ -199,6 +204,13 @@ keyset("n", "<leader>ck", ":<C-u>CocPrev<cr>", opts)
 keyset("n", "<leader>cc", ":<C-u>CocListResume<cr>", opts)
 
 
+vim.api.nvim_create_autocmd("DiffUpdated", {
+  group = "CocGroup",
+  pattern = { "*" },
+  command = "let b:coc_enabled=0",
+  desc = "Disable CoC when viewing diffs"
+})
+
 -- Go
 vim.api.nvim_create_autocmd("BufWritePre", {
   group = "CocGroup",
@@ -206,3 +218,5 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   command = "silent call CocAction('runCommand', 'editor.action.organizeImport')",
   desc = "Organize go imports on save"
 })
+
+vim.keymap.set("n", "<leader>cg", ":CocOutline<cr>")

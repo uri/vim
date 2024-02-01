@@ -1,13 +1,24 @@
 -- normal
 --
 --
-vim.keymap.set("n", "L", "g_")
-vim.keymap.set("n", "H", "^")
+vim.keymap.set("", "L", "g_")
+vim.keymap.set("", "H", "^")
+vim.keymap.set("n", "MM", "M")
+vim.keymap.set("n", "MH", "H")
+vim.keymap.set("n", "ML", "L")
 vim.keymap.set("n", "Y", "y$") -- Y is the same as yy so make it more useful
 vim.keymap.set("n", "#", ":let @/=expand('<cword>') <bar> set hls <cr>", { silent = true })
 vim.keymap.set("n", "Q", "q")
-vim.keymap.set("n", "q", ":bd<cr>")
-vim.keymap.set("n", "<esc>", "<esc>:noh<bar>:ccl<cr>", { silent = true })
+vim.keymap.set("n", "q", ":bp|bd #<cr>")
+vim.keymap.set("n", "<M-q>", ":bd<cr>")
+-- vim.keymap.set("n", "q", [[:try
+-- bp|bd #
+-- catch
+-- bd %
+-- endtry
+-- <cr>
+-- ]])
+-- vim.keymap.set("n", "<esc>", "<esc>:noh<bar>:ccl<cr>", { silent = true })
 vim.keymap.set("n", "<Left>", "5<C-w><")
 vim.keymap.set("n", "<Up>", "3<C-W>+")
 vim.keymap.set("n", "<Right>", "5<C-W>>")
@@ -36,6 +47,8 @@ vim.keymap.set("n", "<leader>W", ":set wrap!<CR>")
 vim.keymap.set("n", "<leader>#", ":%s///g<left><left>")
 vim.keymap.set("v", "<leader>#", ":s///g<left><left>")
 vim.keymap.set("n", "<leader>z", ":wincmd | <bar> wincmd _<cr>")
+vim.keymap.set("n", "<leader>a", "<C-w>200h")
+vim.keymap.set("n", "<leader>g", "<C-w>200l")
 
 -- Useful copy remaps
 vim.keymap.set("n", "<leader>yy", ":%y<CR>")
@@ -44,14 +57,8 @@ vim.keymap.set("n", "<leader>yf", [[:let @*=expand("%") . ":" . line(".")<cr>]])
 vim.keymap.set("n", "<leader>ye", [[:let @*=system("epoch -n")<cr>]])
 
 -- Access frequent files
-local vim_home = "~/.vim"
-local uri_lua = vim_home .. "/lua/uri"
 vim.keymap.set("v", "<leader>p", '"_dP')
 vim.keymap.set("n", "<leader>ev", ":e $MYVIMRC<cr>")
-vim.keymap.set("n", "<leader>ep", ":e " .. uri_lua .. "/plugins.lua<cr>")
-vim.keymap.set("n", "<leader>er", ":e " .. uri_lua .. "/remap.lua<cr>")
-vim.keymap.set("n", "<leader>eu", ":e " .. uri_lua .. "<cr>")
-vim.keymap.set("n", "<leader>ea", ":Locate vim/after/plugin<cr>")
 vim.keymap.set("n", "<leader>ez", ":e $ZSH<cr>")
 
 -- Other
@@ -59,5 +66,5 @@ vim.keymap.set("n", "<leader>ez", ":e $ZSH<cr>")
 --
 
 -- netrw
-vim.keymap.set("n", "<leader>b", ":Lexplore <CR>")
-vim.keymap.set("n", "<leader>B", ":Lexplore %:p:h<CR>")
+-- vim.keymap.set("n", "<leader>b", ":Lexplore <CR>")
+-- vim.keymap.set("n", "<leader>B", ":Lexplore %:p:h<CR>")

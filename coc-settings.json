@@ -1,38 +1,54 @@
 {
   "suggest.noselect": false,
   "workspace.rootPatterns": [
+    "go.mod",
     ".vim",
     ".git",
     ".hg",
-    ".projections.json",
-    "go.mod"
+    ".projections.json"
   ],
   "codeLens.enable": true,
   "coc.preferences.formatOnSave": true,
   "[go]": {
     "coc.preferences.formatOnSave": true
   },
-  "tsserver.rootPatterns": ["tsconfig.json"],
+  "[sql]": {
+    "coc.preferences.formatOnSave": false
+  },
+  "[diff]": {
+    "coc.preferences.formatOnSave": false
+  },
   "prettier.disableLanguages": [],
   "list.maxPreviewHeight": 12,
   "prettier.semi": true,
   "prettier.trailingComma": "es5",
   "prettier.htmlWhitespaceSensitivity": "strict",
   "suggest.autoTrigger": "always",
-  "go.disable": {
-    "workspaceFolders": false
-  },
   "go.goplsOptions": {
+    "analyses": {
+      "fieldalignment": true,
+      "nilness": true,
+      "unusedparams": true,
+      "unusedvariable": true
+    },
     "codelenses": {
-      "gc_details": false,
+      "gc_details": true,
       "generate": true,
       "regenerate_cgo": true,
+      "run_govulncheck": true,
       "tidy": true,
+      "test": true,
       "upgrade_dependency": true,
       "vendor": true
     },
+    "hints": {
+      "parameterNames": false,
+      "rangeVariables": true
+    },
+    "staticcheck": true,
     "completeUnimported": true,
-    "usePlaceholders": true
+    "usePlaceholders": true,
+    "semanticTokens": true
   },
   "go.goplsEnv": {
     "GO111MODULE": "auto"
@@ -43,5 +59,36 @@
     "<C-t>": "action:tabe"
   },
   "list.source.symbols.excludes": ["**/node_modules/**/*"],
-  "sumneko-lua.enableNvimLuaDev": true
+  "semanticTokens.enable": true,
+  "sumneko-lua.enableNvimLuaDev": true,
+  "inlayHint.enable": true,
+  "languageserver": {
+    "ccls": {
+      "command": "ccls",
+      "filetypes": ["c", "cpp", "cuda", "objc", "objcpp"],
+      "rootPatterns": [".ccls-root", "compile_commands.json"],
+      "initializationOptions": {
+        "cache": {
+          "directory": ".ccls-cache"
+        },
+        "client": {
+          "snippetSupport": true
+        }
+      }
+    },
+    "codeql": {
+      "command": "codeql",
+      "args": [
+        "execute",
+        "language-server",
+        "--check-errors",
+        "ON_CHANGE",
+        "-q"
+      ],
+      "filetypes": ["codeql", "ql"],
+      "initializationOptions": {},
+      "settings": {}
+    }
+  },
+  "snippets.ultisnips.pythonPrompt": false
 }

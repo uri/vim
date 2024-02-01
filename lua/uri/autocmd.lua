@@ -2,19 +2,13 @@ local uri_group = vim.api.nvim_create_augroup('UriGroup', { clear = true })
 
 -- Restore cursor position
 vim.api.nvim_create_autocmd({ "BufReadPost" }, {
-  group = uri_group,
-  pattern = { "*" },
-  callback = function()
-    vim.api.nvim_exec('silent! normal! g`"zvzz', false)
-  end,
-})
-
-vim.api.nvim_create_autocmd({ "BufReadPost" }, {
-  group = uri_group,
-  pattern = { "*" },
-  callback = function()
-    vim.api.nvim_exec('silent! normal! g`"zvzz', false)
-  end,
+	group = uri_group,
+	pattern = { "*" },
+	callback = function()
+		if vim.o.ft ~= 'gitcommit' then
+			vim.api.nvim_exec('silent! normal! g`"zvzz', false)
+		end
+	end,
 })
 
 -- "     autocmd BufRead,BufNewFile *.md setlocal spell
@@ -30,7 +24,18 @@ vim.api.nvim_create_autocmd({ "BufReadPost" }, {
 -- })
 
 vim.api.nvim_create_autocmd("FileType", {
-  group = uri_group,
-  pattern = { "gitcommit", "markdown", "crontab" },
-  command = "setlocal spell"
+	group = uri_group,
+	pattern = { "gitcommit", "markdown", "crontab" },
+	command = "setlocal spell"
+})
+
+vim.api.nvim_create_autocmd('TextYankPost', {
+	group = uri_group,
+	pattern = '*',
+	callback = function()
+		vim.highlight.on_yank({
+			higroup = 'IncSearch',
+			timeout = 400,
+		})
+	end,
 })
