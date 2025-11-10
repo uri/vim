@@ -1,16 +1,25 @@
 -- Color
 -- require("rose-pine").load()
 
-if os.date("%H") >= "14" then
+
+vim.cmd('set t_Co=256')
+vim.o.termguicolors = true -- https://github.com/NLKNguyen/papercolor-theme/issues/201
+
+if vim.env.THEME == 'dark' then
   -- catppuccin-latte, catppuccin-frappe, catppuccin-macchiato, catppuccin-mocha
-  vim.cmd.colorscheme "catppuccin"
-  -- vim.cmd('colorscheme rose-pine-moon')
+  -- vim.cmd.colorscheme "catppuccin"
+  vim.cmd('colorscheme rose-pine-moon')
+  -- vim.cmd('colorscheme PaperColor')
   vim.cmd('set bg=dark')
 else
-  vim.cmd.colorscheme "catppuccin-latte"
-  -- vim.cmd('colorscheme rose-pine-dawn')
+  -- vim.cmd.colorscheme "catppuccin-latte"
+  vim.cmd('colorscheme rose-pine-dawn')
+  -- vim.cmd('colorscheme gruvbox')
+  -- vim.cmd('colorscheme PaperColor')
   vim.cmd('set bg=light')
 end
+
+-- vim.cmd.colorscheme('base24-warm-neon')
 -- tmp override
 -- vim.cmd('colorscheme rose-pine-main')
 -- vim.cmd('set bg=dark')

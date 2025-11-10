@@ -33,7 +33,9 @@ keyset("i", "<S-TAB>", [[coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"]], opts)
 
 -- Make <CR> to accept selected completion item or notify coc.nvim to format
 -- <C-g>u breaks current undo, please make your own choice
-keyset("i", "<cr>", [[coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"]], opts)
+keyset("i", "<C-e>", [[coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<C-e>\<c-r>=coc#on_enter()\<C-e>"]], opts)
+
+-- keyset("i", "<C-e>", [[coc#pum#visible() ? coc#pum#confirm() : "\<C-e>"]], opts)
 
 -- Use <c-j> to trigger snippets
 -- keyset("i", "<c-j>", "<Plug>(coc-snippets-expand-jump)")
@@ -47,6 +49,10 @@ keyset("n", "]g", "<Plug>(coc-diagnostic-next)", { silent = true })
 
 -- GoTo code navigation
 keyset("n", "gd", "<Plug>(coc-definition)", { silent = true })
+keyset("n", "g<C-v>", ":call CocAction('jumpDefinition', 'vsplit')<cr>")
+keyset("n", "g<C-s>", ":call CocAction('jumpDefinition', 'split')<cr>")
+keyset("n", "g<C-t>", ":call CocAction('jumpDefinition', 'tabe')<cr>")
+
 -- Most lsp don't implement this. rust-analyzer does but it seems to do the same thing as definition.
 -- keyset("n", "gD", "<Plug>(coc-declaration)", { silent = true })
 keyset("n", "gy", "<Plug>(coc-type-definition)", { silent = true })
@@ -80,13 +86,10 @@ vim.api.nvim_create_autocmd("CursorHold", {
 })
 
 
--- Symbol renaming
-keyset("n", "<leader>rn", "<Plug>(coc-rename)", { silent = true })
-
 
 -- Formatting selected code
-keyset("x", "<leader>cf", "<Plug>(coc-format-selected)", { silent = true })
-keyset("n", "<leader>cf", "<Plug>(coc-format-selected)", { silent = true })
+keyset("x", "<leader>cF", "<Plug>(coc-format-selected)", { silent = true })
+keyset("n", "<leader>cF", "<Plug>(coc-format-selected)", { silent = true })
 
 
 -- Setup formatexpr specified filetype(s)
@@ -105,6 +108,12 @@ vim.api.nvim_create_autocmd("User", {
   desc = "Update signature help on jump placeholder"
 })
 
+vim.api.nvim_create_autocmd("User", {
+  group = 'CocGroup',
+  pattern = "CocStatusChange",
+  command = "redrawstatus",
+})
+
 -- Apply codeAction to the selected region
 -- Example: `<leader>aap` for current paragraph
 local opts = { silent = true, nowait = true }
@@ -121,9 +130,15 @@ keyset("n", "<leader>xs", "<Plug>(coc-codeaction-source)", opts)
 keyset("n", "<leader>xf", "<Plug>(coc-fix-current)", opts)
 
 -- Remap keys for apply refactor code actions.
+-- Symbol renaming
+keyset("n", "<leader>rn", "<Plug>(coc-rename)", { silent = true })
 keyset("n", "<leader>re", "<Plug>(coc-codeaction-refactor)", { silent = true })
-keyset("x", "<leader>r", "<Plug>(coc-codeaction-refactor-selected)", { silent = true })
-keyset("n", "<leader>r", "<Plug>(coc-codeaction-refactor-selected)", { silent = true })
+keyset("x", "<leader>cr", "<Plug>(coc-codeaction-refactor-selected)", { silent = true })
+keyset("n", "<leader>cr", "<Plug>(coc-codeaction-refactor-selected)", { silent = true })
+keyset("n", "<leader>rr", "<Plug>(coc-refactor)", { silent = true })
+keyset("n", "<leader>rf", ":call CocAction('runCommand', 'document.renameCurrentWord')<cr>", { silent = true })
+keyset("n", "<leader>rx", "<Plug>(coc-cursors-operator)", { silent = true })
+
 
 -- Run the Code Lens actions on the current line
 keyset("n", "<leader>xl", "<Plug>(coc-codelens-action)", opts)
@@ -146,8 +161,8 @@ keyset("o", "ac", "<Plug>(coc-classobj-a)", opts)
 local opts = { silent = true, nowait = true, expr = true }
 keyset("n", "<C-e>", 'coc#float#has_scroll() ? coc#float#scroll(1) : "<C-e>"', opts)
 keyset("n", "<C-y>", 'coc#float#has_scroll() ? coc#float#scroll(0) : "<C-y>"', opts)
-keyset("i", "<C-e>",
-  'coc#float#has_scroll() ? "<c-r>=coc#float#scroll(1)<cr>" : "<C-e>"', opts)
+-- keyset("i", "<C-e>",
+--   'coc#float#has_scroll() ? "<c-r>=coc#float#scroll(1)<cr>" : "<C-e>"', opts)
 keyset("i", "<C-y>",
   'coc#float#has_scroll() ? "<c-r>=coc#float#scroll(0)<cr>" : "<C-y>"', opts)
 keyset("v", "<C-e>", 'coc#float#has_scroll() ? coc#float#scroll(1) : "<C-e>"', opts)
@@ -166,6 +181,8 @@ end, opts)
 -- Requires 'textDocument/selectionRange' support of language server
 keyset("n", "<C-s>", "<Plug>(coc-range-select)", { silent = true })
 keyset("x", "<C-s>", "<Plug>(coc-range-select)", { silent = true })
+keyset("n", "<C-M-s>", "<Plug>(coc-range-select-backward)", { silent = true })
+keyset("x", "<C-M-s>", "<Plug>(coc-range-select-backward)", { silent = true })
 
 -- Add `:Format` command to format current buffer
 vim.api.nvim_create_user_command("Format", "call CocAction('format')", {})
@@ -193,16 +210,57 @@ keyset("n", "<leader>ce", ":<C-u>CocList extensions<cr>", opts)
 -- Show commands
 keyset("n", "<leader>cp", ":<C-u>CocList commands<cr>", opts)
 -- Find symbol of current document
-keyset("n", "<leader>co", ":<C-u>CocList outline<cr>", opts)
+keyset("n", "<leader>clo", ":<C-u>CocList outline<cr>", opts)
 -- Search workleader symbols
 keyset("n", "<leader>cs", ":<C-u>CocList -I symbols<cr>", opts)
 -- Do default action for next item
-keyset("n", "<leader>cj", ":<C-u>CocNext<cr>", opts)
+-- keyset("n", "<leader>cj", ":<C-u>CocNext<cr>", opts)
+keyset("n", "]r", ":<C-u>CocNext<cr>", opts)
+keyset("n", "]R", ":<C-u>CocLast<cr>", opts)
 -- Do default action for previous item
-keyset("n", "<leader>ck", ":<C-u>CocPrev<cr>", opts)
+-- keyset("n", "<leader>ck", ":<C-u>CocPrev<cr>", opts)
+keyset("n", "[r", ":<C-u>CocPrev<cr>", opts)
+keyset("n", "[R", ":<C-u>CocFirst<cr>", opts)
 -- Resume latest coc list
 keyset("n", "<leader>cc", ":<C-u>CocListResume<cr>", opts)
 
+keyset("n", "<leader>co", ":CocOutline<cr>")
+keyset("n", "<leader>ch", ":call CocAction('showIncomingCalls')<cr>")
+keyset("n", "<leader>cH", ":call CocAction('showOutgoingCalls')<cr>")
+keyset("n", "<leader>ct", ":call CocAction('showSuperTypes')<cr>")
+keyset("n", "<leader>cT", ":call CocAction('showSubTypes')<cr>")
+
+-- Search
+keyset("n", "<leader>fa", ":CocSearch<space>")
+keyset("n", "<leader>ff", ":exe 'CocSearch ' . expand('<cword>')<cr>")
+-- the following expands the file name withouth the extension
+-- nnoremap <leader>sf :exe 'Ack! ' . expand('%:t:r')<cr>
+
+-- Cursors
+-- keyset("n", "C-n", "<Plug>(coc-cursors-position)", { silent = true })
+-- Press <C-d> repeatedly to add next matches
+vim.keymap.set("n", "<C-k>", function()
+  -- Check if coc-cursors is active
+  local active = vim.b.coc_cursors_activated or 0
+  if active == 0 then
+    -- Start a new multicursor session on the word under cursor
+    vim.api.nvim_feedkeys(
+      vim.api.nvim_replace_termcodes("<Plug>(coc-cursors-word)", true, false, true),
+      "n",
+      true
+    )
+  else
+    -- Add next match and clear search highlight
+    vim.api.nvim_feedkeys(
+      vim.api.nvim_replace_termcodes("*<Plug>(coc-cursors-word):nohlsearch<CR>", true, false, true),
+      "n",
+      true
+    )
+  end
+end, { silent = true, expr = false })
+keyset("x", "<C-k>", "<Plug>(coc-cursors-range)", { silent = true })
+-- keyset("n", "C-n", "<Plug>(coc-cursors-position)", { silent = true })
+-- keyset("n", "C-n", "<Plug>(coc-cursors-position)", { silent = true })
 
 vim.api.nvim_create_autocmd("DiffUpdated", {
   group = "CocGroup",
@@ -218,5 +276,3 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   command = "silent call CocAction('runCommand', 'editor.action.organizeImport')",
   desc = "Organize go imports on save"
 })
-
-vim.keymap.set("n", "<leader>cg", ":CocOutline<cr>")

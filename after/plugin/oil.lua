@@ -1,0 +1,2 @@
+-- vim.keymap.set("n", "<Leader>b", ":Oil --float .<cr>")
+-- vim.keymap.set("n", "<Leader>B", ":Oil --float<cr>")

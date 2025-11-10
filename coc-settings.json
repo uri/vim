@@ -1,5 +1,10 @@
 {
   "suggest.noselect": false,
+  "suggest.floatConfig": {
+    "border": true,
+    "rounded": true,
+    "shadow": true
+  },
   "workspace.rootPatterns": [
     "go.mod",
     ".vim",
@@ -9,8 +14,8 @@
   ],
   "codeLens.enable": true,
   "coc.preferences.formatOnSave": true,
-  "[go]": {
-    "coc.preferences.formatOnSave": true
+  "[yaml]": {
+    "coc.preferences.formatOnSave": false
   },
   "[sql]": {
     "coc.preferences.formatOnSave": false
@@ -18,41 +23,18 @@
   "[diff]": {
     "coc.preferences.formatOnSave": false
   },
-  "prettier.disableLanguages": [],
+  "[c]": {
+    "coc.preferences.formatOnSave": false
+  },
+  "[markdown]": {
+    "coc.preferences.formatOnSave": false
+  },
+  "callHierarchy.enableTooltip": false,
   "list.maxPreviewHeight": 12,
-  "prettier.semi": true,
-  "prettier.trailingComma": "es5",
   "prettier.htmlWhitespaceSensitivity": "strict",
+  "prettier.disableLanguages": ["yaml", "markdown"],
   "suggest.autoTrigger": "always",
-  "go.goplsOptions": {
-    "analyses": {
-      "fieldalignment": true,
-      "nilness": true,
-      "unusedparams": true,
-      "unusedvariable": true
-    },
-    "codelenses": {
-      "gc_details": true,
-      "generate": true,
-      "regenerate_cgo": true,
-      "run_govulncheck": true,
-      "tidy": true,
-      "test": true,
-      "upgrade_dependency": true,
-      "vendor": true
-    },
-    "hints": {
-      "parameterNames": false,
-      "rangeVariables": true
-    },
-    "staticcheck": true,
-    "completeUnimported": true,
-    "usePlaceholders": true,
-    "semanticTokens": true
-  },
-  "go.goplsEnv": {
-    "GO111MODULE": "auto"
-  },
+  "eslint.experimental.useFlatConfig": true,
   "list.insertMappings": {
     "<C-n>": "normal:j",
     "<C-p>": "normal:k",
@@ -62,7 +44,57 @@
   "semanticTokens.enable": true,
   "sumneko-lua.enableNvimLuaDev": true,
   "inlayHint.enable": true,
+  "rust-analyzer.inlayHints.typeHints.enable": true,
+  "rust-analyzer.inlayHints.parameterHints.enable": false,
+  "rust-analyzer.inlayHints.chainingHints.enable": true,
+  "rust-analyzer.inlayHints.closingBraceHints.enable": true,
+  "typescript.preferGoToSourceDefinition": true,
+  "typescript.implementationsCodeLens.enabled": true,
+  "typescript.referencesCodeLens.enabled": false,
+  "tsserver.maxTsServerMemory": 8192,
+  "typescript.referencesCodeLens.showOnAllFunctions": false,
+  "typescript.inlayHints.parameterNames.enabled": "none",
+  "typescript.inlayHints.parameterTypes.enabled": false,
+  "typescript.inlayHints.variableTypes.enabled": false,
+  "typescript.inlayHints.propertyDeclarationTypes.enabled": false,
+  "typescript.inlayHints.functionLikeReturnTypes.enabled": false,
+  "typescript.inlayHints.enumMemberValues.enabled": false,
+  "yaml.schemaStore.enable": true,
+  "yaml.format.enable": true,
+  "yaml.format.singleQuote": true,
+  "yaml.schemas": {
+    "kubernetes": ["helm/**/*.yaml", "*.*.yaml"]
+  },
   "languageserver": {
+    "go": {
+      "command": "gopls",
+      "filetypes": ["go"],
+      "initializationOptions": {
+        "analyses": {
+          "nilness": true,
+          "unusedparams": true,
+          "unusedvariable": true
+        },
+        "codelenses": {
+          "gc_details": true,
+          "generate": true,
+          "regenerate_cgo": true,
+          "run_govulncheck": true,
+          "tidy": true,
+          "test": true,
+          "upgrade_dependency": true,
+          "vendor": true
+        },
+        "hints": {
+          "parameterNames": false,
+          "rangeVariables": true
+        },
+        "staticcheck": true,
+        "completeUnimported": true,
+        "usePlaceholders": true,
+        "semanticTokens": true
+      }
+    },
     "ccls": {
       "command": "ccls",
       "filetypes": ["c", "cpp", "cuda", "objc", "objcpp"],
@@ -73,6 +105,16 @@
         },
         "client": {
           "snippetSupport": true
+        },
+        "clang": {
+          "extraArgs": [
+            "-isystem",
+            "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/include",
+            "-isystem",
+            "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include",
+            "-isystem",
+            "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"
+          ]
         }
       }
     },
@@ -88,7 +130,42 @@
       "filetypes": ["codeql", "ql"],
       "initializationOptions": {},
       "settings": {}
+    },
+    "ruby-lsp": {
+      "command": "ruby-lsp",
+      "initializationOptions": {
+        "experimentalFeaturesEnabled": false,
+        "enabledFeatures": [
+          "codeActions",
+          "diagnostics",
+          "documentHighlights",
+          "documentLink",
+          "documentSymbols",
+          "foldingRanges",
+          "formatting",
+          "hover",
+          "inlayHint",
+          "onTypeFormatting",
+          "selectionRanges",
+          "semanticHighlighting",
+          "completion"
+        ],
+        "formatter": "auto"
+      },
+      "filetypes": ["ruby"]
+    },
+    "terraform": {
+      "command": "tofu-ls",
+      "args": ["serve"],
+      "filetypes": ["terraform", "tf"],
+      "initializationOptions": {}
     }
   },
-  "snippets.ultisnips.pythonPrompt": false
+  "snippets.ultisnips.pythonPrompt": false,
+  "java.imports.gradle.wrapper.checksums": [
+    {
+      "sha256": "e2b82129ab64751fd40437007bd2f7f2afb3c6e41a9198e628650b22d5824a14",
+      "allowed": true
+    }
+  ]
 }

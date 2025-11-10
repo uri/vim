@@ -28,44 +28,35 @@ return {
       }
     end
   },
-  { 'neoclide/coc.nvim', branch = 'release' },
+
+  { 'nvim-treesitter/nvim-treesitter-context', opts = { enabled = true } },
+  { 'neoclide/coc.nvim',                       branch = 'release' },
   "mbbill/undotree",
-  { 'junegunn/fzf',      build = ':call fzf#install()' },
+  { 'junegunn/fzf',       build = ':call fzf#install()', lazy = false },
   'junegunn/fzf.vim',
   'tpope/vim-surround',
   'tpope/vim-repeat',
   'tpope/vim-unimpaired',
   'tpope/vim-abolish', -- crc,crs, etc.
   'tpope/vim-rhubarb', -- :Gbrowse
-  { 'tpope/vim-dispatch', lazy = true, cmd = 'Dispatch' },
+  { 'tpope/vim-dispatch', lazy = true,                   cmd = 'Dispatch' },
   'tpope/vim-dadbod',
   'justinmk/vim-sneak',
   -- 'machakann/vim-highlightedyank',
-  {
-    'mg979/vim-visual-multi',
-    branch = 'master',
-    init = function()
-      vim.g.VM_highlight_matches = 'underline'
-      vim.g.VM_maps = {
-        ["Undo"] = 'u',
-        ["Redo"] = '<C-r>',
-        ["Add Cursor Down"] = '<C-j>',
-        ["Add Cursor Up"] = '<C-k>',
-      }
-      vim.g.VM_theme = 'iceblue'
-    end
-  },
-  {
-    "nvim-tree/nvim-tree.lua",
-    version = "*",
-    lazy = false,
-    dependencies = {
-      "nvim-tree/nvim-web-devicons",
-    },
-    config = function()
-      require("nvim-tree").setup {}
-    end,
-  },
+  -- {
+  --   'mg979/vim-visual-multi',
+  --   branch = 'master',
+  --   init = function()
+  --     vim.g.VM_highlight_matches = 'underline'
+  --     vim.g.VM_maps = {
+  --       ["Undo"] = 'u',
+  --       ["Redo"] = '<C-r>',
+  --       ["Add Cursor Down"] = '<C-j>',
+  --       ["Add Cursor Up"] = '<C-k>',
+  --     }
+  --     vim.g.VM_theme = 'iceblue'
+  --   end
+  -- },
   {
     "folke/which-key.nvim",
     event = "VeryLazy",
@@ -98,6 +89,13 @@ return {
       vim.g.db_ui_use_nerd_fonts = 1
     end,
   },
-  'github/copilot.vim',
+
+  -- {
+  --   'fatih/vim-go',
+  --   init = function()
+  --     vim.g.go_metalinter_command = 'golangci-lint'
+  --     -- vim.g.go_metalinter_autosave_enabled = { 'golanglint-ci' };
+  --   end,
+  -- }
   -- { "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {} }
 }

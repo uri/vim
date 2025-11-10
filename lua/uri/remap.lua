@@ -9,15 +9,15 @@ vim.keymap.set("n", "ML", "L")
 vim.keymap.set("n", "Y", "y$") -- Y is the same as yy so make it more useful
 vim.keymap.set("n", "#", ":let @/=expand('<cword>') <bar> set hls <cr>", { silent = true })
 vim.keymap.set("n", "Q", "q")
-vim.keymap.set("n", "q", ":bp|bd #<cr>")
-vim.keymap.set("n", "<M-q>", ":bd<cr>")
--- vim.keymap.set("n", "q", [[:try
--- bp|bd #
--- catch
--- bd %
--- endtry
--- <cr>
--- ]])
+-- vim.keymap.set("n", "<M-q>", ":bp|bd #<cr>")
+vim.keymap.set("n", "q", ":bd<cr>")
+vim.keymap.set("n", "<M-q>", [[:try
+bp|bd #
+catch
+bd %
+endtry
+<cr>
+]])
 -- vim.keymap.set("n", "<esc>", "<esc>:noh<bar>:ccl<cr>", { silent = true })
 vim.keymap.set("n", "<Left>", "5<C-w><")
 vim.keymap.set("n", "<Up>", "3<C-W>+")
@@ -52,12 +52,12 @@ vim.keymap.set("n", "<leader>g", "<C-w>200l")
 
 -- Useful copy remaps
 vim.keymap.set("n", "<leader>yy", ":%y<CR>")
-vim.keymap.set("n", "<leader>yF", [[:let @*=expand("%")<cr>]])
-vim.keymap.set("n", "<leader>yf", [[:let @*=expand("%") . ":" . line(".")<cr>]])
+vim.keymap.set("n", "<leader>yf", [[:let @*=expand("%")<cr>]])
+vim.keymap.set("n", "<leader>yF", [[:let @*=expand("%") . ":" . line(".")<cr>]])
 vim.keymap.set("n", "<leader>ye", [[:let @*=system("epoch -n")<cr>]])
 
 -- Access frequent files
-vim.keymap.set("v", "<leader>p", '"_dP')
+vim.keymap.set("v", "<leader>p", '"_dp')
 vim.keymap.set("n", "<leader>ev", ":e $MYVIMRC<cr>")
 vim.keymap.set("n", "<leader>ez", ":e $ZSH<cr>")
 
