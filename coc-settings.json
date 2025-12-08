@@ -69,30 +69,39 @@
     "go": {
       "command": "gopls",
       "filetypes": ["go"],
-      "initializationOptions": {
-        "analyses": {
-          "nilness": true,
-          "unusedparams": true,
-          "unusedvariable": true
-        },
-        "codelenses": {
-          "gc_details": true,
-          "generate": true,
-          "regenerate_cgo": true,
-          "run_govulncheck": true,
-          "tidy": true,
-          "test": true,
-          "upgrade_dependency": true,
-          "vendor": true
-        },
-        "hints": {
-          "parameterNames": false,
-          "rangeVariables": true
-        },
-        "staticcheck": true,
-        "completeUnimported": true,
-        "usePlaceholders": true,
-        "semanticTokens": true
+      "rootPatterns": ["go.mod"],
+      "settings": {
+        "gopls": {
+          "analyses": {
+            "nilness": true,
+            "unusedparams": true,
+            "unusedvariable": true
+          },
+          "annotations": {
+            "bounds": false,
+            "escape": true,
+            "inline": false,
+            "nil": true
+          },
+          "codelenses": {
+            "generate": true,
+            "regenerate_cgo": true,
+            "run_govulncheck": true,
+            "tidy": true,
+            "upgrade_dependency": true,
+            "vendor": true
+          },
+          "hints": {
+            "parameterNames": false,
+            "rangeVariables": true,
+            "ignoredError": true
+          },
+          "hoverKind": "FullDocumentation",
+          "staticcheck": true,
+          "completeUnimported": true,
+          "usePlaceholders": true,
+          "semanticTokens": true
+        }
       }
     },
     "ccls": {
